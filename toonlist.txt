@@ -1,0 +1,14 @@
+#Use a technical editor for this, NOT notepad. Notepad runs lines together.
+# monitor can be 1k,2k,3k,4k,.5,
+monitor 1k
+# Keyboard can be de (german) uk (limey) or oth (weirdo)
+keyboard us
+
+# box acct passw license toon_name role raid_letters(ctrl-alt-<raidletter> launches them)
+# LIMIT 5 BOX LINES PER toonlist.txt. Fewer is ok.
+box battlenet_account battlenet_password neeks1 Furyswipes tank m e
+box battlenet_account battlenet_password toddtope Mootalia melee m
+box battlenet_account battlenet_password wow1 spirited healer m
+box battlenet_account battlenet_password elitope icelance caster m
+box battlenet_account battlenet_password sixtyforever dragonstalkr melee m
+strongestaoe icelance
