@@ -41,7 +41,7 @@ Sequences['RESTOSHAM_SINGLE'] = {
       StepFunction = "Sequential",
       LoopLimit=1,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
@@ -67,9 +67,9 @@ Sequences['RESTOSHAM_MULTI'] = {
       StepFunction = "Sequential",
       LoopLimit=1,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-	      "/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
+	      "/cast [mod:alt,@"..FSMB_tank..",nodead] Healing Wave",
       },
       PreMacro={
       },
@@ -173,9 +173,9 @@ Sequences['ENH_SINGLE'] = {
       StepFunction = "Sequential",
       LoopLimit=20,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
+	      "/cast [nomod,@target,exists,harm] Flame Shock",
       },
       PreMacro={
       },
@@ -200,13 +200,13 @@ Sequences['ENH_MULTI'] = {
       StepFunction = "Sequential",
       LoopLimit=1,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
+	      "/cast [nomod,@target,exists,harm] Flame Shock",
       },
       PreMacro={
       },
-	      "/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
+	      "/cast [mod:alt,@"..FSMB_tank..",nodead] Healing Wave",
       PostMacro={
       },
       KeyRelease={
@@ -231,8 +231,8 @@ Sequences['ENH_AOE'] = {
       PreMacro={
       },
 	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-	"/cast [@"..FSMB_strongestaoe.."] chain heal",
-	"/cast [@"..FSMB_strongestaoe.."] healing wave",
+	"/cast [@"..FSMB_strongestaoe..",nodead] chain heal",
+	"/cast [@"..FSMB_strongestaoe..",nodead] healing wave",
       PostMacro={
       },
       KeyRelease={
@@ -303,13 +303,13 @@ Sequences['ELE_SINGLE'] = {
       StepFunction = "Sequential",
       LoopLimit=20,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
+	      "/cast [nomod,@target,exists,harm] Flame Shock",
       },
       PreMacro={
       },
-      "/cast [nomod] lightning bolt",
+      "/cast [nomod,@target,exists,harm] lightning bolt",
       PostMacro={
       },
       KeyRelease={
@@ -331,15 +331,15 @@ Sequences['ELE_MULTI'] = {
       StepFunction = "Sequential",
       LoopLimit=1,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
+	      "/cast [nomod,@target,exists,harm] Flame Shock",
       },
       PreMacro={
       },
-	"/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
-      	"/cast [nomod] Chain lightning",
-      	"/cast [nomod] Lightning Bolt",
+	"/cast [mod:alt,@"..FSMB_tank..",nodead] Healing Wave",
+      	"/cast [nomod,@target,exists,harm] Chain lightning",
+      	"/cast [nomod,@target,exists,harm] Lightning Bolt",
       PostMacro={
       },
       KeyRelease={
@@ -363,9 +363,8 @@ Sequences['ELE_AOE'] = {
       },
       PreMacro={
       },
-	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-	"/cast [@"..FSMB_strongestaoe.."] chain heal",
-	"/cast [@"..FSMB_strongestaoe.."] healing wave",
+	"/castsequence [nomod] reset=combat Fire Nova Totem, Stoneskin Totem, null",
+	"/cast [nomod] chain lightning",
       PostMacro={
       },
       KeyRelease={

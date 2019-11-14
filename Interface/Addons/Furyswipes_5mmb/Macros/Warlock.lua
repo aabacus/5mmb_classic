@@ -15,16 +15,16 @@ Sequences['DESTRO_SINGLE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
 	      
       },
       PreMacro={
       },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Shadow Bolt", 
+        "/cast [nomod,@target,exists,harm] Shadow Bolt", 
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -43,15 +43,15 @@ Sequences['DESTRO_MULTI'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
       },
       PreMacro={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
       },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Shadow Bolt", 
+        "/cast [nomod,@target,exists,harm] Shadow Bolt", 
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -121,7 +121,7 @@ Sequences['DESTRO_SETUP'] = {
 	Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	      "/stopattack [mod:alt]",
+	      "/stopattack [mod:alt,@target,exists,harm]",
 	      "/petfollow [mod:alt]",
       },
       PreMacro={

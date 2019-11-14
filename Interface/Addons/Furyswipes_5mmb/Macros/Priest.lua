@@ -18,12 +18,12 @@ Sequences['SINGLE_HOLY'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
       },
-	"/cast [nomod,nochanneling] !Shoot",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -44,13 +44,13 @@ Sequences['MULTI_HOLY'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
       },
-		"/cast [nomod,nochanneling] !Shoot",
-	      "/cast [mod:alt,@"..FSMB_tank.."] Lesser Heal",
+	      "/cast [mod:alt,@"..FSMB_tank..",nodead] Lesser Heal",
+		"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -122,6 +122,7 @@ Sequences['HOLY_SETUP'] = {
 	Combat=true,
       StepFunction = "Priority",
       KeyPress={
+	      "/stopattack [mod:alt]",
       },
       PreMacro={
       },
@@ -147,14 +148,14 @@ SWP every 30 clicks
       StepFunction = "Priority",
       LoopLimit=30,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
-        "/cast [nomod] Shadow Word: Pain",
+        "/cast [nomod,@target,exists,harm] Shadow Word: Pain",
       },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Smite",
+        "/cast [nomod,@target,exists,harm] Smite",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -178,15 +179,15 @@ SWP every 30 clicks
       StepFunction = "Priority",
       LoopLimit=30,
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
 	      "/stopattack [mod:alt]",
-		"/cast [mod:alt,@"..FSMB_tank.."] Lesser Heal",
+		"/cast [mod:alt,@"..FSMB_tank..",nodead] Lesser Heal",
       },
       PreMacro={
-        "/cast [nomod] Shadow Word: Pain",
+        "/cast [nomod,@target,exists,harm] Shadow Word: Pain",
       },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Smite",
+        "/cast [nomod,@target,exists,harm] Smite",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -210,7 +211,7 @@ Sequences['SHADOW_AOE'] = {
       },
       PreMacro={
       },
-      "/cast [nomod] holy nova",
+      "/cast [nomod,@target,exists,harm] holy nova",
       PostMacro={
       },
       KeyRelease={

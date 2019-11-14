@@ -17,11 +17,11 @@ Sequences['COMBAT_SINGLE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm",
       },
       PreMacro={
       },
-        "/castsequence [nomod] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
+        "/castsequence [nomod,@target,exists,harm] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
       PostMacro={
       },
       KeyRelease={
@@ -43,12 +43,12 @@ Sequences['COMBAT_MULTI'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
+	      "/cast [nomod,@target,exists,harm] Blade Flurry",
       },
       PreMacro={
-	      "/cast Blade Flurry",
       },
-        "/castsequence [nomod] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
+        "/castsequence [nomod,@target,exists,harm] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
       PostMacro={
       },
       KeyRelease={
@@ -71,10 +71,11 @@ Sequences['COMBAT_AOE'] = {
       StepFunction = "Priority",
       KeyPress={
 	      "/startattack [nomod]",
+	      "/cast [nomod,@target,exists,harm] Blade Flurry",
       },
       PreMacro={
       },
-        "/castsequence [nomod] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
+        "/castsequence [nomod,@target,exists,harm] reset=combat/target Sinister Strike, Sinister Strike, Sinsiter Strike, Sinister Strike, Eviscerate",
       PostMacro={
       },
       KeyRelease={

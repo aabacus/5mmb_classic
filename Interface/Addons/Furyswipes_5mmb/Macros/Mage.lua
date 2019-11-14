@@ -22,8 +22,8 @@ Frostbolt or fireball if you don't have fb.
       },
       PreMacro={
       },
-        "/cast [nomod] Frostbolt",
-	"/cast [nomod,nochanneling] !Shoot",
+        "/cast [nomod,@target,exists,harm] Frostbolt",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -44,14 +44,14 @@ Sequences['FROST_MULTI'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	"/startattack [nomod]",
+	"/startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/cast [nomod,nochanneling] Frost Nova",
-        "/cast [nomod,@player] Blizzard",
-	"/cast [nomod,nochanneling] !Shoot",
+        "/cast [nomod,nochanneling,@target,exists,harm] Frost Nova",
+        "/cast [nomod,@player,@target,exists,harm] Blizzard",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -102,13 +102,13 @@ Sequences['FROST_TURBO'] = {
 	Trinket2=true,
       StepFunction = "Priority",
       KeyPress={
-	"/startattack [nomod]",
+	"/startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/cast [nomod] Arcane Power",
-	"/cast [nomod] Presence of Mind",
+        "/cast [nomod,@target,exists,harm] Arcane Power",
+	"/cast [nomod,@target,exists,harm] Presence of Mind",
       PostMacro={
       },
       KeyRelease={
@@ -158,9 +158,9 @@ Sequences['FIRE_SINGLE'] = {
       },
       PreMacro={
       },
-        "/cast [nomod] Fire Blast",
-        "/cast [nomod] Fireball",
-	"/cast [nomod,nochanneling] !Shoot",
+        "/cast [nomod,@target,exists,harm] Fire Blast",
+        "/cast [nomod,@target,exists,harm] Fireball",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -184,9 +184,9 @@ Sequences['FIRE_MULTI'] = {
       },
       PreMacro={
       },
-	"/cast [nomod] Fire Blast",
-	"/cast [nomod] Fireball",
-	"/cast [nomod,nochanneling] !Shoot",
+	"/cast [nomod,@target,exists,harm] Fire Blast",
+	"/cast [nomod,@target,exists,harm] Fireball",
+	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
       PostMacro={
       },
       KeyRelease={

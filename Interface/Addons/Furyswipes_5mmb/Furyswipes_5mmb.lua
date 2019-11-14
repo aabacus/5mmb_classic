@@ -1,10 +1,10 @@
-FSMB_version="091819_classic"
+FSMB_version="091919_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Icelance",[5]="Dragonstalkr"}
-FSMB_tank="Furyswipes"
-FSMB_healerlist={"Spirited"}
-FSMB_strongestaoe="Icelance"
+FSMB_toonlist={[1]="Polly",[2]="Silli",[3]="Keella",[4]="Frandy",[5]="Ailde"}
+FSMB_tank="Polly"
+FSMB_healerlist={"Silli"}
+FSMB_strongestaoe="Frandy"
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
 FSMB_decurse={["Paladin"]="Cleanse",["Priest"]="Dispel Magic",["Mage"]="Remove Lesser Curse",["Druid"]="Remove Curse",["Shaman"]="Cure Poison",["Hunter"]="None",["Warlock"]="None",["Warrior"]="None",["Rogue"]="None",}
@@ -135,7 +135,7 @@ for i=1,TableLength(FSMB_toonlist) do
 	ClearCursor()
 end
 if myclass=="Hunter" then
-	index=CreateMacro("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
+	index=CreateMacro("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Immolation Trap\n/cast Feign Death",nil)
 	PickupMacro(index)
 	PlaceAction(61)
 	index=CreateMacro("feed","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
@@ -1152,7 +1152,6 @@ function printt(tab,indent)
       end
    end
 end
-print("Pally seal will be "..FSMB_myseal)
 function SpellExists(spell)
 	return GetSpellInfo(spell)
 end

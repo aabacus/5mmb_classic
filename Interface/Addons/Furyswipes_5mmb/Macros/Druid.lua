@@ -15,17 +15,16 @@ Sequences['BEAR_TANK_SINGLE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
+	"/cast [nomod,@target,exists,harm] Charge",
+	"/cast [combat,@target,exists,harm] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
+	"/Startattack [nomod,@target,exists,harm]",
       },
       PreMacro={
       },
-        "/cast [nomod] Swipe",
         "/cast [mod:alt] Growl",
         "/cast [mod:ctrl] Demoralizing Roar",
-        "/cast [nomod] maul",
+        "/cast [nomod,@target,exists,harm] maul",
       PostMacro={
       },
       KeyRelease={
@@ -67,16 +66,16 @@ Sequences['BEAR_TANK_MULTI'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
+	"/cast [nomod,@target,exists,harm] Charge",
+	"/cast [combat,@target,exists,harm] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
+	"/Startattack [nomod,@target,exists,harm]",
       },
       PreMacro={
       },
-        "/cast [nomod] Swipe",
+        "/cast [nomod,@target,exists,harm] Swipe",
         "/cast [mod:ctrl] Demoralizing Roar",
-        "/cast [nomod] maul",
+        "/cast [nomod,@target,exists,harm] maul",
       PostMacro={
       },
       KeyRelease={
@@ -122,10 +121,9 @@ Sequences['BEAR_TANK_AOE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [nomod,@target,exists] Charge",
 	"/cast [combat,@target,exists] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
+	"/Startattack [nomod]",
       },
       PreMacro={
       },
@@ -154,20 +152,21 @@ Sequences['FERAL_SINGLE'] = {
       LoopLimit=20,
       KeyPress={
 	"/cast [nostance:2] Cat Form",
-        "/cast [stealth] Pounce",
-        "/cast [mod:alt,stealth] Ravage",
-	"/Startattack [nomod]",
-        "/cast [mod:ctrl] Ferocious Bite",
-        "/cast [nomod] Tiger's Fury",
+        "/cast [stealth,@target,exists,harm] Pounce",
+        "/cast [mod:alt,stealth,@target,exists,harm] Ravage",
+	"/Startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+        "/cast [mod:ctrl,@target,exists,harm] Ferocious Bite",
+        "/cast [nomod,@target,exists,harm] Tiger's Fury",
       },
       PreMacro={
-	"/castsequence [nomod] reset=target Faerie Fire,null",
-        "/cast [nomod] Rake",
+	"/castsequence [nomod,@target,exists,harm] reset=target Faerie Fire,null",
+        "/cast [nomod,@target,exists,harm] Rake",
       },
-        "/cast [nomod] Shred",
-        "/cast [nomod] Claw",
+        "/cast [nomod,@target,exists,harm] Shred",
+        "/cast [nomod,@target,exists,harm] Claw",
       PostMacro={
-        "/cast [nomod] Rip",
+        "/cast [nomod,@target,exists,harm] Rip",
       },
       KeyRelease={
       },
@@ -187,20 +186,21 @@ Sequences['FERAL_MULTI'] = {
       LoopLimit=20,
       KeyPress={
 	"/cast [nostance:2] Cat Form",
-        "/cast [stealth] Pounce",
-        "/cast [mod:alt,stealth] Ravage",
-	"/Startattack [nomod]",
-        "/cast [mod:ctrl] Ferocious Bite",
-        "/cast [nomod] Tiger's Fury",
+        "/cast [stealth,@target,exists,harm] Pounce",
+        "/cast [mod:alt,stealth,@target,exists,harm] Ravage",
+	"/Startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+        "/cast [mod:ctrl,@target,exists,harm] Ferocious Bite",
+        "/cast [nomod,@target,exists,harm] Tiger's Fury",
       },
       PreMacro={
-	"/castsequence [nomod] reset=target Faerie Fire,null",
-        "/cast [nomod] Rake",
+	"/castsequence [nomod,@target,exists,harm] reset=target Faerie Fire,null",
+        "/cast [nomod,@target,exists,harm] Rake",
       },
-        "/cast [nomod] Shred",
-        "/cast [nomod] Claw",
+        "/cast [nomod,@target,exists,harm] Shred",
+        "/cast [nomod,@target,exists,harm] Claw",
       PostMacro={
-        "/cast [nomod] Rip",
+        "/cast [nomod,@target,exists,harm] Rip",
       },
       KeyRelease={
       },
@@ -305,7 +305,7 @@ Sequences['RESTODRU_SETUP'] = {
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
-	      "/startattack [nomod]",
+	      "/startattack [nomod,@target,exists,harm]",
       },
       PostMacro={
       },
@@ -325,7 +325,7 @@ Sequences['RESTODRU_SINGLE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod]",
+	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
@@ -348,9 +348,9 @@ Sequences['RESTODRU_MULTI'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod]",
+	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
-	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
+	"/cast [mod:alt,@"..FSMB_tank..",nodead] healing touch",
       },
       PreMacro={
       },
@@ -378,8 +378,8 @@ Sequences['RESTODRU_AOE'] = {
       },
       PreMacro={
       },
-      "/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
-      "/cast [nomod] healing touch",
+      "/castsequence [nomod,@"..FSMB_strongestaoe..",nodead] reset=combat/target renewal,regrowth,null",
+      "/cast [nomod,@"..FSMB_strongestaoe..",nodead] healing touch",
       PostMacro={
       },
       KeyRelease={
@@ -451,13 +451,13 @@ Sequences['BOOMKIN_SINGLE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod]",
+	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-      "/castsequence [nomod] reset=combat moonfire,starfire,,,",
-      "/cast [nomod] wrath",
+      "/castsequence [nomod,@target,exists,harm] reset=combat moonfire,starfire,,,",
+      "/cast [nomod,@target,exists,harm] wrath",
       PostMacro={
       },
       KeyRelease={
@@ -476,41 +476,13 @@ Sequences['BOOMKIN_MULTI'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod]",
+	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
-	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
+	"/cast [mod:alt,@"..FSMB_tank..",nodead] healing touch",
       },
       PreMacro={
       },
-      "/cast [nomod] wrath",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_INT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  What do we got? War Stomp? Bash?
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-        "/Cast Bash",
-	"/cast [stance:2] Cat Form",
-	"/cast [nostance:1] Bear Form",
-	"/cast War Stomp",
-      },
-      PreMacro={
-      },
+      "/cast [nomod,@target,exists,harm] wrath",
       PostMacro={
       },
       KeyRelease={
@@ -534,8 +506,8 @@ Sequences['BOOMKIN_AOE'] = {
       },
       PreMacro={
       },
-      "/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
-      "/cast [nomod,@"..FSMB_strongestaoe.."] healing touch",
+      "/castsequence [nomod,@"..FSMB_strongestaoe..",nodead] reset=combat/target renewal,regrowth,null",
+      "/cast [nomod,@"..FSMB_strongestaoe..",nodead] healing touch",
       PostMacro={
       },
       KeyRelease={
@@ -581,6 +553,13 @@ Sequences['DRINK'] = {
   MacroVersions = {
     [1] = {
      Combat=true,
+     Head=false,
+     Neck=false,
+     Belt=false,
+     Ring1=false,
+     Ring2=false,
+     Trinket1=false,
+     Trinket2=false,
       StepFunction = "Sequential",
       KeyPress={
       },
@@ -610,6 +589,13 @@ Sequences['HEALPOT'] = {
   MacroVersions = {
     [1] = {
      Combat=true,
+     Head=false,
+     Neck=false,
+     Belt=false,
+     Ring1=false,
+     Ring2=false,
+     Trinket1=false,
+     Trinket2=false,
       StepFunction = "Sequential",
       KeyPress={
       },
@@ -646,6 +632,13 @@ Sequences['MANAPOT'] = {
   MacroVersions = {
     [1] = {
      Combat=true,
+     Head=false,
+     Neck=false,
+     Belt=false,
+     Ring1=false,
+     Ring2=false,
+     Trinket1=false,
+     Trinket2=false,
       StepFunction = "Sequential",
       KeyPress={
       },
