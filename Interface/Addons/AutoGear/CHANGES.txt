@@ -1,0 +1,18 @@
+tag 38eac5e4e7260e6715307238e401d73b7f3e8ed3 2019-09-29-release
+Author:	AlexFolland <lexlexlex@gmail.com>
+Date:	Sun Sep 29 03:34:39 2019 -0700
+
+2019-09-29-release
+
+commit 2a29b57c193530995dc785d1869c4d1d4f6b23e8
+Author: AlexFolland <lexlexlex@gmail.com>
+Date:   Sun Sep 29 03:34:25 2019 -0700
+
+    make rolling on non-gear loot optional
+
+commit 08569b4d85ac533d32c00ce4d211b1c98089760c
+Author: Eric Folland <ericfolland@gmail.com>
+Date:   Sat Sep 28 00:15:11 2019 -0700
+
+    Added defense and block for classic
+

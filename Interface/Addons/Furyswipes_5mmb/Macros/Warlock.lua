@@ -12,19 +12,44 @@ Sequences['DESTRO_SINGLE'] = {
   Help = [[
   Let's add corruption later maybe?
 ]],
-  Default=1,
+  Default=2,
+  PVP=2,
+  Party=1,
+  Dungeon=1,
+  Raid=1,
   MacroVersions = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	      "/startattack [nomod,@target,exists,harm]",
-	      "/stopattack [mod:alt]",
-	      
+	"/startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+	"/petattack [nomod,@target,exists,harm]",
+	"/cast [mod:ctrl] Life Tap",
       },
       PreMacro={
       },
-        "/cast [nomod,@target,exists,harm] Shadow Bolt", 
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod] Life Tap",
+	"/cast [nomod,nochanneling] Shoot",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+    [2] = {
+      StepFunction = "Priority",
+      KeyPress={
+	"/startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+	"/petattack [nomod,@target,exists,harm]",
+	"/cast [mod:ctrl] Life Tap",
+      },
+      PreMacro={
+      },
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod,nochanneling] Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -45,13 +70,16 @@ Sequences['DESTRO_MULTI'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
+	"/startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+	"/petattack [nomod,@target,exists,harm]",
       },
       PreMacro={
-	      "/startattack [nomod,@target,exists,harm]",
-	      "/stopattack [mod:alt]",
       },
-        "/cast [nomod,@target,exists,harm] Shadow Bolt", 
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod] Shadow Bolt",
+	"/cast [nomod] Life Tap",
+	"/cast [nomod,nochanneling] Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -69,13 +97,15 @@ Sequences['DESTRO_AOE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
-	      "/cast [nomod,nochanneling] Hellfire",
+	      "/petattack [nomod,@target,exists,harm]",
       },
       PreMacro={
       },
-        "/cast [nochanneling] Shadow Bolt",
+        "/cast [nomod,nochanneling,@player] Rain of Fire",
+	"/cast [nomod,nochanneling,@player] Rain of Fire",
+	"/cast [nomod,nochanneling] Life Tap",
       PostMacro={
       },
       KeyRelease={
@@ -121,7 +151,7 @@ Sequences['DESTRO_SETUP'] = {
 	Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	      "/stopattack [mod:alt,@target,exists,harm]",
+	      "/stopattack [mod:alt]",
 	      "/petfollow [mod:alt]",
       },
       PreMacro={

@@ -10,20 +10,22 @@ Sequences['FROST_SINGLE'] = {
   SpecID=8,
   Talents = "",
   Help = [[
-Frostbolt or fireball if you don't have fb.
+Frostbolt 
 ]],
   Default=1,
   MacroVersions = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	"/startattack [nomod]",
+	"/startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
+	"/cast [mod:ctrl] Mana Shield",
       },
       PreMacro={
       },
-        "/cast [nomod,@target,exists,harm] Frostbolt",
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+      "/cast [nomod] Frostbolt",
+	"/cast [nomod] Frostbolt",
+	"/cast [nomod,nochanneling] Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -43,16 +45,16 @@ Sequences['FROST_MULTI'] = {
   MacroVersions = {
     [1] = {
       StepFunction = "Priority",
+      LoopLimit=6,
       KeyPress={
 	"/startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/cast [nomod,nochanneling,@target,exists,harm] Frost Nova",
-        "/cast [nomod,@player,@target,exists,harm] Blizzard",
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+      "/castsequence [nomod] reset=combat  Frost Nova, Cone of Cold, Frostbolt, Frostbolt, Frostbolt, Cone of Cold, Frostbolt, Frostbolt, Frostbolt",
       PostMacro={
+      "/cast [nomod] Shoot",
       },
       KeyRelease={
       },
@@ -65,21 +67,19 @@ Sequences['FROST_AOE'] = {
   SpecID=8,
   Talents = "",
   Help = [[
-  Blizzard, fill with FB
+  Blizzard
 ]],
   Default=1,
   MacroVersions = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
-	"/startattack [nomod]",
+	"/startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/cast [nomod,nochanneling] Frost Nova",
-        "/cast [nomod,@player,nochanneling] Blizzard",
-	"/cast [nomod,nochanneling] !Shoot",
+      "/castsequence [nomod,@player,nochanneling] reset=combat  Frost Nova, Cone of Cold, Blizzard, Blizzard, Blizzard, Cone of Cold, Blizzard, Blizzard, Blizzard",
       PostMacro={
       },
       KeyRelease={
@@ -102,13 +102,13 @@ Sequences['FROST_TURBO'] = {
 	Trinket2=true,
       StepFunction = "Priority",
       KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
+	"/startattack [nomod]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/cast [nomod,@target,exists,harm] Arcane Power",
-	"/cast [nomod,@target,exists,harm] Presence of Mind",
+        "/cast [nomod] Arcane Power",
+	"/cast [nomod] Presence of Mind",
       PostMacro={
       },
       KeyRelease={
@@ -155,12 +155,16 @@ Sequences['FIRE_SINGLE'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
+	"/startattack [nomod,@target,exists,harm]",
+	"/stopattack [mod:alt]",
+	"/cast [mod:ctrl] Mana Shield",
       },
       PreMacro={
       },
-        "/cast [nomod,@target,exists,harm] Fire Blast",
-        "/cast [nomod,@target,exists,harm] Fireball",
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+     "/cast [nomod] Fire Blast",
+	"/cast [nomod] Fireball",
+	"/cast [nomod] Fireball",
+	"/cast [nomod,nochanneling] Shoot",
       PostMacro={
       },
       KeyRelease={
@@ -180,14 +184,17 @@ Sequences['FIRE_MULTI'] = {
   MacroVersions = {
     [1] = {
       StepFunction = "Priority",
+      LoopLimit=6,
       KeyPress={
+	"/startattack [nomod,@target,exists,harm] ",
+	"/stopattack [mod:alt] ",
       },
       PreMacro={
       },
-	"/cast [nomod,@target,exists,harm] Fire Blast",
-	"/cast [nomod,@target,exists,harm] Fireball",
-	"/cast [nomod,nochanneling,@target,exists,harm] !Shoot",
+      "/castsequence [nomod] reset=combat  Frost Nova, Fireball, Fireball, Fireball",
+	"/cast [nomod] Fire Blast",
       PostMacro={
+	"/cast [nomod,nochanneling] Shoot",
       },
       KeyRelease={
       },
@@ -207,13 +214,14 @@ Sequences['FIRE_AOE'] = {
     [1] = {
       StepFunction = "Priority",
       KeyPress={
+	"/startattack [nomod,@target,exists,harm] ",
+	"/stopattack [mod:alt] ",
       },
       PreMacro={
       },
-        "/cast [nomod] Blastwave",
-        "/cast [nomod,@player] Flamestrike",
-        "/cast [nomod] Arcane Explosion",
-	"/cast [nomod,nochanneling] !Shoot",
+      "/cast [nomod] Blast wave",
+	"/castsequence [nomod,@player,nochanneling] reset=combat  Flamestrike, Arcane Explosion, Arcane Explosion, Arcane Explosion",
+	"/cast [nomod] Frost Nova",
       PostMacro={
       },
       KeyRelease={

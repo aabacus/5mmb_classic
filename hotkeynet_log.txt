@@ -1,0 +1,78 @@
+-------------------------------------------------------------------------------------
+HotkeyNet Log File
+-------------------------------------------------------------------------------------
+
+File opened at 17:38:54 on Wednesday, October 2, 2019
+DNS name: IBUYPOWERPC
+OS version: Microsoft  Service Pack 1 (build 7601)
+
+
+CPU:
+	Archictecture = 0; 
+	Page size = 1000; 
+	Min app address = 10000; 
+	Max app address = 7ffeffff; 
+	Mask = ff; 
+	Qty cores = 8; 
+	Type = 24a; 
+	Alloc granularity = 10000; 
+	Level = 6; 
+	Revision = 5e03.
+
+
+Memory:
+	Load = 15%; 
+	Total physical = 32672 MB; 
+	Available physical = 27623 MB; 
+	Total page file = 65343 MB; 
+	Avail page file = 59680 MB; 
+	Total virtual = 2047 MB; 
+	Avail virtual = 1974 MB; 
+	Avail extended virtual = 0 MB.
+
+
+Mouse:
+	Mouse installed.
+	Buttons not swapped.
+	Speed: 1
+	Threshold (x,y): 6,10
+
+
+Adapter 0:
+
+	IP Address	192.168.0.47
+	Subnet Mask	255.255.255.0
+	Default Gateway	192.168.0.1
+
+	Adapter Name	{D2011537-201F-403D-A675-44BD535B8969}
+	Description	Realtek 8812BU Wireless LAN 802.11ac USB NIC
+	Physical Address	1C-BF-CE-53-94-5C
+
+	DHCP Enabled	Yes
+	DHCP Server	192.168.0.1
+	Lease Obtained	Wed Oct 02 15:42:22 2019
+
+	Have WINS	No
+
+Adapter 1:
+
+	IP Address	0.0.0.0
+	Subnet Mask	0.0.0.0
+	Default Gateway	192.168.0.1
+
+	Adapter Name	{C2FF853C-AC24-4A6D-8C9F-C0A5693BFAE7}
+	Description	Realtek PCIe GBE Family Controller
+	Physical Address	F8-32-E4-BC-71-3B
+
+	DHCP Enabled	No
+
+	Have WINS	No
+
+HotkeyNet 0.1.45 build 210
+Start as server.
+This IP: 192.168.0.47
+
+C:\d\sou\cpp\macro\cAuth.cpp 423: IP seen by authorization server: 73.202.32.12
+
+C:\d\sou\cpp\macro\pool_server.cpp 373: setsockopt SO_UPDATE_ACCEPT_CONTEXT; system error 10038: An operation was attempted on something that is not a socket.
+

@@ -15,16 +15,16 @@ Sequences['BEAR_TANK_SINGLE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [nomod,@target,exists,harm] Charge",
-	"/cast [combat,@target,exists,harm] Enrage",
+	"/cast [nomod,@target,exists] Charge",
+	"/cast [combat,@target,exists] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists,harm]",
+	"/Startattack [nomod,@target,exists]",
       },
       PreMacro={
       },
         "/cast [mod:alt] Growl",
         "/cast [mod:ctrl] Demoralizing Roar",
-        "/cast [nomod,@target,exists,harm] maul",
+        "/cast [nomod] maul",
       PostMacro={
       },
       KeyRelease={
@@ -64,18 +64,17 @@ Sequences['BEAR_TANK_MULTI'] = {
   MacroVersions = {
     [1] = {
      Combat=true,
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
-	"/cast [nomod,@target,exists,harm] Charge",
-	"/cast [combat,@target,exists,harm] Enrage",
+	"/cast [nomod,@target,exists] Charge",
+	"/cast [combat,@target,exists] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists,harm]",
+	"/Startattack [nomod,@target,exists]",
       },
       PreMacro={
       },
-        "/cast [nomod,@target,exists,harm] Swipe",
-        "/cast [mod:ctrl] Demoralizing Roar",
-        "/cast [nomod,@target,exists,harm] maul",
+        "/cast [nomod] Swipe",
+        "/cast [nomod] maul",
       PostMacro={
       },
       KeyRelease={
@@ -95,10 +94,7 @@ Sequences['BEAR_TANK_TURBO'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [mod:ctrl,stance:1] bear form",
-	"/cast [mod:ctrl,stance:2] cat form",
-	"/cast [mod:ctrl,stance:3] travel form",
-	"/cast [mod:ctrl,stance:4] aquatic form",
+	"/cancelform [mod:ctrl]",
       },
       PreMacro={
       },
@@ -121,9 +117,10 @@ Sequences['BEAR_TANK_AOE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
+	"/cast [nomod,@target,exists] Charge",
 	"/cast [combat,@target,exists] Enrage",
 	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod]",
+	"/Startattack [nomod,@target,exists]",
       },
       PreMacro={
       },
@@ -149,24 +146,20 @@ Sequences['FERAL_SINGLE'] = {
     [1] = {
      Combat=true,
       StepFunction = "Sequential",
-      LoopLimit=20,
       KeyPress={
 	"/cast [nostance:2] Cat Form",
-        "/cast [stealth,@target,exists,harm] Pounce",
-        "/cast [mod:alt,stealth,@target,exists,harm] Ravage",
+	"/cast [stealth] Pounce",
+	"/cast [mod:alt,stealth] Ravage",
 	"/Startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-        "/cast [mod:ctrl,@target,exists,harm] Ferocious Bite",
-        "/cast [nomod,@target,exists,harm] Tiger's Fury",
+	"/cast [mod:ctrl] Prowl",
+	"/cast [mod:alt,nostealth] cower",
       },
       PreMacro={
-	"/castsequence [nomod,@target,exists,harm] reset=target Faerie Fire,null",
-        "/cast [nomod,@target,exists,harm] Rake",
       },
-        "/cast [nomod,@target,exists,harm] Shred",
-        "/cast [nomod,@target,exists,harm] Claw",
+      "/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null",
+	"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip",
+	"/cast [nomod,combat,nostealth] Shred",
       PostMacro={
-        "/cast [nomod,@target,exists,harm] Rip",
       },
       KeyRelease={
       },
@@ -186,21 +179,16 @@ Sequences['FERAL_MULTI'] = {
       LoopLimit=20,
       KeyPress={
 	"/cast [nostance:2] Cat Form",
-        "/cast [stealth,@target,exists,harm] Pounce",
-        "/cast [mod:alt,stealth,@target,exists,harm] Ravage",
+	"/cast [stealth] Ravage",
 	"/Startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-        "/cast [mod:ctrl,@target,exists,harm] Ferocious Bite",
-        "/cast [nomod,@target,exists,harm] Tiger's Fury",
+	"/cast [mod:alt,nostealth] cower",
       },
       PreMacro={
-	"/castsequence [nomod,@target,exists,harm] reset=target Faerie Fire,null",
-        "/cast [nomod,@target,exists,harm] Rake",
       },
-        "/cast [nomod,@target,exists,harm] Shred",
-        "/cast [nomod,@target,exists,harm] Claw",
+        "/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null",
+	"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip",
+	"/cast [nomod,combat,nostealth] Shred",
       PostMacro={
-        "/cast [nomod,@target,exists,harm] Rip",
       },
       KeyRelease={
       },
@@ -220,6 +208,7 @@ Sequences['FERAL_SETUP'] = {
       StepFunction = "Sequential",
       KeyPress={
 	      "/stopattack [mod:alt]",
+	      "/cast [mod:alt,nostealth] cower",
       },
       PreMacro={
       },
@@ -231,6 +220,7 @@ Sequences['FERAL_SETUP'] = {
   },
 }
 Sequences['FERAL_AOE'] = {
+-- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=11,
   Talents = "?,?,?,?,?,?,?,",
@@ -240,22 +230,19 @@ Sequences['FERAL_AOE'] = {
     [1] = {
      Combat=true,
       StepFunction = "Sequential",
-      LoopLimit=20,
       KeyPress={
-	"/cast [nostance:2] Cat Form",
-        "/cast [stealth] Pounce",
-        "/cast [mod:alt,stealth] Ravage",
-	"/Startattack [nomod]",
-        "/cast [nomod] Tiger's Fury",
+	"/cast [nomod,@target,exists] Charge",
+	"/cast [combat,@target,exists] Enrage",
+	"/cast [nostance:1] Bear Form",
+	"/Startattack [nomod,@target,exists]",
       },
       PreMacro={
-	"/castsequence [nomod] reset=target Faerie Fire,null",
-        "/cast [nomod] Rake",
       },
-        "/cast [nomod] Shred",
-        "/cast [nomod] Claw",
+        "/cast [nomod] Swipe",
+        "/cast [nomod] Swipe",
+        "/cast [nomod] Swipe",
+        "/cast [nomod] maul",
       PostMacro={
-        "/cast [nomod] Rip",
       },
       KeyRelease={
       },
@@ -274,10 +261,7 @@ Sequences['FERAL_TURBO'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [mod:ctrl,stance:1] bear form",
-	"/cast [mod:ctrl,stance:2] cat form",
-	"/cast [mod:ctrl,stance:3] travel form",
-	"/cast [mod:ctrl,stance:4] aquatic form",
+	"/cancelform [mod:ctrl]",
       },
       PreMacro={
       },
@@ -305,7 +289,7 @@ Sequences['RESTODRU_SETUP'] = {
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
-	      "/startattack [nomod,@target,exists,harm]",
+	      "/startattack [nomod]",
       },
       PostMacro={
       },
@@ -325,7 +309,7 @@ Sequences['RESTODRU_SINGLE'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod,@target,exists,harm]",
+	"/Startattack [nomod]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
@@ -348,9 +332,9 @@ Sequences['RESTODRU_MULTI'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/Startattack [nomod,@target,exists,harm]",
+	"/Startattack [nomod]",
 	"/stopattack [mod:alt]",
-	"/cast [mod:alt,@"..FSMB_tank..",nodead] healing touch",
+	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
       },
       PreMacro={
       },
@@ -378,8 +362,8 @@ Sequences['RESTODRU_AOE'] = {
       },
       PreMacro={
       },
-      "/castsequence [nomod,@"..FSMB_strongestaoe..",nodead] reset=combat/target renewal,regrowth,null",
-      "/cast [nomod,@"..FSMB_strongestaoe..",nodead] healing touch",
+      "/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
+      "/cast [nomod] healing touch",
       PostMacro={
       },
       KeyRelease={
@@ -401,10 +385,7 @@ Sequences['RESTODRU_TURBO'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [mod:ctrl,stance:1] bear form",
-	"/cast [mod:ctrl,stance:2] cat form",
-	"/cast [mod:ctrl,stance:3] travel form",
-	"/cast [mod:ctrl,stance:4] aquatic form",
+	"/cancelform [mod:ctrl]",
       },
       PreMacro={
       },
@@ -453,11 +434,13 @@ Sequences['BOOMKIN_SINGLE'] = {
       KeyPress={
 	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
+	"/cast [nostance:5] Moonkin Form",
+	"/cast [mod:ctrl] Entangling Roots", 
       },
       PreMacro={
       },
-      "/castsequence [nomod,@target,exists,harm] reset=combat moonfire,starfire,,,",
-      "/cast [nomod,@target,exists,harm] wrath",
+      "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
+      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
       PostMacro={
       },
       KeyRelease={
@@ -478,11 +461,13 @@ Sequences['BOOMKIN_MULTI'] = {
       KeyPress={
 	"/Startattack [nomod,@target,exists,harm]",
 	"/stopattack [mod:alt]",
-	"/cast [mod:alt,@"..FSMB_tank..",nodead] healing touch",
+	"/cast [nostance:5] Moonkin Form",
+	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
       },
       PreMacro={
       },
-      "/cast [nomod,@target,exists,harm] wrath",
+      "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
+      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
       PostMacro={
       },
       KeyRelease={
@@ -506,8 +491,10 @@ Sequences['BOOMKIN_AOE'] = {
       },
       PreMacro={
       },
-      "/castsequence [nomod,@"..FSMB_strongestaoe..",nodead] reset=combat/target renewal,regrowth,null",
-      "/cast [nomod,@"..FSMB_strongestaoe..",nodead] healing touch",
+      "/cast [nomod,nochanneling] hurricane",
+      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
+      --"/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
+      --"/cast [nomod,@"..FSMB_strongestaoe.."] healing touch",
       PostMacro={
       },
       KeyRelease={
@@ -529,135 +516,10 @@ Sequences['BOOMKIN_TURBO'] = {
      Combat=true,
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [mod:ctrl,stance:1] bear form",
-	"/cast [mod:ctrl,stance:2] cat form",
-	"/cast [mod:ctrl,stance:3] travel form",
-	"/cast [mod:ctrl,stance:4] aquatic form",
+	"/cancelform [mod:ctrl]",
       },
       PreMacro={
       },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['DRINK'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=0,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-     Head=false,
-     Neck=false,
-     Belt=false,
-     Ring1=false,
-     Ring2=false,
-     Trinket1=false,
-     Trinket2=false,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/use Conjured Crystal Water",
-	"/use Conjured Sparkling Water",
-	"/use Conjured Mineral Water",
-	"/use Conjured Spring Water",
-	"/use Conjured Purified Water",
-	"/use Conjured Fresh Water",
-	"/use Conjured Water",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['HEALPOT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=0,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-     Head=false,
-     Neck=false,
-     Belt=false,
-     Ring1=false,
-     Ring2=false,
-     Trinket1=false,
-     Trinket2=false,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/cancelaura bear form",
-	"/cancelaura cat form",
-	"/cancelaura travel form",
-	"/cancelaura aquatic form",
-	"/use Healthstone",
-	"/use Major Healing Potion",
-	"/use Combat Healing Potion",
-	"/use Superior Healing Potion",
-	"/use Greater Healing Potion",
-	"/use Healing Potion",
-	"/use Discolored Healing Potion",
-	"/use Lesser Healing Potion",
-	"/use Minor Healing Potion",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['MANAPOT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=0,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-     Head=false,
-     Neck=false,
-     Belt=false,
-     Ring1=false,
-     Ring2=false,
-     Trinket1=false,
-     Trinket2=false,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/cancelaura bear form",
-	"/cancelaura cat form",
-	"/cancelaura travel form",
-	"/cancelaura aquatic form",
-	"/use Mana Ruby",
-	"/use Mana Citrine",
-	"/use Mana Jade",
-	"/use Mana Agate",
-	"/use Major Mana Potion",
-	"/use Superior Mana Potion",
-	"/use Mana Potion",
-	"/use Greater Mana Potion",
-	"/use Minor Mana Potion",
-	"/use Lesser Mana Potion",
       PostMacro={
       },
       KeyRelease={
@@ -674,7 +536,14 @@ Sequences['DECURSE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-     Combat=true,
+     Combat=false,
+     Head=false,
+     Neck=false,
+     Belt=false,
+     Ring1=false,
+     Ring2=false,
+     Trinket1=false,
+     Trinket2=false,
       StepFunction = "Sequential",
       KeyPress={
       },

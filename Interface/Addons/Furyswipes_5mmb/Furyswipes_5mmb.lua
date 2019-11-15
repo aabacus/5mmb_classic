@@ -1,10 +1,10 @@
-FSMB_version="091919_classic"
+FSMB_version="100319_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Polly",[2]="Silli",[3]="Keella",[4]="Frandy",[5]="Ailde"}
-FSMB_tank="Polly"
-FSMB_healerlist={"Silli"}
-FSMB_strongestaoe="Frandy"
+FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Icelance",[5]="Battlefield"}
+FSMB_tank="Mootalia"
+FSMB_healerlist={}
+FSMB_strongestaoe="Icelance"
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
 FSMB_decurse={["Paladin"]="Cleanse",["Priest"]="Dispel Magic",["Mage"]="Remove Lesser Curse",["Druid"]="Remove Curse",["Shaman"]="Cure Poison",["Hunter"]="None",["Warlock"]="None",["Warrior"]="None",["Rogue"]="None",}
@@ -24,6 +24,7 @@ SLASH_VERSION1 = '/version'
 	SlashCmdList['VERSION'] = function(arg)
 	print("Furyswipes_5mmb version is "..FSMB_version)
 end
+FlashClientIcon = function() end
 FSMB_msgcd=GetTime()
 function init()
 	if UnitAffectingCombat("player") then return end
@@ -67,15 +68,19 @@ elseif myclass=="Paladin" then
 	else myspec="RET" end
 end
 clearmacros()
-local macroId = CreateMacro("drink", "Inv_drink_18", "/click DRINK", nil);
+local macroId = CreateMacro("drink", "Inv_drink_18", "/use water", nil);
 PickupMacro(macroId)
 PlaceAction(65)
 ClearCursor()
-local macroId = CreateMacro("manapot", "Inv_potion_76", "/click MANAPOT", nil);
+local macroId = CreateMacro("spit", "Inv_misc_slime_01", "/spit", nil);
+PickupMacro(macroId)
+PlaceAction(59)
+ClearCursor()
+local macroId = CreateMacro("manapot", "Inv_potion_76", "/use mana", nil);
 PickupMacro(macroId)
 PlaceAction(67)
 ClearCursor()
-local macroId = CreateMacro("healpot", "Inv_potion_54", "/click HEALPOT", nil);
+local macroId = CreateMacro("healpot", "Inv_potion_54", "/use heal", nil);
 PickupMacro(macroId)
 PlaceAction(66)
 ClearCursor()
@@ -135,7 +140,7 @@ for i=1,TableLength(FSMB_toonlist) do
 	ClearCursor()
 end
 if myclass=="Hunter" then
-	index=CreateMacro("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Immolation Trap\n/cast Feign Death",nil)
+	index=CreateMacro("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
 	PickupMacro(index)
 	PlaceAction(61)
 	index=CreateMacro("feed","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
@@ -145,7 +150,7 @@ end
 if myclass=="Warrior" and IsTank(myname) then
 	print("Checking ranged weap")
 	if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
-		PickupSpellBookItem(SpellNum("Shoot "..RangedWeaponType()),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Shoot "..RangedWeaponType())
 		PlaceAction(61)
 	end
 end
@@ -164,12 +169,16 @@ if myclass=="Druid" then
 		ClearCursor()
 		idx=idx+1
 	end
+	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
+	PickupMacro(macroId)
+	PlaceAction(55)
+	ClearCursor()
 	PickupSpellBookItem("Wrath")
 	PlaceAction(61)
 	ClearCursor()
 end
 if myclass=="Druid" and IsTank(myname) then
-  	macroId = CreateMacro("pull", "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance] Wrath", nil);
+  	macroId = CreateMacro("pull", "INV_Misc_QuestionMark", "/cast [nocombat,stance:1] Bear Form\n/cast [nocombat,stance:2] Cat Form\n/cast [nocombat,stance:3] travel form\n/cast [nocombat,stance:4] aquatic form\n/cast [nocombat,nostance] Wrath", nil);
 	PickupMacro(macroId)
 	PlaceAction(61)
 	ClearCursor()
@@ -224,6 +233,10 @@ if myclass=="Priest" then
 		ClearCursor()
 		idx=idx+1
 	end
+	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Power Word: Fortitude,null", nil);
+	PickupMacro(macroId)
+	PlaceAction(55)
+	ClearCursor()
 end
 if myclass=="Paladin" then
 	if FindInTable(FSMB_healerlist,myname) then
@@ -247,6 +260,10 @@ if myclass=="Paladin" then
 		PlaceAction(37)
 		ClearCursor()
 	end
+	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target,nomod] reset=combat/target Blessing of Might,null\n/castsequence [@target,mod:alt] reset=combat/target Blessing of Wisdom", nil);
+	PickupMacro(macroId)
+	PlaceAction(55)
+	ClearCursor()
 	local slot=38
 	local idx=0
 	local i
@@ -291,6 +308,13 @@ if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
 		idx=idx+1
 	end
 end
+if myclass=="Warlock" and SpellExists("Drain Soul") then
+	PickupSpellBookItem("Drain Soul")
+	PlaceAction(64)
+	index=CreateMacro("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
+	PickupMacro(index)
+	PlaceAction(37)
+end
 if myclass=="Mage" then
 	if findSpell("Conjure Water",BOOKTYPE_SPELL) then
 		PickupSpellBookItem("Conjure Water")
@@ -311,6 +335,10 @@ if myclass=="Mage" then
 		ClearCursor()
 		idx=idx+1
 	end
+	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Arcane Intellect", nil);
+	PickupMacro(macroId)
+	PlaceAction(55)
+	ClearCursor()
 else
 	PickupAction(12)
 	ClearCursor()
@@ -378,7 +406,7 @@ PlaceAction(99)
 PickupMacro(index)
 PlaceAction(111)
 ClearCursor()
-index=CreateMacro("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO",nil)
+index=CreateMacro("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]",nil)
 PickupMacro(index)
 PlaceAction(4)
 PickupMacro(index)
@@ -492,11 +520,21 @@ SetBinding("SHIFT-MOUSEWHEELUP")
 SetBinding("SHIFT-MOUSEWHEELDOWN")
 SetBinding("B","OPENALLBAGS")
 AttemptToSaveBindings(1)
-SetCVar("alwaysShowActionBars", true, true)
-SetCVar("alwaysShowActionBars", true, true)
-SetCVar("nameplateShowEnemies", true, true)
-SetCVar("nameplateShowFriends", true, true)
-SetCVar("enableFloatingCombatText", true, true)
+SetCVar("alwaysShowActionBars", true)
+SetCVar("nameplateShowEnemies", true)
+SetCVar("nameplateShowFriends", true)
+SetCVar("enableFloatingCombatText", true)
+SetCVar("autointeract", true)
+SetCVar("autoInteract", true)
+SetCVar("autoLootDefault", true)
+SetCVar("blockChannelInvites", true)
+SetCVar("instantQuestText", true)
+SetCVar("lootUnderMouse", true)
+SetCVar("nameplateMotion", true)
+SetCVar("autoSelfCast", false)
+SetCVar("showTutorials", false)
+SetCVar("ShowClassColorInFriendlyNameplate", true)
+SetCVar("showTargetOfTarget", true)
 SetModifiedClick("SELFCAST","NONE")
 SetActionBarToggles(true,true,true,true,true)
 SHOW_MULTI_ACTIONBAR_1=true
@@ -514,7 +552,7 @@ if false then
 		PlaceAction(61)
 	end
 	if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
-		PickupSpellBookItem(SpellNum("Shoot "..RangedWeaponType()),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Shoot "..RangedWeaponType())
 		PlaceAction(61)
 	end
 	if myclass=="Druid" and SpellExists("Wrath") then
@@ -637,14 +675,6 @@ if false then
 	PlaceAction(106)
 	PickupMacro(index)
 	PlaceAction(118)
-	if myclass=="Warlock" and SpellExists("Drain Soul") then
-		PickupSpellBookItem(findSpell("Drain Soul"),BOOKTYPE_SPELL)
-		PlaceAction(67)
-	end
-	if myclass=="Warlock" and SpellExists("Rain of Fire") then
-		PickupSpellBookItem(findSpell("Rain of Fire"),BOOKTYPE_SPELL)
-		PlaceAction(69)
-	end
 	PickupAction(7)
 	ClearCursor()
 	PickupAction(79)
@@ -700,31 +730,31 @@ if false then
 		ClearCursor()
 	end
 	if myclass=="Priest" or myclass=="Mage" or myclass=="Warlock" then
-		PickupSpellBookItem(SpellNum("Shoot"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Shoot")
 		PlaceAction(72)
-		PickupSpellBookItem(SpellNum("Attack"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Attack")
 		PlaceAction(71)
 	elseif myclass=="Rogue" then
-		if SpellExists("Backstab") then PickupSpellBookItem(SpellNum("Backstab"),BOOKTYPE_SPELL) end
+		if SpellExists("Backstab") then PickupSpellBookItem("Backstab") end
 		PlaceAction(71)
-		PickupSpellBookItem(SpellNum("Attack"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Attack")
 		PlaceAction(72)
 	elseif myclass=="Druid" then
-		if SpellExists("Ravage") then PickupSpellBookItem(SpellNum("Ravage"),BOOKTYPE_SPELL) end
+		if SpellExists("Ravage") then PickupSpellBookItem("Ravage") end
 		PlaceAction(71)
-		PickupSpellBookItem(SpellNum("Attack"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Attack")
 		PlaceAction(72)
 	elseif myclass=="Hunter" then
-		PickupSpellBookItem(SpellNum("Auto Shot"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Auto Shot")
 		PlaceAction(72)
-		PickupSpellBookItem(SpellNum("Attack"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Attack")
 		PlaceAction(71)
 		if SpellExists("Immolation Trap") then
-			PickupSpellBookItem(SpellNum("Freezing Trap"),BOOKTYPE_SPELL)
+			PickupSpellBookItem("Freezing Trap")
 			PlaceAction(64)
 		end
 	else
-		PickupSpellBookItem(SpellNum("Attack"),BOOKTYPE_SPELL)
+		PickupSpellBookItem("Attack")
 		PlaceAction(72)
 	end
 end
@@ -762,7 +792,7 @@ function findSpell(spellName, bookType)
    return nil;
  end
 function clearmacros()
-	MB_macronamestodelete={"self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
+	MB_macronamestodelete={"pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
 	for k,macname in pairs(MB_macronamestodelete) do
 		while (GetMacroIndexByName(macname))>0 do
 			local index=GetMacroIndexByName(macname)
@@ -1152,6 +1182,7 @@ function printt(tab,indent)
       end
    end
 end
+print("Pally seal will be "..FSMB_myseal)
 function SpellExists(spell)
 	return GetSpellInfo(spell)
 end

@@ -1,14 +1,37 @@
-#Use a technical editor for this, NOT notepad. Notepad runs lines together.
-# monitor can be 1k,2k,3k,4k,.5,
-monitor 1k
-# Keyboard can be de (german) uk (limey) or oth (weirdo)
+#THIS IS YOUR TOONLIST.
+# Lines that start with # are comments, and have no effect.
+# Use a technical editor for this, NOT notepad. Notepad runs lines together.
+
+# monitor can be 1280x1024 / 1920x1080 / 2580x1440 /3360x1440 / 3840x2160
+monitor 3840x2160
+
+# Keyboard can be de (german) uk (limey) or other (weirdo)
 keyboard us
 
-# box acct passw license toon_name role raid_letters(ctrl-alt-<raidletter> launches them)
-# LIMIT 5 BOX LINES PER toonlist.txt. Fewer is ok.
-box battlenet_account battlenet_password neeks1 Furyswipes tank m e
-box battlenet_account battlenet_password toddtope Mootalia melee m
-box battlenet_account battlenet_password wow1 spirited healer m
-box battlenet_account battlenet_password elitope icelance caster m
-box battlenet_account battlenet_password sixtyforever dragonstalkr melee m
+# You can use 2 monitors by uncommenting the following
+# use2monitors
+
+# each window you open is defined by a box command.
+# Max 5.
+# The box command starts with the word box.
+# Then battlenet account.
+# Then password.
+# Then subscription name
+# Then toon name.
+# Then role tank / melee / healer / caster / hunter
+# Then what letter launches them when you hit ctrl-alt-<letter>
+# The letters are like their raid identifier. 
+# Each toon can be in many different raids. 
+# Always do have an M raid though as your main raid.
+# so ctrl alt m launches all your guys.
+box bnet_acct bnet_passw wow1  Furyswipes melee m e
+box bnet_acct bnet_passw wow2 mootalia tank m 
+box bnet_acct bnet_passw wow3 spirited tank m l
+box bnet_acct bnet_passw wow4 icelance caster m
+box bnet_acct bnet_passw wow5 battlefield caster m w l
+
+# Identify one of your toons that will need all the heals
+# when you do AOE (button 5)
+# They will get flood heals to stay alive
 strongestaoe icelance
+

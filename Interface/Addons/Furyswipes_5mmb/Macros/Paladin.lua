@@ -21,7 +21,7 @@ Sequences['RET_SINGLE'] = {
       },
       PreMacro={
       },
-        "/castsequence [nomod,@target,exists,harm] reset=25 "..FSMB_myseal..", Judgement",
+        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
       PostMacro={
       },
       KeyRelease={
@@ -42,13 +42,13 @@ Sequences['RET_MULTI'] = {
       StepFunction = "Sequential",
       LoopLimit=20,
       KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
+	"/startattack [nomod]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-      	"/cast [nomod,@target,exists,harm] consecration",
-        "/castsequence [nomod,@target,exists,harm] reset=25 "..FSMB_myseal..", Judgement",
+      	"/cast [nomod] consecration",
+        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
       PostMacro={
       },
       KeyRelease={
@@ -147,12 +147,12 @@ Sequences['PROT_SINGLE'] = {
       StepFunction = "Sequential",
       LoopLimit=20,
       KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
+	"/startattack [nomod]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-        "/castsequence [nomod,@target,exists,harm] reset=25 "..FSMB_myseal..", Judgement",
+        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
       PostMacro={
       },
       KeyRelease={
@@ -173,13 +173,13 @@ Sequences['PROT_MULTI'] = {
       StepFunction = "Sequential",
       LoopLimit=20,
       KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
+	"/startattack [nomod]",
 	"/stopattack [mod:alt]",
       },
       PreMacro={
       },
-      	"/cast [nomod,@target,exists,harm] consecration",
-        "/castsequence [nomod,@target,exists,harm] reset=25 "..FSMB_myseal..", Judgement",
+      	"/cast [nomod] consecration",
+        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
       PostMacro={
       },
       KeyRelease={
@@ -278,7 +278,7 @@ Sequences['HOLY_SINGLE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	      "/startattack [nomod,@target,exists,harm]",
+	      "/startattack [nomod]",
 	      "/stopattack [mod:alt]",
       },
       PreMacro={
@@ -303,9 +303,9 @@ Sequences['HOLY_MULTI'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	      "/startattack [nomod,@target,exists,harm]",
+	      "/startattack [nomod]",
 	      "/stopattack [mod:alt]",
-	      "/cast [mod:alt,@"..FSMB_tank..",nodead] Healing Touch",
+	      "/cast [mod:alt,@"..FSMB_tank.."] Healing Touch",
       },
       PreMacro={
       },
