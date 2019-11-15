@@ -1,18 +1,23 @@
-#THIS IS YOUR TOONLIST.
+#THIS IS YOUR TOONLIST. READ THESE COMMENTS BEFORE ASKING
+# A QUESTION ON DISCORD. EVERY ONE.
 # Lines that start with # are comments, and have no effect.
 # Use a technical editor for this, NOT notepad. Notepad runs lines together.
 
 # monitor can be 1280x1024 / 1920x1080 / 2580x1440 /3360x1440 / 3840x2160
 monitor 3840x2160
 
-# Keyboard can be de (german) uk (limey) or other (weirdo)
-keyboard us
+# YOU MUST CHANGE THE FOLLOWING IF YOU ARE UN-AMERICAN
+# portal "US"
+# locale "enUS"
+
+# Uncomment this if you want your windows with frames
+# showframes
 
 # You can use 2 monitors by uncommenting the following
 # use2monitors
 
 # each window you open is defined by a box command.
-# Max 5.
+# Max number of box lines is 5 (for now).
 # The box command starts with the word box.
 # Then battlenet account.
 # Then password.
@@ -22,13 +27,13 @@ keyboard us
 # Then what letter launches them when you hit ctrl-alt-<letter>
 # The letters are like their raid identifier. 
 # Each toon can be in many different raids. 
-# Always do have an M raid though as your main raid.
-# so ctrl alt m launches all your guys.
-box bnet_acct bnet_passw wow1  Furyswipes melee m e
-box bnet_acct bnet_passw wow2 mootalia tank m 
-box bnet_acct bnet_passw wow3 spirited tank m l
-box bnet_acct bnet_passw wow4 icelance caster m
-box bnet_acct bnet_passw wow5 battlefield caster m w l
+# ALL BOXES ARE IN RAID m by default. This cannot be changed!
+# ctrl alt m launches all your guys.
+box bnet_acct bnet_passw wow1  Furyswipes melee f
+box bnet_acct bnet_passw wow2 mootalia tank  
+box bnet_acct bnet_passw wow3 spirited tank  l
+box bnet_acct bnet_passw wow4 icelance caster 
+box bnet_acct bnet_passw wow5 battlefield caster  w l
 
 # Identify one of your toons that will need all the heals
 # when you do AOE (button 5)

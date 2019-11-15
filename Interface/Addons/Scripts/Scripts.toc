@@ -1,0 +1,34 @@
+## Interface: 11302
+## Title:|cff009cffScripts|r
+## Notes: Bunch of QoL tweaks
+## Version: v1.2
+## Author: Antonil
+## DefaultState: Enabled
+## SavedVariablesPerCharacter: GOLD_DB
+## SavedVariables: ScriptsDB
+
+Options.lua
+OptionsPanel.lua
+
+Lorti\config.lua
+Lorti\actionbars.lua
+Lorti\auras.lua
+Lorti\buffs.lua
+
+Automation.lua
+
+Stats\System.lua
+Stats\GoldTracker.lua
+
+Scripts.lua
+Actionbars.lua
+Align.lua
+Binds.lua
+Castbar.lua
+Chat.lua
+CopyURL.lua
+ErrorFilter.lua
+Minimap.lua
+SpellNotifications.lua
+Tooltip.lua
+Worldmap.lua

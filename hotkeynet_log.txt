@@ -2,7 +2,7 @@
 HotkeyNet Log File
 -------------------------------------------------------------------------------------
 
-File opened at 17:38:54 on Wednesday, October 2, 2019
+File opened at 17:49:34 on Wednesday, October 9, 2019
 DNS name: IBUYPOWERPC
 OS version: Microsoft  Service Pack 1 (build 7601)
 
@@ -21,11 +21,11 @@ CPU:
 
 
 Memory:
-	Load = 15%; 
+	Load = 8%; 
 	Total physical = 32672 MB; 
-	Available physical = 27623 MB; 
+	Available physical = 29965 MB; 
 	Total page file = 65343 MB; 
-	Avail page file = 59680 MB; 
+	Avail page file = 62332 MB; 
 	Total virtual = 2047 MB; 
 	Avail virtual = 1974 MB; 
 	Avail extended virtual = 0 MB.
@@ -40,7 +40,7 @@ Mouse:
 
 Adapter 0:
 
-	IP Address	192.168.0.47
+	IP Address	192.168.0.10
 	Subnet Mask	255.255.255.0
 	Default Gateway	192.168.0.1
 
@@ -50,7 +50,7 @@ Adapter 0:
 
 	DHCP Enabled	Yes
 	DHCP Server	192.168.0.1
-	Lease Obtained	Wed Oct 02 15:42:22 2019
+	Lease Obtained	Wed Oct 09 17:49:02 2019
 
 	Have WINS	No
 
@@ -70,9 +70,7 @@ Adapter 1:
 
 HotkeyNet 0.1.45 build 210
 Start as server.
-This IP: 192.168.0.47
+This IP: 192.168.0.10
 
 C:\d\sou\cpp\macro\cAuth.cpp 423: IP seen by authorization server: 73.202.32.12
-
-C:\d\sou\cpp\macro\pool_server.cpp 373: setsockopt SO_UPDATE_ACCEPT_CONTEXT; system error 10038: An operation was attempted on something that is not a socket.
 

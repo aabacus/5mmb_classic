@@ -1,9 +1,9 @@
-FSMB_version="100319_classic"
+FSMB_version="100919_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Icelance",[5]="Battlefield"}
-FSMB_tank="Mootalia"
-FSMB_healerlist={}
+FSMB_tank="Furyswipes"
+FSMB_healerlist={"Spirited"}
 FSMB_strongestaoe="Icelance"
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
@@ -196,7 +196,7 @@ if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Healing Wave", nil);
+  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Healing Wave", nil);
 		PickupMacro(macroId)
 		PlaceAction(slot+idx)
 		ClearCursor()
@@ -208,7 +208,7 @@ if myclass=="Priest" and FindInTable(FSMB_healerlist,myname) then
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Lesser Heal", nil);
+  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Lesser Heal", nil);
 		PickupMacro(macroId)
 		PlaceAction(slot+idx)
 		ClearCursor()
@@ -301,7 +301,7 @@ if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Healing Touch", nil);
+  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Healing Touch", nil);
 		PickupMacro(macroId)
 		PlaceAction(slot+idx)
 		ClearCursor()
@@ -1182,7 +1182,6 @@ function printt(tab,indent)
       end
    end
 end
-print("Pally seal will be "..FSMB_myseal)
 function SpellExists(spell)
 	return GetSpellInfo(spell)
 end

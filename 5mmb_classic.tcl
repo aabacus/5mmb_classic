@@ -1,14 +1,24 @@
-set version 100319_classic
+set version 100819_classic
+lappend auto_path twapi
+package require twapi_input
+set kb [twapi::get_keyboard_layout_name]
+puts ""
+puts "Welcome to multiboxing, sucka!"
+puts ""
 puts "USING 5MMB_classic.TCL VERSION $version"
+puts "=============================================="
+puts "My keyboard layout is $kb"
+puts "If shared mouseclicks don't automatically work using key "
+puts "to the left of 1, give this key code to Furyswipes"
 array unset toons
 array unset autodelete
-array unset raidorder10
-array unset raidorder20
-array unset raidorder40
 array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
+set portal "US"
+set locale "enUS"
 set strongestaoe ""
+set showframes ""
 set dontflashframe ""
 set useautotrade ""
 set dontautodelete ""
@@ -34,13 +44,18 @@ set ctrllevelers ""
 set goldto ""
 set boeto ""
 set monitor 3840x2160
-set oem oem3
+array set kb_oem "00000409 oem3"
+array set kb_oem "00000809 oem7"
+array set kb_oem "0000041d oem5"
+set oem $kb_oem($kb)
 set HKN 5mmb_HKN_classic.txt
 set SME "Interface\\Addons\\Furyswipes_5mmb\\Furyswipes_5mmb.lua"
 #set SME SM_Extend.lua
 set fail false
-if { ! [file exist toonlist.txt ] } {
-	puts "ERROR: YOU MUST HAVE A FILE NAMED toonlist.txt IN THIS DIRECTORY"
+set toonlistf [lindex $argv 0]
+if { $toonlistf == "" } { set toonlistf toonlist.txt } 
+if { ! [file exist $toonlistf ] } {
+	puts "ERROR: YOU MUST HAVE A FILE NAMED $toonlistf IN THIS DIRECTORY"
 	puts ""
 	puts "FORMAT OF FILE:"
 	puts "# <-this is a comment. It is ignored by the program"
@@ -59,11 +74,11 @@ if { ! [file exist "wow.exe" ] && ! [file exist "Wow.exe"] } {
 set nohotkeyoverwrite false
 set nosmoverwrite false
 if { $fail } { puts "hit any key to return" ; gets stdin char ; return }
-set tL [open toonlist.txt r]
-if { [set tL [open toonlist.txt r]] != "" } {
-  puts "Found toonlist.txt"
+set tL [open $toonlistf r]
+if { [set tL [open $toonlistf r]] != "" } {
+  puts "Found toonlist $toonlistf"
 } else {
-  puts "ERROR: Could not open toonlist.txt in read mode."
+  puts "ERROR: Could not open $toonlistf in read mode."
 }
 #if { [file exist $HKN] } {
 #  puts "DO YOU WANT TO OVERWRITE $HKN ?"
@@ -108,7 +123,7 @@ while { [gets $tL line] >= 0 } {
         if { $cpunum=="" } { set cpunum 1 } 
         lappend raids ${userraid}${cpunum}     
       }
-      if { $raids == "" } { set raids m1 }
+      if { ! [regexp m $raids]  } { lappend raids m1 }
       set toons($numtoons) "$bnet_account $license $passwd $name $role $raids"
       incr numtoons
     } elseif { [string tolower [lindex $line 0]] == "keyboard" } {
@@ -135,6 +150,14 @@ while { [gets $tL line] >= 0 } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set raidname [lindex $line 1]
+    } elseif { [string tolower [lindex $line 0]] == "portal" } {
+ 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+ 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set portal [lindex $line 1]
+    } elseif { [string tolower [lindex $line 0]] == "locale" } {
+ 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+ 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set locale [lindex $line 1]
     } elseif { [string tolower [lindex $line 0]] == "powerleveler" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
@@ -177,6 +200,9 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "dontsoulstone" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontsoulstone true
+    } elseif { [string tolower [lindex $line 0]] == "showframes" } {
+ 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set showframes true
     } elseif { [string tolower [lindex $line 0]] == "dontflashframe" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontflashframe true
@@ -244,7 +270,7 @@ while { [gets $tL line] >= 0 } {
 }
 if { ! [info exists computer(1) ] } { set computer(1) Local }
 if $numtoons==0 { 
-  puts "ERROR: No box commands with toon names were found in toonlist.txt. "
+  puts "ERROR: No box commands with toon names were found in $toonlistf. "
   puts "SEE toonlist_command_reference.txt"
   puts "hit any key to return" ; gets stdin char ; return
 }
@@ -311,8 +337,9 @@ if { ! $nohotkeyoverwrite } {
 	<TargetWin "World of Warcraft">
 	<RenameTargetWin Unused%2%>
 	<TargetWin "World of Warcraft">
-	<RenameTargetWin %2%>
-	<RemoveWinFrame>
+	<RenameTargetWin %2%>}
+	if { $showframes=="" } {
+		puts $hK {	<RemoveWinFrame>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 	<TargetWin %2%>
@@ -324,8 +351,17 @@ if { ! $nohotkeyoverwrite } {
 	<Wait 175>
 	<Text %4%>
 	<Wait 175>
-	<Key Enter>
-
+	<Key Enter>}
+	} else {
+		puts $hK {	<SetWinSize %5% %6%>
+	<SetWinPos %7% %8%>
+	<SetForegroundWin>
+	<Text %3%>
+	<Key Tab>
+	<Text %4%>
+	<Key Enter>}
+	}
+puts $hK {
 // This is the second Launcher command definition
 // It's not used. You CAN use it as a special wow setup for your main.
 // You know, max graphics, sound, etc.
@@ -336,10 +372,10 @@ if { ! $nohotkeyoverwrite } {
 	<Run "G:/World of Warcraft/_classic_/Wow.exe" >
 	<WaitForInputIdle 400>
 	<TargetWin "World of Warcraft">  
-	<RenameTargetWin Unused%2%>  
+	<RenameTargetWin %2%>  
 	<WaitForInputIdle 400>
 	<TargetWin "World of Warcraft">  
-	<RenameTargetWin %2%>  
+	<RenameTargetWin Unused%2%>  
 	<TargetWin %2%>
 	<TargetWin %2%>
 	<WaitForInputIdle 400>
@@ -460,7 +496,7 @@ if { $use2monitors } {
 		if { $use2monitors } { 
 	set raidhash(1) {{1920 1080 0 0 }}
 	set raidhash(2) {{1920 1080 0 0 } {1920 1080 1920 0 }}
-	set raidhash(3) {{1920 1080 0 0 } {960 540 1920 0 } {960 540 1920 540}}
+	set raidhash(3) {{960 540 0 0 } {960 540 0 0 } {960 540 960 0}}
 	set raidhash(4) {{1920 1080 0 0 } {960 540 1920 0 } {960 540 2880 0 } {960 540 1920 540}}
 						set raidhash(5) {{1920 1080 0 0} {960 540 1920 540} {960 540 1920 0} {960 540 2880 0} {960 540 2880 540}}
 			set raidhash(10) {{1920 1080 0 0} {640 360 1920 0} {640 360 2560 0} {640 360 3200 0} {640 360 1920 360} {640 360 2560 360} {640 360 3200 360} {640 360 1920 720} {640 360 2560 720} {640 360 3200 720}}
@@ -592,7 +628,7 @@ if { $use2monitors } {
 	  		#puts "winname is ${toonname}_${cpunum}$acct_winname($account)"
 	  		set winname ${toonname}_${cpunum}$acct_winname($account)
 	  		puts $hK "  <if WinDoesNotExist $winname>"
-	  		puts $hK "  <LaunchAndRename $computer($cpunum) $winname $bnet_account $passwd [lindex $raidhash($windowcount($myraid)) $windex($myraid)]>"
+	  		puts $hK "  <LaunchAndRename $computer($cpunum) $winname $bnet_account $passwd [lindex $raidhash($windowcount($myraid)) $windex($myraid)] $toonname>"
 			incr windex($myraid)
 		}
 		foreach raid [array names windowcount] { 
@@ -705,12 +741,85 @@ if { $use2monitors } {
 			puts $hK "<RestoreMousePos>"
 		}
 	}
+				set f [open WTF\\config.wtf w]
+				puts $f "SET portal $portal"
+puts $f "SET textLocale $locale"
+puts $f "SET audioLocale $locale"
+puts $f {SET agentUID "wow_classic"
+SET hwDetect "0"
+SET videoOptionsVersion "19"
+SET gxApi "D3D11"
+SET gxMaximize "0"
+SET graphicsQuality "5"
+SET RAIDgraphicsQuality "3"
+SET waterDetail "2.000000"
+SET rippleDetail "1.000000"
+SET reflectionMode "0.000000"
+SET sunShafts "2.000000"
+SET groundEffectDensity "128.000000"
+SET groundEffectDist "300.000000"
+SET groundEffectAnimation "1.000000"
+SET shadowMode "4.000000"
+SET shadowTextureSize "2048.000000"
+SET shadowSoft "0.000000"
+SET SSAO "4.000000"
+SET textureFilteringMode "5.000000"
+SET lodObjectCullSize "16.000000"
+SET lodObjectCullDist "30.000000"
+SET lodObjectMinSize "30.000000"
+SET lodObjectFadeScale "125.000000"
+SET graphicsTextureFiltering "6"
+SET graphicsEnvironmentDetail "9"
+SET graphicsGroundClutter "9"
+SET graphicsShadowQuality "5"
+SET graphicsLiquidDetail "3"
+SET graphicsSunshafts "3"
+SET graphicsSSAO "5"
+SET engineSurvey "6"
+SET mouseSpeed "1"
+SET Sound_MusicVolume "0.40000000596046"
+SET Sound_AmbienceVolume "0.60000002384186"
+SET spellClutterRangeConstantRaid "10.000000"
+SET CACHE-WQST-QuestV2RecordCount "4549"
+SET CACHE-WQST-QuestV2HotfixCount "0"
+SET CACHE-WQST-QuestObjectiveRecordCount "5324"
+SET CACHE-WQST-QuestObjectiveHotfixCount "0"
+SET CACHE-WQST-QuestObjectiveXEffectRecordCount "0"
+SET CACHE-WQST-QuestObjectiveXEffectHotfixCount "0"
+SET CACHE-WGOB-GameObjectsRecordCount "10021"
+SET CACHE-WGOB-GameObjectsHotfixCount "0"
+SET expandUpgradePanel "0"
+SET RenderScale "1"
+SET gameTip "70"
+SET vsync "1"
+SET checkAddonVersion "0"
+SET lastAddonVersion "11302"
+SET ffxGlow "0"
+SET ffxDeath "0"
+SET ffxNether "0"
+SET chatClassColorOverride "0"
+SET uiScale "0.64999997615814"
+SET Sound_OutputDriverName "System Default"
+SET Sound_EnableMusic "0"
+SET gxWindowedResolution "1912x1413"}
+close $f
 	set winlabels "\t<SendLabel"
 	for { set i 0 } { $i<$totallabels } { incr i } {
 	  if { $winlabels=="\t<SendLabel" } { set winlabels  "$winlabels w${i}" } else { set winlabels "${winlabels},w${i}" } 
 	}
 	set winlabels "${winlabels}>"
 	puts $hK "" 
+	puts $hK {<Hotkey ScrollLockOn Numpad1>
+	<DoHotKey Hotkey ScrollLockOn NumpadEnd>
+<Hotkey ScrollLockOn Numpad2>
+	<DoHotKey Hotkey ScrollLockOn NumpadDown>
+<Hotkey ScrollLockOn Numpad3>
+	<DoHotKey Hotkey ScrollLockOn NumpadPgDn>
+<Hotkey ScrollLockOn Numpad4>
+	<DoHotKey Hotkey ScrollLockOn NumpadLeft>
+<Hotkey ScrollLockOn Numpad5>
+	<DoHotkey Hotkey ScrollLockOn Clear>}
+	puts $hK ""
 	puts $hK {// This is the hotkey that closes all windows-- Ctrl-Alt-o (letter O)	}
 	puts $hK "<Hotkey ScrollLockOn Alt Ctrl o>"
 	puts $hK $winlabels
