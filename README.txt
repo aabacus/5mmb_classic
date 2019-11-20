@@ -1,6 +1,7 @@
 HOW TO RUN 5-Minute Multiboxing:
 1) Unzip contents into your classic dir
 2) Edit toonlist.txt  ... put in your info. See toonlist for instructions.
+=======NOTE: NO ALT-CHARS ALLOWED IN TOON NAMES Only a-z=============
 3) Drag and drop the toonlist onto Read_Toonlist.bat
 4) Double click Hotkeynet.exe
 5) Click Load Script button--Load 5mmb_HKN_classic.txt

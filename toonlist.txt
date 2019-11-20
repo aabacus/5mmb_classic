@@ -13,6 +13,9 @@ monitor 3840x2160
 # Uncomment this if you want your windows with frames
 # showframes
 
+# Uncomment this if your windows get named Unused*
+# fixunused
+
 # You can use 2 monitors by uncommenting the following
 # use2monitors
 

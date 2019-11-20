@@ -1,4 +1,4 @@
-set version 100819_classic
+set version 101319b_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [twapi::get_keyboard_layout_name]
@@ -19,6 +19,7 @@ set portal "US"
 set locale "enUS"
 set strongestaoe ""
 set showframes ""
+set fixunused ""
 set dontflashframe ""
 set useautotrade ""
 set dontautodelete ""
@@ -47,6 +48,7 @@ set monitor 3840x2160
 array set kb_oem "00000409 oem3"
 array set kb_oem "00000809 oem7"
 array set kb_oem "0000041d oem5"
+array set kb_oem "00000414 oem5"
 set oem $kb_oem($kb)
 set HKN 5mmb_HKN_classic.txt
 set SME "Interface\\Addons\\Furyswipes_5mmb\\Furyswipes_5mmb.lua"
@@ -203,6 +205,9 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "showframes" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set showframes true
+				 } elseif { [string tolower [lindex $line 0]] == "fixunused" } {
+ 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set fixunused true
     } elseif { [string tolower [lindex $line 0]] == "dontflashframe" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontflashframe true
@@ -331,36 +336,38 @@ if { ! $nohotkeyoverwrite } {
 <Command LaunchAndRename>
 	<SendPC %1%>}
 	set curdir [pwd]
+if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
 	puts $hK "$curdir/Wow.exe\">"
 	puts $hK {<TargetWin "World of Warcraft">  
-	<TargetWin "World of Warcraft">
 	<RenameTargetWin Unused%2%>
 	<TargetWin "World of Warcraft">
-	<RenameTargetWin %2%>}
-	if { $showframes=="" } {
-		puts $hK {	<RemoveWinFrame>
+	<RenameTargetWin %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<TargetWin %2%>
-	<SetForegroundWin>
-	<Wait 125>
 	<Text %3%>
-	<Wait 125>
 	<Key Tab>
-	<Wait 175>
 	<Text %4%>
-	<Wait 175>
 	<Key Enter>}
-	} else {
-		puts $hK {	<SetWinSize %5% %6%>
+} else {
+	puts -nonewline $hK {   <Run "}
+	puts $hK "$curdir/Wow.exe\">"
+	puts $hK {<TargetWin "World of Warcraft">
+		<RenameTargetWin %2%>
+	<TargetWin "World of Warcraft">
+	<RenameTargetWin Unused%2%>
+	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
 	<Key Enter>}
 	}
+if { $showframes=="" } {
+	puts $hK "\t<RemoveWinFrame>"
+}
+	puts $hK "\t<TargetWin %2%>"
+	puts $hK "\t<WaitForInputIdle 1000>"
 puts $hK {
 // This is the second Launcher command definition
 // It's not used. You CAN use it as a special wow setup for your main.
