@@ -1,9 +1,9 @@
-FSMB_version="100919_classic"
+FSMB_version="110319_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Icelance",[5]="Battlefield"}
+FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Eversmile",[4]="Thunderstruc",[5]="Barrager"}
 FSMB_tank="Furyswipes"
-FSMB_healerlist={"Spirited"}
+FSMB_healerlist={"Eversmile"}
 FSMB_strongestaoe="Icelance"
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
@@ -32,6 +32,7 @@ local myname=UnitName("player")
 local myclass=UnitClass("player")
 local myspec="UNKNOWN"
 local mylevel=UnitLevel("player")
+if mylevel>39 then bearform="Dire Bear Form" else bearform="Bear Form" end
 if myclass=="Warrior" then
 	if IsFury() then myspec="FURY"
 	else myspec="ARMS" end
@@ -68,30 +69,37 @@ elseif myclass=="Paladin" then
 	else myspec="RET" end
 end
 clearmacros()
-local macroId = CreateMacro("drink", "Inv_drink_18", "/use water", nil);
-PickupMacro(macroId)
-PlaceAction(65)
-ClearCursor()
+--local macroId = CreateMacro("drink", "Inv_drink_18", "/use water", nil);
+--PickupMacro(macroId)
+--PlaceAction(65)
+--ClearCursor()
 local macroId = CreateMacro("spit", "Inv_misc_slime_01", "/spit", nil);
 PickupMacro(macroId)
 PlaceAction(59)
 ClearCursor()
-local macroId = CreateMacro("manapot", "Inv_potion_76", "/use mana", nil);
-PickupMacro(macroId)
-PlaceAction(67)
-ClearCursor()
-local macroId = CreateMacro("healpot", "Inv_potion_54", "/use heal", nil);
-PickupMacro(macroId)
-PlaceAction(66)
-ClearCursor()
-PickupItem("Hearthstone")
-PlaceAction(26)
-ClearCursor()
+--local macroId = CreateMacro("manapot", "Inv_potion_76", "/use mana", nil);
+--PickupMacro(macroId)
+--PlaceAction(67)
+----ClearCursor()
+--local macroId = CreateMacro("healpot", "Inv_potion_54", "/use heal", nil);
+--PickupMacro(macroId)
+--PlaceAction(66)
+--ClearCursor()
+if myclass=="Druid" then
+	local macroId = CreateMacro("hearth", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
+	PickupMacro(macroId)
+	PlaceAction(26)
+	ClearCursor()
+else
+	PickupItem("Hearthstone")
+	PlaceAction(26)
+	ClearCursor()
+end
 local partymac=""
 for i=1,TableLength(FSMB_toonlist) do
 	partymac=partymac.."/invite "..FSMB_toonlist[i].."\n"
 end
-local macroId = CreateMacro("party", "Ability_hunter_pathfinding", partymac, nil);
+local macroId = CreateMacro("party", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
 PickupMacro(macroId)
 PlaceAction(10)
 PickupMacro(macroId)
@@ -155,7 +163,7 @@ if myclass=="Warrior" and IsTank(myname) then
 	end
 end
 if myclass=="Druid" then
-  	macroId = CreateMacro("b0", "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_tank.."] thorns", nil);
+  	macroId = CreateMacro("b0", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_tank.."] thorns", nil);
 	PickupMacro(macroId)
 	PlaceAction(37)
 	ClearCursor()
@@ -163,13 +171,13 @@ if myclass=="Druid" then
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
+  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
 		PickupMacro(macroId)
 		PlaceAction(slot+idx)
 		ClearCursor()
 		idx=idx+1
 	end
-	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
+	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
 	PickupMacro(macroId)
 	PlaceAction(55)
 	ClearCursor()
@@ -178,7 +186,7 @@ if myclass=="Druid" then
 	ClearCursor()
 end
 if myclass=="Druid" and IsTank(myname) then
-  	macroId = CreateMacro("pull", "INV_Misc_QuestionMark", "/cast [nocombat,stance:1] Bear Form\n/cast [nocombat,stance:2] Cat Form\n/cast [nocombat,stance:3] travel form\n/cast [nocombat,stance:4] aquatic form\n/cast [nocombat,nostance] Wrath", nil);
+  	macroId = CreateMacro("pull", "INV_Misc_QuestionMark", "/cast [nocombat,stance:1] "..bearform.."\n/cast [nocombat,stance:2] Cat Form\n/cast [nocombat,stance:3] travel form\n/cast [nocombat,stance:4] aquatic form\n/cast [nocombat,nostance] Wrath", nil);
 	PickupMacro(macroId)
 	PlaceAction(61)
 	ClearCursor()
@@ -280,20 +288,33 @@ if myclass=="Shaman" then
 	for i=1,TableLength(FSMB_toonlist) do
 		rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Ancestral Spirit\n"
 	end
-  	macroId = CreateMacro("rez", "INV_Misc_QuestionMark", rezlist, nil);
+  	macroId = CreateMacro("rez", "spell_holy_resurrection", rezlist, nil);
 	PickupMacro(macroId)
 	PlaceAction(8)
 	ClearCursor()
 	PickupSpellBookItem("Ancestral Spirit")
 	PlaceAction(68)
 	ClearCursor()
-  	macroId = CreateMacro("tot", "INV_Misc_QuestionMark", "/click "..myspec.."_TOT", nil);
+  	--macroId = CreateMacro("tot", "INV_Misc_QuestionMark", "/click "..myspec.."_TOT", nil);
+	--PickupMacro(macroId)
+	--PlaceAction(61)
+	--ClearCursor()
+end
+if myclass=="Priest" then
+	local rezlist=""
+	for i=1,TableLength(FSMB_toonlist) do
+		rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Resurrection\n"
+	end
+  	macroId = CreateMacro("rez", "spell_holy_resurrection", rezlist, nil);
 	PickupMacro(macroId)
-	PlaceAction(61)
+	PlaceAction(8)
+	ClearCursor()
+	PickupSpellBookItem("Resurrection")
+	PlaceAction(68)
 	ClearCursor()
 end
 if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
-  	macroId = CreateMacro("rebirth", "INV_Misc_QuestionMark", "/cast [stance:1] Bear Form\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance] Rebirth", nil);
+  	macroId = CreateMacro("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
 	PickupMacro(macroId)
 	PlaceAction(68)
 	ClearCursor()
@@ -301,7 +322,22 @@ if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Healing Touch", nil);
+  		macroId = CreateMacro("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget\n/cast [@"..FSMB_toonlist[i].."] Healing Touch", nil);
+		PickupMacro(macroId)
+		PlaceAction(slot+idx)
+		ClearCursor()
+		idx=idx+1
+	end
+elseif myclass=="Druid" then
+  	macroId = CreateMacro("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
+	PickupMacro(macroId)
+	PlaceAction(68)
+	ClearCursor()
+	local slot=49
+	local idx=0
+	local i
+	for i=1,TableLength(FSMB_toonlist) do
+  		macroId = CreateMacro("h"..i, "spell_nature_healingtouch", "/cast [nostance,@"..FSMB_toonlist[i].."] Healing Touch", nil);
 		PickupMacro(macroId)
 		PlaceAction(slot+idx)
 		ClearCursor()
@@ -311,9 +347,10 @@ end
 if myclass=="Warlock" and SpellExists("Drain Soul") then
 	PickupSpellBookItem("Drain Soul")
 	PlaceAction(64)
-	index=CreateMacro("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
-	PickupMacro(index)
+	--index=CreateMacro("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
+	PickupSpellBookItem("Demon Skin")
 	PlaceAction(37)
+	ClearCursor()
 end
 if myclass=="Mage" then
 	if findSpell("Conjure Water",BOOKTYPE_SPELL) then
@@ -354,23 +391,28 @@ else
 	PlaceAction(62)
 	ClearCursor()
 end
-for healer,spelllist in pairs(FSMB_heal_names) do
-	if myclass==healer then 
-		healcasts=""
-		for _,heal in pairs(spelllist) do
-			healcasts=healcasts.."/cast [@player] "..heal.."\n"
-		end
-		macroId = CreateMacro("selfh","INV_Misc_Questionmark",healcasts, nil);
-		PickupMacro(macroId)
-		PlaceAction(6)
-		ClearCursor()
-	end
-end
+--for healer,spelllist in pairs(FSMB_heal_names) do
+	--if myclass==healer then 
+		--healcasts=""
+		--for _,heal in pairs(spelllist) do
+			--healcasts=healcasts.."/cast [@player] "..heal.."\n"
+		--end
+		--macroId = CreateMacro("selfh","INV_Misc_Questionmark",healcasts, nil);
+		--PickupMacro(macroId)
+		--PlaceAction(6)
+		--ClearCursor()
+	--end
+--end
 macroId = CreateMacro("buff", "spell_holy_divinespirit", "", nil);
 PickupMacro(macroId)
 PlaceAction(57)
 ClearCursor()
-local index=CreateMacro("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
+local index
+if myname==FSMB_tank then
+	index=CreateMacro("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
+else
+	index=CreateMacro("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
+end
 PickupMacro(index)
 PlaceAction(1)
 PickupMacro(index)
@@ -406,7 +448,7 @@ PlaceAction(99)
 PickupMacro(index)
 PlaceAction(111)
 ClearCursor()
-index=CreateMacro("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]",nil)
+index=CreateMacro("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]\n/run SetView(4)",nil)
 PickupMacro(index)
 PlaceAction(4)
 PickupMacro(index)
@@ -430,14 +472,14 @@ PlaceAction(101)
 PickupMacro(index)
 PlaceAction(113)
 ClearCursor()
-macroId = CreateMacro("int", "INV_Misc_Questionmark", "/cast "..FSMB_myint[myclass], nil);
+macroId = CreateMacro("int", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
 PickupMacro(macroId)
 PlaceAction(63)
 ClearCursor()
-macroId = CreateMacro("decurse", "spell_nature_removecurse", "/click ".."DECURSE", nil);
-PickupMacro(macroId)
-PlaceAction(56)
-ClearCursor()
+--macroId = CreateMacro("decurse", "spell_nature_removecurse", "/click ".."DECURSE", nil);
+--PickupMacro(macroId)
+--PlaceAction(56)
+--ClearCursor()
 index=CreateMacro("reload","spell_frost_stun","/reload",nil)
 PickupMacro(index)
 PlaceAction(31)
@@ -520,13 +562,19 @@ SetBinding("SHIFT-MOUSEWHEELUP")
 SetBinding("SHIFT-MOUSEWHEELDOWN")
 SetBinding("B","OPENALLBAGS")
 AttemptToSaveBindings(1)
+CompactRaidFrameManager:Show()
 SetCVar("alwaysShowActionBars", true)
 SetCVar("nameplateShowEnemies", true)
 SetCVar("nameplateShowFriends", true)
 SetCVar("enableFloatingCombatText", true)
 SetCVar("autointeract", true)
 SetCVar("autoInteract", true)
+SetCVar("autoQuestWatch", false)
+SetCVar("gameTip", false)
+SetCVar("statusText", true)
+SetCVar("statusTextDisplay", "NUMERIC")
 SetCVar("autoLootDefault", true)
+SetCVar("useCompactPartyFrames", 1)
 SetCVar("blockChannelInvites", true)
 SetCVar("instantQuestText", true)
 SetCVar("lootUnderMouse", true)
@@ -792,7 +840,7 @@ function findSpell(spellName, bookType)
    return nil;
  end
 function clearmacros()
-	MB_macronamestodelete={"pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
+	MB_macronamestodelete={"hearth","pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
 	for k,macname in pairs(MB_macronamestodelete) do
 		while (GetMacroIndexByName(macname))>0 do
 			local index=GetMacroIndexByName(macname)

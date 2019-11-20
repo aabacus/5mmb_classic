@@ -362,8 +362,6 @@ Sequences['RESTODRU_AOE'] = {
       },
       PreMacro={
       },
-      "/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
-      "/cast [nomod] healing touch",
       PostMacro={
       },
       KeyRelease={
@@ -386,6 +384,7 @@ Sequences['RESTODRU_TURBO'] = {
       StepFunction = "Sequential",
       KeyPress={
 	"/cancelform [mod:ctrl]",
+	"/cast [mod:ctrl,nostance,nochanneling] Travel Form",
       },
       PreMacro={
       },
@@ -441,6 +440,7 @@ Sequences['BOOMKIN_SINGLE'] = {
       },
       "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
       "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
+      "/cast [nomod,nochanneling] wrath",
       PostMacro={
       },
       KeyRelease={
@@ -468,6 +468,7 @@ Sequences['BOOMKIN_MULTI'] = {
       },
       "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
       "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
+      "/cast [nomod,nochanneling] wrath",
       PostMacro={
       },
       KeyRelease={
@@ -493,6 +494,7 @@ Sequences['BOOMKIN_AOE'] = {
       },
       "/cast [nomod,nochanneling] hurricane",
       "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
+      "/cast [nomod] wrath",
       --"/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
       --"/cast [nomod,@"..FSMB_strongestaoe.."] healing touch",
       PostMacro={
@@ -517,43 +519,10 @@ Sequences['BOOMKIN_TURBO'] = {
       StepFunction = "Sequential",
       KeyPress={
 	"/cancelform [mod:ctrl]",
+	"/cast [mod:ctrl,nostance,nochanneling] Travel Form",
       },
       PreMacro={
       },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['DECURSE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=0,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=false,
-     Head=false,
-     Neck=false,
-     Belt=false,
-     Ring1=false,
-     Ring2=false,
-     Trinket1=false,
-     Trinket2=false,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/cast [@player] "..FSMB_mydecurse,
-	"/cast [@party1] "..FSMB_mydecurse,
-	"/cast [@party2] "..FSMB_mydecurse,
-	"/cast [@party3] "..FSMB_mydecurse,
-	"/cast [@party4] "..FSMB_mydecurse,
       PostMacro={
       },
       KeyRelease={

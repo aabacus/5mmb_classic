@@ -2,8 +2,8 @@
 HotkeyNet Log File
 -------------------------------------------------------------------------------------
 
-File opened at 12:03:40 on Thursday, October 17, 2019
-DNS name: NeeksTravel-PC
+File opened at 15:52:34 on Wednesday, October 23, 2019
+DNS name: KABYLAKEPC
 OS version: Microsoft  Service Pack 1 (build 7601)
 
 
@@ -12,22 +12,22 @@ CPU:
 	Page size = 1000; 
 	Min app address = 10000; 
 	Max app address = 7ffeffff; 
-	Mask = f; 
-	Qty cores = 4; 
+	Mask = ff; 
+	Qty cores = 8; 
 	Type = 24a; 
 	Alloc granularity = 10000; 
 	Level = 6; 
-	Revision = 2a07.
+	Revision = 9e09.
 
 
 Memory:
-	Load = 14%; 
-	Total physical = 24543 MB; 
-	Available physical = 20884 MB; 
-	Total page file = 49085 MB; 
-	Avail page file = 44536 MB; 
+	Load = 43%; 
+	Total physical = 16341 MB; 
+	Available physical = 9278 MB; 
+	Total page file = 32681 MB; 
+	Avail page file = 22573 MB; 
 	Total virtual = 2047 MB; 
-	Avail virtual = 1974 MB; 
+	Avail virtual = 1971 MB; 
 	Avail extended virtual = 0 MB.
 
 
@@ -40,25 +40,30 @@ Mouse:
 
 Adapter 0:
 
-	IP Address	192.168.0.41
+	IP Address	0.0.0.0
+	Subnet Mask	0.0.0.0
+	Default Gateway	192.168.0.1
+
+	Adapter Name	{5ECF7DF7-8A9D-4D24-85BF-F7D3C45C2949}
+	Description	Intel(R) Ethernet Connection (2) I219-V
+	Physical Address	1C-1B-0D-EB-EA-C8
+
+	DHCP Enabled	No
+
+	Have WINS	No
+
+Adapter 1:
+
+	IP Address	192.168.0.100
 	Subnet Mask	255.255.255.0
 	Default Gateway	192.168.0.1
 
-	Adapter Name	{C1798A13-89F1-412E-B331-309964552A2B}
-	Description	Realtek PCIe GBE Family Controller
-	Physical Address	6C-62-6D-E6-BA-01
+	Adapter Name	{87AAC17B-F717-4753-8F99-BDAAB6E5CB40}
+	Description	Killer E2500 Gigabit Ethernet Controller
+	Physical Address	1C-1B-0D-EB-EA-C6
 
-	DHCP Enabled	Yes
-	DHCP Server	192.168.0.1
-	Lease Obtained	Thu Oct 17 11:18:30 2019
+	DHCP Enabled	No
 
 	Have WINS	No
 
 HotkeyNet 0.1.45 build 210
-Start as server.
-This IP: 192.168.0.41
-
-C:\d\sou\cpp\macro\cAuth.cpp 423: IP seen by authorization server: 73.202.32.12
-
-C:\d\sou\cpp\macro\pool_server.cpp 373: setsockopt SO_UPDATE_ACCEPT_CONTEXT; system error 10038: An operation was attempted on something that is not a socket.
-

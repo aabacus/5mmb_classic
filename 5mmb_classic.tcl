@@ -1,7 +1,7 @@
-set version 101719b_classic
+set version 110319_classic
 lappend auto_path twapi
 package require twapi_input
-set kb [twapi::get_keyboard_layout_name]
+set kb [string tolower [twapi::get_keyboard_layout_name]]
 puts ""
 puts "Welcome to multiboxing, sucka!"
 puts ""
@@ -15,9 +15,6 @@ array unset autodelete
 array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
-set portal "US"
-set locale "enUS"
-set strongestaoe ""
 set showframes ""
 set fixunused ""
 set dontflashframe ""
@@ -33,6 +30,7 @@ set healtankat ""
 set healchumpat ""
 set healselfat ""
 set maxheal "8 4 8 4"
+set clique_overlay "105 260 65 430"
 set raidname "myraid1"
 set gazefollow ""
 set burningfollow ""
@@ -46,6 +44,7 @@ set goldto ""
 set boeto ""
 set monitor 3840x2160
 array set kb_oem "00000409 oem3"
+array set kb_oem "00000407 oem5"
 array set kb_oem "00000809 oem7"
 array set kb_oem "0000041d oem5"
 array set kb_oem "00000414 oem5"
@@ -144,7 +143,7 @@ while { [gets $tL line] >= 0 } {
    } elseif { [string tolower [lindex $line 0]] == "monitor" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set monitor [lindex $line 1] 
-				if { $monitor !="1280x1024" && $monitor !="1920x1080" && $monitor !="2580x1440" && $monitor !="3360x1440" && $monitor !="3840x2160" }  { puts "ERROR: monitor choices are 1280x1024/1920x1080/2580x1440/3360x1440/3840x2160" ; return }
+				if { $monitor !="1280x1024" && $monitor !="1920x1080" && $monitor !="2560x1440" && $monitor !="3360x1440" && $monitor !="3840x2160" }  { puts "ERROR: monitor choices are 1280x1024/1920x1080/2560x1440/3360x1440/3840x2160" ; return }
     } elseif { [string tolower [lindex $line 0]] == "computer" } {
  		  	if { [llength $line] != 3 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set computer([lindex $line 1]) [lindex $line 2]
@@ -152,22 +151,10 @@ while { [gets $tL line] >= 0 } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set raidname [lindex $line 1]
-    } elseif { [string tolower [lindex $line 0]] == "portal" } {
- 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
- 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set portal [lindex $line 1]
-    } elseif { [string tolower [lindex $line 0]] == "locale" } {
- 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
- 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set locale [lindex $line 1]
     } elseif { [string tolower [lindex $line 0]] == "powerleveler" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set powerleveler [lindex $line 1]
-    } elseif { [string tolower [lindex $line 0]] == "strongestaoe" } {
- 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
- 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set strongestaoe [lindex $line 1]
     } elseif { [string tolower [lindex $line 0]] == "bombfollow" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
@@ -196,6 +183,9 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "maxheal" } {
  		  	if { [llength $line] != 5 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set maxheal [lrange $line 1 end]
+    } elseif { [string tolower [lindex $line 0]] == "clique_overlay" } {
+ 		  	if { [llength $line] != 5 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set clique_overlay [lrange $line 1 end]
     } elseif { [string tolower [lindex $line 0]] == "dontautodelete" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontautodelete true
@@ -297,6 +287,8 @@ if { ! $nohotkeyoverwrite } {
 	set hK [open $HKN w+]
 	puts $hK "// Version $version"
 	puts $hK {// Comments begin with //. They don't do anything in the script.
+<SetActiveWindowTrackingDelay 175>
+<SetActiveWindowTracking on>
 
 // These are window labels. Kind of like nicknames for long window names.
 }
@@ -338,11 +330,13 @@ if { ! $nohotkeyoverwrite } {
 	set curdir [pwd]
 if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\">"
+	puts $hK "$curdir/Wow.exe\" -nosound>"
 	puts $hK {<TargetWin "World of Warcraft">  
 	<RenameTargetWin Unused%2%>
+	<Wait 300>
 	<TargetWin "World of Warcraft">
 	<RenameTargetWin %2%>
+	<Wait 300>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 	<SetForegroundWin>
@@ -352,11 +346,14 @@ if { $fixunused=="" } {
 	<Key Enter>}
 } else {
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\">"
+	puts $hK "$curdir/Wow.exe\" -nosound>"
 	puts $hK {<TargetWin "World of Warcraft">
 		<RenameTargetWin %2%>
+	<Wait 300>
 	<TargetWin "World of Warcraft">
 	<RenameTargetWin Unused%2%>
+	<Wait 300>
+	<TargetWin %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 	<SetForegroundWin>
@@ -442,7 +439,6 @@ if { $use2monitors } {
 	set raidhash(2) {{1920 1080 0 0 } {1920 1080 0 1080}}
 	set raidhash(3) {{1920 1080 3840 0 } {1920 1080 5760 0 } {1920 1080 3840 1080}}
 	set raidhash(4) {{1920 1080 3840 0 } {1920 1080 5760 0 } {1920 1080 3840 1080} {1920 1080 5760 1080}}
-	set raidhash(5) {{1920 1440 960 720} {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720}}
 	set raidhash(5) {{1920 1440 960 720 } {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720 }}
 	set raidhash(10) {{1280 1020 0 960} {1280 1020 1280 960} {1280 1020 2560 960} {640 480 640 0} {640 480 0 0} {640 480 0 480} {640 480 1280 0} {640 480 640 480} {640 480 1280 480} {640 480 1920 480}}
 	set raidhash(20) {{640 480 0 0} {960 720 0 1440} {960 720 960 1440} {960 720 1920 1440} {640 480 640 0} {640 480 1280 0} {640 480 1920 0} {640 480 2560 0} {640 480 3200 0} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 2560 480} {640 480 3200 480} {640 480 0 960} {640 480 640 960} {640 480 1280 960} {640 480 1920 960 } {640 480 2560 960}} 
@@ -472,24 +468,24 @@ if { $use2monitors } {
      	set raidhash(15) {{1440 1200 720 0} {720 600 0 0} {720 600 0 600} {720 600 2160 0} {720 600 2160 600} {480 400 2880 0} {480 400 2880 400} {480 400 2880 800} {480 400 3360 0} {480 400 3360 400} {480 400 3360 800} {480 400 3840 0} {480 400 3840 400} {480 400 3840 800} {480 400 4320 0}}
      	set raidhash(20) {{490 360 0 0} {490 360 0 360} {490 360 0 720} {490 360 0 1080} {490 360 490 0} {490 360 490 360} {490 360 490 720} {490 360 490 1080} {980 720 980 0} {490 360 980 1080} {490 360 1470 720} {490 360 1470 1080} {490 360 1960 0} {490 360 1960 720} {490 360 1960 1080} {490 360 2450 0} {490 360 2450 360} {490 360 2450 720} {490 360 2450 1080} {490 360 980 720}}
 		}
-	} elseif { $monitor == "2580x1440" } {
+	} elseif { $monitor == "2560x1440" } {
 	  #x1440
 		if { $use2monitors } { 
-			set raidhash(1) {{2580 1440 0 0 }}
-			set raidhash(2) {{2580 1440 0 0 } {2580 1440 2580 0 }}
-			set raidhash(3) {{2580 1440 0 0 } {1280 720 2580 0 } {1280 720 2580 720}}
-			set raidhash(4) {{2580 1440 0 0 } {1280 720 2580 0 } {1280 720 2580 720 } {1280 720 3360 0}}
- 			set raidhash(5) {{1720 1440 860 0} {860 720 0 0} {860 720 0 720} {860 720 2580 0} {860 720 2580 720}}
- 			set raidhash(5) {{1720 1440 860 0} {860 720 0 0} {860 720 0 720} {860 720 2580 0} {860 720 2580 720}}
+			set raidhash(1) {{2560 1440 0 0 }}
+			set raidhash(2) {{2560 1440 0 0 } {2560 1440 2560 0 }}
+			set raidhash(3) {{2560 1440 0 0 } {1280 720 2560 0 } {1260 720 2560 720}}
+			set raidhash(4) {{2560 1440 0 0 } {1280 720 2560 0 } {1280 720 2560 720 } {1280 720 3360 0}}
+ 			set raidhash(5) {{1720 1440 860 0} {860 720 0 0} {860 720 0 720} {860 720 2560 0} {860 720 2560 720}}
+ 			set raidhash(5) {{1720 1440 860 0} {860 720 0 0} {860 720 0 720} {860 720 2560 0} {860 720 2560 720}}
      	set raidhash(10) {{2064 960 688 0} {688 480 0 0} {688 480 0 480} {688 480 0 960} {688 480 688 960} {688 480 1376 960} {688 480 2064 960} {688 480 2752 0} {688 480 2752 480} {688 480 2752 960}}
      	set raidhash(15) {{1440 1200 720 0} {720 600 0 0} {720 600 0 600} {720 600 2160 0} {720 600 2160 600} {480 400 2880 0} {480 400 2880 400} {480 400 2880 800} {480 400 3360 0} {480 400 3360 400} {480 400 3360 800} {480 400 3840 0} {480 400 3840 400} {480 400 3840 800} {480 400 4320 0}}
       			set raidhash(20) {{490 360 0 0} {490 360 0 360} {490 360 0 720} {490 360 0 1080} {490 360 490 0} {490 360 490 360} {490 360 490 720} {490 360 490 1080} {980 720 980 0} {490 360 980 1080} {490 360 1470 720} {490 360 1470 1080} {490 360 1960 0} {490 360 1960 720} {490 360 1960 1080} {490 360 2450 0} {490 360 2450 360} {490 360 2450 720} {490 360 2450 1080} {490 360 980 720}}
 		} else { 
-			set raidhash(1) {{2580 1440 0 0 }}
+			set raidhash(1) {{2560 1440 0 0 }}
 			set raidhash(2) {{1280 720 0 0 } {1280 720 0 720}}
 			set raidhash(3) {{1280 720 0 0 } {1280 720 0 720 } {1280 720 1280 0}}
 			set raidhash(4) {{1280 720 0 0 } {1280 720 0 720 } {1280 720 1280 0} {1280 720 1280 720}}
-	set raidhash(5) {{1280 720 640 360} {640 360 0 360} {640 360 640 0} {640 360 1280 0} {640 360 1920 360}}
+	set raidhash(5) {{1280 960 640 480} {640 480 0 480} {640 480 640 0} {640 480 1280 0} {640 480 1920 480}}
      	set raidhash(10) {{2064 960 688 0} {688 480 0 0} {688 480 0 480} {688 480 0 960} {688 480 688 960} {688 480 1376 960} {688 480 2064 960} {688 480 2752 0} {688 480 2752 480} {688 480 2752 960}}
      	set raidhash(15) {{1440 1200 720 0} {720 600 0 0} {720 600 0 600} {720 600 2160 0} {720 600 2160 600} {480 400 2880 0} {480 400 2880 400} {480 400 2880 800} {480 400 3360 0} {480 400 3360 400} {480 400 3360 800} {480 400 3840 0} {480 400 3840 400} {480 400 3840 800} {480 400 4320 0}}
      	set raidhash(20) {{490 360 0 0} {490 360 0 360} {490 360 0 720} {490 360 0 1080} {490 360 490 0} {490 360 490 360} {490 360 490 720} {490 360 490 1080} {980 720 980 0} {490 360 980 1080} {490 360 1470 720} {490 360 1470 1080} {490 360 1960 0} {490 360 1960 720} {490 360 1960 1080} {490 360 2450 0} {490 360 2450 360} {490 360 2450 720} {490 360 2450 1080} {490 360 980 720}}
@@ -752,40 +748,13 @@ if { $use2monitors } {
 	}
 				file mkdir WTF
 				set f [open WTF\\config.wtf w]
-				puts $f "SET portal $portal"
-puts $f "SET textLocale $locale"
-puts $f "SET audioLocale $locale"
 puts $f {SET agentUID "wow_classic"
 SET hwDetect "0"
 SET videoOptionsVersion "19"
 SET gxApi "D3D11"
 SET gxMaximize "0"
-SET graphicsQuality "5"
+SET graphicsQuality "3"
 SET RAIDgraphicsQuality "3"
-SET waterDetail "2.000000"
-SET rippleDetail "1.000000"
-SET reflectionMode "0.000000"
-SET sunShafts "2.000000"
-SET groundEffectDensity "128.000000"
-SET groundEffectDist "300.000000"
-SET groundEffectAnimation "1.000000"
-SET shadowMode "4.000000"
-SET shadowTextureSize "2048.000000"
-SET shadowSoft "0.000000"
-SET SSAO "4.000000"
-SET textureFilteringMode "5.000000"
-SET lodObjectCullSize "16.000000"
-SET lodObjectCullDist "30.000000"
-SET lodObjectMinSize "30.000000"
-SET lodObjectFadeScale "125.000000"
-SET graphicsTextureFiltering "6"
-SET graphicsEnvironmentDetail "9"
-SET graphicsGroundClutter "9"
-SET graphicsShadowQuality "5"
-SET graphicsLiquidDetail "3"
-SET graphicsSunshafts "3"
-SET graphicsSSAO "5"
-SET engineSurvey "6"
 SET mouseSpeed "1"
 SET Sound_MusicVolume "0.40000000596046"
 SET Sound_AmbienceVolume "0.60000002384186"
@@ -800,7 +769,7 @@ SET CACHE-WGOB-GameObjectsRecordCount "10021"
 SET CACHE-WGOB-GameObjectsHotfixCount "0"
 SET expandUpgradePanel "0"
 SET RenderScale "1"
-SET gameTip "70"
+SET gameTip "74"
 SET vsync "1"
 SET checkAddonVersion "0"
 SET lastAddonVersion "11302"
@@ -808,10 +777,14 @@ SET ffxGlow "0"
 SET ffxDeath "0"
 SET ffxNether "0"
 SET chatClassColorOverride "0"
-SET uiScale "0.64999997615814"
+SET uiScale "1"
 SET Sound_OutputDriverName "System Default"
 SET Sound_EnableMusic "0"
-SET gxWindowedResolution "1912x1413"}
+SET gxWindowedResolution "1912x1413"
+SET engineSurvey "6"
+SET lastCharacterIndex "1"
+SET spellClutterRangeConstant "10.000000"
+SET useUiScale "1"}
 close $f
 	set winlabels "\t<SendLabel"
 	for { set i 0 } { $i<$totallabels } { incr i } {
@@ -873,7 +846,29 @@ close $f
 	puts $hK {      <ClickMouse %TriggerMainKey%>}
 	puts $hK {      <Wait 5>}
 	puts $hK {      <RestoreMousePos>}
-	puts ""
+	puts $hK ""
+	puts -nonewline $hK {<Hotkey ScrollLockOn LButton, MButton, RButton, Button4, Button5>
+	<Passthrough>
+	<If MouseIsOverWindowRect }
+	set toonname [string tolower [lindex $toons(0) 3]]
+	set account [lindex $toons(0) 1]
+	set length [string length $account]
+	if { $length > 2 } {
+		set length [string length $account]
+		set acctnick "[string index $account 0][string index $account [expr $length-2]][string index $account [expr $length-1]]"
+	} else {
+		set acctnick ${account}
+	}
+	puts -nonewline $hK "${toonname}_1${acctnick}"
+	puts $hK " $clique_overlay >"
+	set allbutmain [regsub "w0," $winlabels ""] 
+      puts $hK {	<SaveMousePos>
+	<Wait 5>}
+	puts $hK "${allbutmain}"
+	puts $hK {	<ClickMouse Scale %Trigger%>
+	<Wait 5>
+	<RestoreMousePos>}
+	puts $hK ""
 	puts $hK {//-----------------------------------------------------------
 // This is the catch-all hotkey definition. Every key here
 // will be sent to both windows. Any key NOT HERE will NOT.
@@ -1306,6 +1301,37 @@ puts $hK {//-------------------------------------------------------------
 		puts $hK "\t<Key Shift 3>"
 	}
 	puts $hK ""
+	puts $hK {// Shift-4 is also a skill that focuses tank target.
+<Hotkey ScrollLockOn Shift 4>
+	}
+	set totallabels 0
+	for { set i 0 } { $i<[array size toons] } { incr i } {
+	  set toonname [string tolower [lindex $toons($i) 3]]
+	  set account [lindex $toons($i) 1]
+	  set raids [lrange $toons($i) 5 end]
+		set comps 1
+		foreach myraid $raids {
+			regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
+			if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
+		}
+	  set length [string length $account]
+		foreach mycomp $comps {
+	  	if { $length > 2 } {
+	    	set length [string length $account]
+	    	set acctnick "[string index $account 0][string index $account [expr $length-2]][string index $account [expr $length-1]]"
+	  	} else {
+	    	set acctnick ${account}
+	  	}
+	  	set acct_winname($account) ${acctnick}
+	  	puts $hK "\t<if MouseIsOverWindow ${toonname}_${mycomp}${acctnick}>"
+		puts $hK $winlabels
+		puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
+			incr totallabels
+		}
+	}
+	puts $hK $winlabels
+	puts $hK "\t<Key Shift 4>"
+	puts $hK ""
 	puts $hK {// More boring modifier maps--has to be done}
 	puts $hK {<Hotkey ScrollLockOn Alt 5>}
 	puts $hK $winlabels
@@ -1408,9 +1434,6 @@ puts $hK {//-------------------------------------------------------------
 	puts $hK {	<toggle>}
 	puts $hK $winlabels
 	puts $hK {	<Key Shift 2> }
-	puts $hK {<Hotkey ScrollLockOn Shift 4>}
-	puts $hK $winlabels
-	puts $hK {	<Key Shift 4> }
 	puts $hK {<Hotkey ScrollLockOn Shift 5>}
 	puts $hK $winlabels
 	puts $hK {	<Key Shift 5> }
@@ -1523,9 +1546,6 @@ if { ! $nosmoverwrite } {
 	      incr toonno
 	    }
 	    puts $sMN "\}"
-		} elseif { [regexp "^FSMB_strongestaoe" $line ] && $strongestaoe!="" } {
-	    set strongestaoe [string totitle [ string tolower $strongestaoe]]
-	    puts $sMN "FSMB_strongestaoe=\"$strongestaoe\""
 		} elseif { [regexp "^MB_RAID" $line ] && $raidname!="" } {
 	    puts $sMN "MB_RAID = \"MULTIBOX_$raidname\""
 		} elseif { [regexp "^MB_powerleveler" $line ] && $powerleveler!="" } {
