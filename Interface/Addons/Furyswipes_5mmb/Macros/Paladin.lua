@@ -329,7 +329,6 @@ Sequences['HOLY_AOE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	      "/cast [mod:alt,@"..FSMB_strongestaoe.."] Healing Touch",
       },
       PreMacro={
       },

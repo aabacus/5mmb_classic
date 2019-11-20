@@ -1,15 +1,19 @@
-FSMB_version="110319_classic"
+FSMB_version="111319_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Eversmile",[4]="Thunderstruc",[5]="Barrager"}
+FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Vajayjay",[5]="Battlefield"}
 FSMB_tank="Furyswipes"
-FSMB_healerlist={"Eversmile"}
-FSMB_strongestaoe="Icelance"
+FSMB_nomacros=nil
+FSMB_healerlist={"Spirited"}
+FSMB_maxheal={Druid=3,Priest=3,Shaman=5,Paladin=3}
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
 FSMB_decurse={["Paladin"]="Cleanse",["Priest"]="Dispel Magic",["Mage"]="Remove Lesser Curse",["Druid"]="Remove Curse",["Shaman"]="Cure Poison",["Hunter"]="None",["Warlock"]="None",["Warrior"]="None",["Rogue"]="None",}
-FSMB_heal_names={["Paladin"]={"Flash of Light","Holy Light"},["Priest"]={"Flash Heal","Heal","Lesser Heal"},["Druid"]={"Healing Touch"},["Shaman"]={"Healing Wave"}}
+FSMB_heal_names={["Paladin"]="Holy Light",["Priest"]="Lesser Heal",["Druid"]="Healing Touch",["Shaman"]="Healing Wave"}
 FSMB_mydecurse=FSMB_decurse[UnitClass("player")]
+myname=UnitName("player")
+myclass=UnitClass("player")
+mylevel=UnitLevel("player")
 if UnitLevel("player")>7 then 
 	FSMB_myseal="Seal of the Crusader"
 else
@@ -28,785 +32,813 @@ FlashClientIcon = function() end
 FSMB_msgcd=GetTime()
 function init()
 	if UnitAffectingCombat("player") then return end
-local myname=UnitName("player")
-local myclass=UnitClass("player")
-local myspec="UNKNOWN"
-local mylevel=UnitLevel("player")
-if mylevel>39 then bearform="Dire Bear Form" else bearform="Bear Form" end
-if myclass=="Warrior" then
-	if IsFury() then myspec="FURY"
-	else myspec="ARMS" end
-elseif myclass=="Druid" then
-	if IsBoomkin() then myspec="BOOMKIN" 
-	elseif IsDruidHealer() then myspec="RESTODRU"
-	elseif IsTank(myname) then myspec="BEAR_TANK"
-	else myspec="FERAL" end
-elseif myclass=="Mage" then
-	if IsFrost() then myspec="FROST" 
-	else myspec="FIRE" end
-elseif myclass=="Shaman" then
-	if IsElementalShammy() then myspec="ELE" 
-	elseif IsEnhanceShammy() then myspec="ENH"
-	else myspec="RESTOSHAM" end
-elseif myclass=="Hunter" then
-	if IsMM() then myspec="MM" 
-	elseif IsBM() then myspec="BM"
-	else myspec="SURV" end
-elseif myclass=="Priest" then
-	if IsShadow() then myspec="SHADOW" 
-	else myspec="HOLY" end
-elseif myclass=="Hunter" then
-	if IsMM() then myspec="MM" 
-	elseif IsBM() then myspec="BM"
-	else myspec="SURV" end
-elseif myclass=="Rogue" then
-	myspec="COMBAT"
-elseif myclass=="Warlock" then
-	myspec="DESTRO"
-elseif myclass=="Paladin" then
-	if IsPallyTank() then myspec="PROT" 
-	elseif IsHolyPally() then myspec="HOLY"
-	else myspec="RET" end
-end
-clearmacros()
---local macroId = CreateMacro("drink", "Inv_drink_18", "/use water", nil);
---PickupMacro(macroId)
---PlaceAction(65)
---ClearCursor()
-local macroId = CreateMacro("spit", "Inv_misc_slime_01", "/spit", nil);
-PickupMacro(macroId)
-PlaceAction(59)
-ClearCursor()
---local macroId = CreateMacro("manapot", "Inv_potion_76", "/use mana", nil);
---PickupMacro(macroId)
---PlaceAction(67)
-----ClearCursor()
---local macroId = CreateMacro("healpot", "Inv_potion_54", "/use heal", nil);
---PickupMacro(macroId)
---PlaceAction(66)
---ClearCursor()
-if myclass=="Druid" then
-	local macroId = CreateMacro("hearth", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
-	PickupMacro(macroId)
-	PlaceAction(26)
-	ClearCursor()
-else
-	PickupItem("Hearthstone")
-	PlaceAction(26)
-	ClearCursor()
-end
-local partymac=""
-for i=1,TableLength(FSMB_toonlist) do
-	partymac=partymac.."/invite "..FSMB_toonlist[i].."\n"
-end
-local macroId = CreateMacro("party", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
-PickupMacro(macroId)
-PlaceAction(10)
-PickupMacro(macroId)
-PlaceAction(82)
-PickupMacro(macroId)
-PlaceAction(94)
-PickupMacro(macroId)
-PlaceAction(106)
-PickupMacro(macroId)
-PlaceAction(118)
-ClearCursor()
-local slot=43
-local idx=0
-local i
-for i=1,TableLength(FSMB_toonlist) do
-	if myname==FSMB_toonlist[i] then
-		macroId = CreateMacro("f"..i, "Ability_hunter_pet_gorilla", "", nil);
-	else
-		macroId = CreateMacro("f"..i, "Ability_hunter_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
+	local myspec="UNKNOWN"
+	if mylevel>39 then bearform="Dire Bear Form" else bearform="Bear Form" end
+	if myclass=="Warrior" then
+		if IsFury() then myspec="FURY"
+		else myspec="ARMS" end
+	elseif myclass=="Druid" then
+		if IsBoomkin() then myspec="BOOMKIN" 
+		elseif IsDruidHealer() then myspec="RESTODRU"
+		elseif IsTank(myname) then myspec="BEAR_TANK"
+		else myspec="FERAL" end
+	elseif myclass=="Mage" then
+		if IsFrost() then myspec="FROST" 
+		else myspec="FIRE" end
+	elseif myclass=="Shaman" then
+		if IsElementalShammy() then myspec="ELE" 
+		elseif IsEnhanceShammy() then myspec="ENH"
+		else myspec="RESTOSHAM" end
+	elseif myclass=="Hunter" then
+		if IsMM() then myspec="MM" 
+		elseif IsBM() then myspec="BM"
+		else myspec="SURV" end
+	elseif myclass=="Priest" then
+		if IsShadow() then myspec="SHADOW" 
+		else myspec="HOLY" end
+	elseif myclass=="Hunter" then
+		if IsMM() then myspec="MM" 
+		elseif IsBM() then myspec="BM"
+		else myspec="SURV" end
+	elseif myclass=="Rogue" then
+		myspec="COMBAT"
+	elseif myclass=="Warlock" then
+		myspec="DESTRO"
+	elseif myclass=="Paladin" then
+		if IsPallyTank() then myspec="PROT" 
+		elseif IsHolyPally() then myspec="HOLY"
+		else myspec="RET" end
 	end
-	PickupMacro(macroId)
-	PlaceAction(slot+i)
-	ClearCursor()
-end
-local slot=31
-local idx=0
-local i
-for i=1,TableLength(FSMB_toonlist) do
-	if myname==FSMB_toonlist[i] then
-		macroId = CreateMacro("a"..i, "Ability_hunter_pet_hyena", "", nil);
-	else
-		macroId = CreateMacro("a"..i, "Ability_hunter_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
+	clearmacros()
+	local partymac=""
+	for i=1,TableLength(FSMB_toonlist) do
+		partymac=partymac.."/invite "..FSMB_toonlist[i].."\n"
 	end
+	local macroId = CreateMacroFS("party", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
 	PickupMacro(macroId)
-	PlaceAction(slot+i)
-	ClearCursor()
-end
-for i=1,TableLength(FSMB_toonlist) do
-	if i==1 and myname==FSMB_toonlist[i] then
-		macroId = CreateMacro("makealine", "Ability_hunter_pet_tallstrider", "", nil);
-	elseif myname==FSMB_toonlist[i] then
-		macroId = CreateMacro("makealine", "Ability_hunter_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
-	end
+	PlaceAction(10)
 	PickupMacro(macroId)
-	PlaceAction(60)
-	ClearCursor()
-end
-if myclass=="Hunter" then
-	index=CreateMacro("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
-	PickupMacro(index)
-	PlaceAction(61)
-	index=CreateMacro("feed","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
-	PickupMacro(index)
-	PlaceAction(37)
-end
-if myclass=="Warrior" and IsTank(myname) then
-	print("Checking ranged weap")
-	if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
-		PickupSpellBookItem("Shoot "..RangedWeaponType())
-		PlaceAction(61)
-	end
-end
-if myclass=="Druid" then
-  	macroId = CreateMacro("b0", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_tank.."] thorns", nil);
+	PlaceAction(82)
 	PickupMacro(macroId)
-	PlaceAction(37)
+	PlaceAction(94)
+	PickupMacro(macroId)
+	PlaceAction(106)
+	PickupMacro(macroId)
+	PlaceAction(118)
 	ClearCursor()
-	local slot=38
+	local slot=43
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/cast [nostance,@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
+		if myname==FSMB_toonlist[i] then
+			macroId = CreateMacroFS("f"..i, "Ability_hunter_pet_gorilla", "", nil);
+		else
+			macroId = CreateMacroFS("f"..i, "Ability_hunter_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
+		end
 		PickupMacro(macroId)
-		PlaceAction(slot+idx)
+		PlaceAction(slot+i)
 		ClearCursor()
-		idx=idx+1
 	end
-	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cast [stance:2] Cat Form\n/cast [stance:3] travel form\n/cast [stance:4] aquatic form\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
-	PickupMacro(macroId)
-	PlaceAction(55)
-	ClearCursor()
-	PickupSpellBookItem("Wrath")
-	PlaceAction(61)
-	ClearCursor()
-end
-if myclass=="Druid" and IsTank(myname) then
-  	macroId = CreateMacro("pull", "INV_Misc_QuestionMark", "/cast [nocombat,stance:1] "..bearform.."\n/cast [nocombat,stance:2] Cat Form\n/cast [nocombat,stance:3] travel form\n/cast [nocombat,stance:4] aquatic form\n/cast [nocombat,nostance] Wrath", nil);
-	PickupMacro(macroId)
-	PlaceAction(61)
-	ClearCursor()
-end
-if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
-	if IsRestoShammy() then 
-		PickupSpellBookItem("Flametongue Weapon")
-	else
-		PickupSpellBookItem("Rockbiter Weapon")
-		PickupSpellBookItem("Windfury Weapon")
-	end
-	PlaceAction(37)
-	ClearCursor()
-	local slot=49
+	local slot=31
 	local idx=0
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Healing Wave", nil);
+		if myname==FSMB_toonlist[i] then
+			macroId = CreateMacroFS("a"..i, "Ability_hunter_pet_hyena", "", nil);
+		else
+			macroId = CreateMacroFS("a"..i, "Ability_hunter_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
+		end
 		PickupMacro(macroId)
-		PlaceAction(slot+idx)
+		PlaceAction(slot+i)
 		ClearCursor()
-		idx=idx+1
 	end
-end
-if myclass=="Priest" and FindInTable(FSMB_healerlist,myname) then
-	local slot=49
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/run ClearCursor()\n/cast [@"..FSMB_toonlist[i].."] Lesser Heal", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-end
-if myclass=="Priest" then
-  	macroId = CreateMacro("shackle", "INV_Misc_QuestionMark", "/cast Shackle Undead", nil);
-	PickupMacro(macroId)
-	PlaceAction(62)
-	ClearCursor()
-	PickupSpellBookItem("Inner Fire")
-	PlaceAction(37)
-	ClearCursor()
-	local slot=38
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Power Word: Fortitude", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Power Word: Fortitude,null", nil);
-	PickupMacro(macroId)
-	PlaceAction(55)
-	ClearCursor()
-end
-if myclass=="Paladin" then
-	if FindInTable(FSMB_healerlist,myname) then
+	if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
 		local slot=49
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
-  			macroId = CreateMacro("h"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Holy Light", nil);
+			local heallist=""
+			local x
+			for x=1,FSMB_maxheal[myclass] do 
+				local heallev=FSMB_maxheal[myclass]-x+1
+				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+				break
+			end
+  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
 			idx=idx+1
 		end
-  		macroId = CreateMacro("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Wisdom,devotion aura", nil);
-		PickupMacro(macroId)
-		PlaceAction(37)
-		ClearCursor()
-	else
-  		macroId = CreateMacro("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Might,devotion aura", nil);
-		PickupMacro(macroId)
-		PlaceAction(37)
-		ClearCursor()
 	end
-	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target,nomod] reset=combat/target Blessing of Might,null\n/castsequence [@target,mod:alt] reset=combat/target Blessing of Wisdom", nil);
-	PickupMacro(macroId)
-	PlaceAction(55)
-	ClearCursor()
-	local slot=38
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Blessing of Kings", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-end
-if myclass=="Shaman" then
-	local rezlist=""
-	for i=1,TableLength(FSMB_toonlist) do
-		rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Ancestral Spirit\n"
-	end
-  	macroId = CreateMacro("rez", "spell_holy_resurrection", rezlist, nil);
-	PickupMacro(macroId)
-	PlaceAction(8)
-	ClearCursor()
-	PickupSpellBookItem("Ancestral Spirit")
-	PlaceAction(68)
-	ClearCursor()
-  	--macroId = CreateMacro("tot", "INV_Misc_QuestionMark", "/click "..myspec.."_TOT", nil);
-	--PickupMacro(macroId)
-	--PlaceAction(61)
-	--ClearCursor()
-end
-if myclass=="Priest" then
-	local rezlist=""
-	for i=1,TableLength(FSMB_toonlist) do
-		rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Resurrection\n"
-	end
-  	macroId = CreateMacro("rez", "spell_holy_resurrection", rezlist, nil);
-	PickupMacro(macroId)
-	PlaceAction(8)
-	ClearCursor()
-	PickupSpellBookItem("Resurrection")
-	PlaceAction(68)
-	ClearCursor()
-end
-if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
-  	macroId = CreateMacro("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
-	PickupMacro(macroId)
-	PlaceAction(68)
-	ClearCursor()
-	local slot=49
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget\n/cast [@"..FSMB_toonlist[i].."] Healing Touch", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-elseif myclass=="Druid" then
-  	macroId = CreateMacro("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
-	PickupMacro(macroId)
-	PlaceAction(68)
-	ClearCursor()
-	local slot=49
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("h"..i, "spell_nature_healingtouch", "/cast [nostance,@"..FSMB_toonlist[i].."] Healing Touch", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-end
-if myclass=="Warlock" and SpellExists("Drain Soul") then
-	PickupSpellBookItem("Drain Soul")
-	PlaceAction(64)
-	--index=CreateMacro("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
-	PickupSpellBookItem("Demon Skin")
-	PlaceAction(37)
-	ClearCursor()
-end
-if myclass=="Mage" then
-	if findSpell("Conjure Water",BOOKTYPE_SPELL) then
-		PickupSpellBookItem("Conjure Water")
-		PlaceAction(12)
-		ClearCursor()
-	end
-	PickupSpellBookItem("Frost Armor")
-	PickupSpellBookItem("Ice Armor")
-	PlaceAction(37)
-	ClearCursor()
-	local slot=38
-	local idx=0
-	local i
-	for i=1,TableLength(FSMB_toonlist) do
-  		macroId = CreateMacro("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Arcane Intellect", nil);
-		PickupMacro(macroId)
-		PlaceAction(slot+idx)
-		ClearCursor()
-		idx=idx+1
-	end
-	macroId = CreateMacro("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Arcane Intellect", nil);
-	PickupMacro(macroId)
-	PlaceAction(55)
-	ClearCursor()
-else
-	PickupAction(12)
-	ClearCursor()
-end
-if FSMB_tank==myname or myclass=="Hunter" or myclass=="Warrior" or myclass=="Rogue" or myclass=="Shaman" or myclass=="Paladin" then
-  	macroId = CreateMacro("passive", "Spell_magic_polymorphchicken", "/petfollow [mod:alt]\n/stopattack [mod:alt]", nil);
-	PickupMacro(macroId)
-	PlaceAction(62)
-	ClearCursor()
-else
-  	macroId = CreateMacro("poly", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myclass], nil);
-	PickupMacro(macroId)
-	PlaceAction(62)
-	ClearCursor()
-end
---for healer,spelllist in pairs(FSMB_heal_names) do
-	--if myclass==healer then 
-		--healcasts=""
-		--for _,heal in pairs(spelllist) do
-			--healcasts=healcasts.."/cast [@player] "..heal.."\n"
-		--end
-		--macroId = CreateMacro("selfh","INV_Misc_Questionmark",healcasts, nil);
-		--PickupMacro(macroId)
-		--PlaceAction(6)
-		--ClearCursor()
-	--end
---end
-macroId = CreateMacro("buff", "spell_holy_divinespirit", "", nil);
-PickupMacro(macroId)
-PlaceAction(57)
-ClearCursor()
-local index
-if myname==FSMB_tank then
-	index=CreateMacro("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
-else
-	index=CreateMacro("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
-end
-PickupMacro(index)
-PlaceAction(1)
-PickupMacro(index)
-PlaceAction(73)
-PickupMacro(index)
-PlaceAction(85)
-PickupMacro(index)
-PlaceAction(97)
-PickupMacro(index)
-PlaceAction(109)
-ClearCursor()
-index=CreateMacro("single","ability_searingarrow","/click "..myspec.."_SINGLE",nil)
-PickupMacro(index)
-PlaceAction(2)
-PickupMacro(index)
-PlaceAction(74)
-PickupMacro(index)
-PlaceAction(86)
-PickupMacro(index)
-PlaceAction(98)
-PickupMacro(index)
-PlaceAction(110)
-ClearCursor()
-index=CreateMacro("multi","ability_upgrademoonglaive","/click "..myspec.."_MULTI",nil)
-PickupMacro(index)
-PlaceAction(3)
-PickupMacro(index)
-PlaceAction(75)
-PickupMacro(index)
-PlaceAction(87)
-PickupMacro(index)
-PlaceAction(99)
-PickupMacro(index)
-PlaceAction(111)
-ClearCursor()
-index=CreateMacro("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]\n/run SetView(4)",nil)
-PickupMacro(index)
-PlaceAction(4)
-PickupMacro(index)
-PlaceAction(76)
-PickupMacro(index)
-PlaceAction(88)
-PickupMacro(index)
-PlaceAction(100)
-PickupMacro(index)
-PlaceAction(112)
-ClearCursor()
-index=CreateMacro("aoe","spell_fire_selfdestruct","/click "..myspec.."_AOE",nil)
-PickupMacro(index)
-PlaceAction(5)
-PickupMacro(index)
-PlaceAction(77)
-PickupMacro(index)
-PlaceAction(89)
-PickupMacro(index)
-PlaceAction(101)
-PickupMacro(index)
-PlaceAction(113)
-ClearCursor()
-macroId = CreateMacro("int", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
-PickupMacro(macroId)
-PlaceAction(63)
-ClearCursor()
---macroId = CreateMacro("decurse", "spell_nature_removecurse", "/click ".."DECURSE", nil);
---PickupMacro(macroId)
---PlaceAction(56)
---ClearCursor()
-index=CreateMacro("reload","spell_frost_stun","/reload",nil)
-PickupMacro(index)
-PlaceAction(31)
-ClearCursor()
-index=CreateMacro("leave","spell_nature_purge","/script LeaveParty()",nil)
-PickupMacro(index)
-PlaceAction(30)
-ClearCursor()
-index=CreateMacro("dance","ability_druid_aquaticform","/dance",nil)
-PickupMacro(index)
-PlaceAction(29)
-ClearCursor()
-LoadBindings(1)
-SetBinding("F1","MULTIACTIONBAR2BUTTON1")
-SetBinding("F2","MULTIACTIONBAR2BUTTON2")
-SetBinding("F3","MULTIACTIONBAR2BUTTON3")
-SetBinding("F4","MULTIACTIONBAR2BUTTON4")
-SetBinding("F5","MULTIACTIONBAR2BUTTON5")
-SetBinding("F6","MULTIACTIONBAR2BUTTON6")
-SetBinding("F7","MULTIACTIONBAR2BUTTON7")
-SetBinding("F8","MULTIACTIONBAR2BUTTON8")
-SetBinding("F9","MULTIACTIONBAR2BUTTON9")
-SetBinding("F10","MULTIACTIONBAR2BUTTON10")
-SetBinding("F11","MULTIACTIONBAR2BUTTON11")
-SetBinding("F12","MULTIACTIONBAR2BUTTON12")
-SetBinding("SHIFT-1","MULTIACTIONBAR1BUTTON1")
-SetBinding("SHIFT-2","MULTIACTIONBAR1BUTTON2")
-SetBinding("SHIFT-3","MULTIACTIONBAR1BUTTON3")
-SetBinding("SHIFT-4","MULTIACTIONBAR1BUTTON4")
-SetBinding("SHIFT-5","MULTIACTIONBAR1BUTTON5")
-SetBinding("SHIFT-6","MULTIACTIONBAR1BUTTON6")
-SetBinding("SHIFT-7","MULTIACTIONBAR1BUTTON7")
-SetBinding("SHIFT-8","MULTIACTIONBAR1BUTTON8")
-SetBinding("SHIFT-9","MULTIACTIONBAR1BUTTON9")
-SetBinding("SHIFT-0","MULTIACTIONBAR1BUTTON10")
-SetBinding("SHIFT--","MULTIACTIONBAR1BUTTON11")
-SetBinding("SHIFT-=","MULTIACTIONBAR1BUTTON12")
-SetBinding("F","INTERACTTARGET")
-SetBinding("SHIFT-F1","MULTIACTIONBAR4BUTTON1")
-SetBinding("SHIFT-F2","MULTIACTIONBAR4BUTTON2")
-SetBinding("SHIFT-F3","MULTIACTIONBAR4BUTTON3")
-SetBinding("SHIFT-F4","MULTIACTIONBAR4BUTTON4")
-SetBinding("SHIFT-F5","MULTIACTIONBAR4BUTTON5")
-SetBinding("SHIFT-F6","MULTIACTIONBAR4BUTTON6")
-SetBinding("SHIFT-F7","MULTIACTIONBAR4BUTTON7")
-SetBinding("SHIFT-F8","MULTIACTIONBAR4BUTTON8")
-SetBinding("SHIFT-F9","MULTIACTIONBAR4BUTTON9")
-SetBinding("SHIFT-F10","MULTIACTIONBAR4BUTTON10")
-SetBinding("SHIFT-F11","MULTIACTIONBAR4BUTTON11")
-SetBinding("SHIFT-F12","MULTIACTIONBAR4BUTTON12")
-SetBinding("CTRL-F1","MULTIACTIONBAR3BUTTON1")
-SetBinding("CTRL-F2","MULTIACTIONBAR3BUTTON2")
-SetBinding("CTRL-F3","MULTIACTIONBAR3BUTTON3")
-SetBinding("CTRL-F4","MULTIACTIONBAR3BUTTON4")
-SetBinding("CTRL-F5","MULTIACTIONBAR3BUTTON5")
-SetBinding("CTRL-F6","MULTIACTIONBAR3BUTTON6")
-SetBinding("CTRL-F7","MULTIACTIONBAR3BUTTON7")
-SetBinding("CTRL-F8","MULTIACTIONBAR3BUTTON8")
-SetBinding("CTRL-F9","MULTIACTIONBAR3BUTTON9")
-SetBinding("CTRL-F10","MULTIACTIONBAR3BUTTON10")
-SetBinding("CTRL-F11","MULTIACTIONBAR3BUTTON11")
-SetBinding("CTRL-F12","MULTIACTIONBAR3BUTTON12")
-SetBinding("BUTTON3","MOVEBACKWARD")
-SetBinding("ALT-CTRL-1","ACTIONBUTTON1")
-SetBinding("CTRL-1")
-SetBinding("CTRL-2")
-SetBinding("CTRL-3")
-SetBinding("CTRL-4")
-SetBinding("CTRL-5")
-SetBinding("CTRL-6")
-SetBinding("CTRL-7")
-SetBinding("CTRL-8")
-SetBinding("CTRL-9")
-SetBinding("CTRL-0")
-SetBinding("CTRL--")
-SetBinding("CTRL-=")
-SetBinding("SHIFT-UP")
-SetBinding("SHIFT-DOWN")
-SetBinding("SHIFT-MOUSEWHEELUP")
-SetBinding("SHIFT-MOUSEWHEELDOWN")
-SetBinding("B","OPENALLBAGS")
-AttemptToSaveBindings(1)
-CompactRaidFrameManager:Show()
-SetCVar("alwaysShowActionBars", true)
-SetCVar("nameplateShowEnemies", true)
-SetCVar("nameplateShowFriends", true)
-SetCVar("enableFloatingCombatText", true)
-SetCVar("autointeract", true)
-SetCVar("autoInteract", true)
-SetCVar("autoQuestWatch", false)
-SetCVar("gameTip", false)
-SetCVar("statusText", true)
-SetCVar("statusTextDisplay", "NUMERIC")
-SetCVar("autoLootDefault", true)
-SetCVar("useCompactPartyFrames", 1)
-SetCVar("blockChannelInvites", true)
-SetCVar("instantQuestText", true)
-SetCVar("lootUnderMouse", true)
-SetCVar("nameplateMotion", true)
-SetCVar("autoSelfCast", false)
-SetCVar("showTutorials", false)
-SetCVar("ShowClassColorInFriendlyNameplate", true)
-SetCVar("showTargetOfTarget", true)
-SetModifiedClick("SELFCAST","NONE")
-SetActionBarToggles(true,true,true,true,true)
-SHOW_MULTI_ACTIONBAR_1=true
-SHOW_MULTI_ACTIONBAR_2=true
-SHOW_MULTI_ACTIONBAR_3=true
-SHOW_MULTI_ACTIONBAR_4=true
-ALWAYS_SHOW_MULTI_ACTIONBAR=1
-MultiActionBar_Update()
-ClearTutorials()
-ReloadUI()
-if false then 
-	if myclass=="Hunter" then
-		index=CreateMacro("feign",124,"/script fd()",nil)
-		PickupMacro(index)
-		PlaceAction(61)
-	end
-	if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
-		PickupSpellBookItem("Shoot "..RangedWeaponType())
-		PlaceAction(61)
-	end
-	if myclass=="Druid" and SpellExists("Wrath") then
-		PickupSpellBookItem(findSpell("Wrath"),BOOKTYPE_SPELL)
-		PlaceAction(61)
-	end
-	index=CreateMacro("foc",9,"/script TargetByName(MB_raidleader,1)",1,nil)
-	PickupMacro(index)
-	PlaceAction(47)
-	index=CreateMacro("void",510,"/script SetLockPet(\"Voidwalker\")",1,nil)
-	PickupMacro(index)
-	PlaceAction(45)
-	index=CreateMacro("imp",507,"/script SetLockPet(\"Imp\")",1,nil)
-	PickupMacro(index)
-	PlaceAction(44)
-	index=CreateMacro("succ",509,"/script SetLockPet(\"Succubus\")",1,nil)
-	PickupMacro(index)
-	PlaceAction(43)
-	index=CreateMacro("felhunt",506,"/script SetLockPet(\"Felhunter\")",nil)
-	PickupMacro(index)
-	PlaceAction(42)
-	index=CreateMacro("tos",486,"/script SetLockPet(nil)",nil)
-	PickupMacro(index)
-	PlaceAction(41)
-	index=CreateMacro("fearbreak",489,"/script fearbreak()",nil)
-	PickupMacro(index)
-	PlaceAction(62)
-	index=CreateMacro("int",25,"/script interrupt_boss()",nil)
-	PickupMacro(index)
-	PlaceAction(63)
-	PickupAction(51)
-	ClearCursor()
-	index=CreateMacro("summ",511,"/run SummonOutOfRange()",1,nil)
-	PickupMacro(index)
-	PlaceAction(37)
-	if myclass=="Warlock" or myclass=="Hunter" or myclass=="Mage" or myclass=="Priest" or myclass=="Druid" or myclass=="Paladin" then
-		index=CreateMacro("sheep",394,"/script CC()",nil)
-		PickupMacro(index)
-		PlaceAction(51)
-	end
-	PickupAction(8)
-	ClearCursor()
-	PickupAction(80)
-	ClearCursor()
-	PickupAction(92)
-	ClearCursor()
-	PickupAction(104)
-	ClearCursor()
-	PickupAction(116)
-	ClearCursor()
-	index=CreateMacro("rezemall",303,"/script rezemall()",nil)
-	PickupMacro(index)
-	PlaceAction(8)
-	PickupMacro(index)
-	PlaceAction(80)
-	PickupMacro(index)
-	PlaceAction(92)
-	PickupMacro(index)
-	PlaceAction(104)
-	PickupMacro(index)
-	PlaceAction(116)
-	if myclass=="Priest" or myclass=="Druid" then
-		index=CreateMacro("preheal",292,"/script preheal_tanks()",nil)
-		PickupAction(50)
-		ClearCursor()
-		PickupMacro(index)
-		PlaceAction(50)
-	end
-	index=CreateMacro("cc",395,"/script MB_assign_cc()",nil)
-	PickupAction(49)
-	ClearCursor()
-	PickupMacro(index)
-	PlaceAction(49)
-	index=CreateMacro("ot",98,"/script MB_assign_ot()",1,nil)
-	PickupMacro(index)
-	PlaceAction(52)
-	index=CreateMacro("smartdrink",339,"/script smartdrink()",nil)
-	PickupMacro(index)
-	PlaceAction(53)
-	index=CreateMacro("line",294,"/script MakeALine()",1,nil)
-	PickupMacro(index)
-	PlaceAction(60)
-	PickupAction(59)
-	ClearCursor()
-	index=CreateMacro("pent",366,"/script Pentagram()",1,nil)
-	PickupMacro(index)
-	PlaceAction(59)
-	index=CreateMacro("clearot",133,"/script MB_clearraidtarget()",1,nil)
-	PickupMacro(index)
-	PlaceAction(54)
-	index=CreateMacro("cleartargs",138,"/script clearraidtargs()",1,nil)
-	PickupMacro(index)
-	PlaceAction(55)
-	index=CreateMacro("tankbrez",303,"/script rezemall(true)",nil)
-	PickupMacro(index)
-	PlaceAction(56)
-	index=CreateMacro("focus",1,"/script focusme()",nil)
-	PickupMacro(index)
-	PlaceAction(58)
-	index=CreateMacro("sortraid",63,"/script SortRaid()",nil)
-	PickupMacro(index)
-	PlaceAction(11)
-	PickupMacro(index)
-	PlaceAction(83)
-	PickupMacro(index)
-	PlaceAction(95)
-	PickupMacro(index)
-	PlaceAction(108)
-	PickupMacro(index)
-	PlaceAction(119)
-	index=CreateSuperMacro("levparty","Interface\\Icons\\Spell_Nature_EnchantArmor","/script leveling_parties()")
-	index=CreateMacro("party",320,"/script partyup()",1,nil)
-	PickupMacro(index)
-	PlaceAction(10)
-	PickupMacro(index)
-	PlaceAction(82)
-	PickupMacro(index)
-	PlaceAction(94)
-	PickupMacro(index)
-	PlaceAction(106)
-	PickupMacro(index)
-	PlaceAction(118)
-	PickupAction(7)
-	ClearCursor()
-	PickupAction(79)
-	ClearCursor()
-	PickupAction(91)
-	ClearCursor()
-	PickupAction(104)
-	ClearCursor()
-	PickupAction(115)
-	ClearCursor()
-	if myclass=="Warlock" and SpellExists("Life Tap") then
-		PickupSpellBookItem(findSpell("Life Tap"),BOOKTYPE_SPELL)
-		PlaceAction(7)
-	end
-	if myclass=="Warrior" or myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
-		index=CreateMacro("wall",165,"/script WarriorSurvive()",nil)
-		PickupMacro(index)
-		PlaceAction(6)
-		PickupMacro(index)
-		PlaceAction(78)
-		PickupMacro(index)
-		PlaceAction(90)
-		PickupMacro(index)
-		PlaceAction(103)
-		PickupMacro(index)
-		PlaceAction(114)
-	end
-	if myclass=="Warlock" then
-	        index=CreateSuperMacro("HS","Interface\\Icons\\INV_stone_04","/run createhs()")
-		PickupMacro(index,"HS")
-		PlaceAction(68)
-	elseif myclass=="Priest" and SpellExists("Resurrection") then
-		PickupSpellBookItem(findSpell("Resurrection"),BOOKTYPE_SPELL)
-		PlaceAction(68)
-	elseif myclass=="Shaman" and SpellExists("Ancestral Spirit") then
-		PickupSpellBookItem(findSpell("Ancestral Spirit"),BOOKTYPE_SPELL)
-		PlaceAction(68)
-	elseif myclass=="Paladin" and SpellExists("Redemption") then
-		PickupSpellBookItem(findSpell("Redemption"),BOOKTYPE_SPELL)
-		PlaceAction(68)
-	end
-	if myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
-	        index=CreateSuperMacro("flaoe","Interface\\Icons\\Spell_Holy_Prayerofhealing02","/script FloodAOEHeal()")
-		PickupMacro(index,"flaoe")
-		PlaceAction(65)
-		index=CreateMacro("aoeh",33,"/script AOEHeal()",1,nil)
-		PickupMacro(index)
-		PlaceAction(66)
-	else
-		PickupAction(65)
-		ClearCursor()
-		PickupAction(66)
-		ClearCursor()
-	end
-	if myclass=="Priest" or myclass=="Mage" or myclass=="Warlock" then
-		PickupSpellBookItem("Shoot")
-		PlaceAction(72)
-		PickupSpellBookItem("Attack")
-		PlaceAction(71)
-	elseif myclass=="Rogue" then
-		if SpellExists("Backstab") then PickupSpellBookItem("Backstab") end
-		PlaceAction(71)
-		PickupSpellBookItem("Attack")
-		PlaceAction(72)
-	elseif myclass=="Druid" then
-		if SpellExists("Ravage") then PickupSpellBookItem("Ravage") end
-		PlaceAction(71)
-		PickupSpellBookItem("Attack")
-		PlaceAction(72)
-	elseif myclass=="Hunter" then
-		PickupSpellBookItem("Auto Shot")
-		PlaceAction(72)
-		PickupSpellBookItem("Attack")
-		PlaceAction(71)
-		if SpellExists("Immolation Trap") then
-			PickupSpellBookItem("Freezing Trap")
-			PlaceAction(64)
+	if myclass=="Priest" and FindInTable(FSMB_healerlist,myname) then
+		local slot=49
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+			local heallist=""
+			local x
+			for x=1,FSMB_maxheal[myclass] do 
+				local heallev=FSMB_maxheal[myclass]-x+1
+				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+				break
+			end
+  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
 		end
-	else
-		PickupSpellBookItem("Attack")
-		PlaceAction(72)
 	end
-end
-end
+	if myclass=="Paladin" and FindInTable(FSMB_healerlist,myname) then
+			local slot=49
+			local idx=0
+			local i
+			for i=1,TableLength(FSMB_toonlist) do
+				local heallist=""
+				local x
+				for x=1,FSMB_maxheal[myclass] do 
+					local heallev=FSMB_maxheal[myclass]-x+1
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+					break
+				end
+  				macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+				PickupMacro(macroId)
+				PlaceAction(slot+idx)
+				ClearCursor()
+				idx=idx+1
+			end
+	end
+	if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
+  		macroId = CreateMacroFS("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
+		PickupMacro(macroId)
+		PlaceAction(68)
+		ClearCursor()
+		local slot=49
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+			local heallist=""
+			local x
+			for x=1,FSMB_maxheal[myclass] do 
+				local heallev=FSMB_maxheal[myclass]-x+1
+				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+				break
+			end
+  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+	elseif myclass=="Druid" then
+		local slot=49
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+			local heallist=""
+			local x
+			for x=1,FSMB_maxheal[myclass] do 
+				local heallev=FSMB_maxheal[myclass]-x+1
+				heallist=heallist.."\n/cast [nostance,@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+				break
+			end
+  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", heallist, nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+	end
+	-- NONE OF THE FOLLOWING MACROS GET CREATED IF YOU put nomacros in your toonlist
+	if not FSMB_nomacros then 
+	local macroId = CreateMacroFS("spit", "Inv_misc_slime_01", "/spit", nil);
+	PickupMacro(macroId)
+	PlaceAction(59)
+	ClearCursor()
+	if myclass=="Druid" then
+		local macroId = CreateMacroFS("hearth", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
+		PickupMacro(macroId)
+		PlaceAction(26)
+		ClearCursor()
+	else
+		PickupItem("Hearthstone")
+		PlaceAction(26)
+		ClearCursor()
+	end
+	for i=1,TableLength(FSMB_toonlist) do
+		if i==1 and myname==FSMB_toonlist[i] then
+			macroId = CreateMacroFS("makealine", "Ability_hunter_pet_tallstrider", "", nil);
+		elseif myname==FSMB_toonlist[i] then
+			macroId = CreateMacroFS("makealine", "Ability_hunter_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
+		end
+		PickupMacro(macroId)
+		PlaceAction(60)
+		ClearCursor()
+	end
+	if myclass=="Hunter" then
+		index=CreateMacroFS("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
+		PickupMacro(index)
+		PlaceAction(61)
+		index=CreateMacroFS("feed","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
+		PickupMacro(index)
+		PlaceAction(37)
+	end
+	if myclass=="Warrior" and IsTank(myname) then
+		print("Checking ranged weap")
+		if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
+			PickupSpellBookItem("Shoot "..RangedWeaponType())
+			PlaceAction(61)
+		end
+	end
+	if myclass=="Druid" then
+  		macroId = CreateMacroFS("b0", "INV_Misc_QuestionMark", "/cancelform [stance]\n/cast [nostance,@"..FSMB_tank.."] thorns", nil);
+		PickupMacro(macroId)
+		PlaceAction(37)
+		ClearCursor()
+		local slot=38
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cancelform [stance]\n/cast [nostance,@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cancelform [stance]\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
+		PickupMacro(macroId)
+		PlaceAction(55)
+		ClearCursor()
+		PickupSpellBookItem("Wrath")
+		PlaceAction(61)
+		ClearCursor()
+	end
+	if myclass=="Druid" and IsTank(myname) then
+  		macroId = CreateMacroFS("pull", "INV_Misc_QuestionMark", "/cancelform [nocombat,stance]\n/cast [nocombat,nostance] Wrath", nil);
+		PickupMacro(macroId)
+		PlaceAction(61)
+		ClearCursor()
+	end
+	if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
+		if IsRestoShammy() then 
+			PickupSpellBookItem("Flametongue Weapon")
+		else
+			PickupSpellBookItem("Rockbiter Weapon")
+			PickupSpellBookItem("Windfury Weapon")
+		end
+		PlaceAction(37)
+		ClearCursor()
+	end
+	if myclass=="Priest" then
+  		macroId = CreateMacroFS("shackle", "INV_Misc_QuestionMark", "/cast Shackle Undead", nil);
+		PickupMacro(macroId)
+		PlaceAction(62)
+		ClearCursor()
+		PickupSpellBookItem("Inner Fire")
+		PlaceAction(37)
+		ClearCursor()
+		local slot=38
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Power Word: Fortitude", nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Power Word: Fortitude,null", nil);
+		PickupMacro(macroId)
+		PlaceAction(55)
+		ClearCursor()
+	end
+	if myclass=="Paladin" then
+		if FindInTable(FSMB_healerlist,myname) then
+  			macroId = CreateMacroFS("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Wisdom,devotion aura", nil);
+			PickupMacro(macroId)
+			PlaceAction(37)
+			ClearCursor()
+		else
+  			macroId = CreateMacroFS("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Might,devotion aura", nil);
+			PickupMacro(macroId)
+			PlaceAction(37)
+			ClearCursor()
+		end
+		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target,nomod] reset=combat/target Blessing of Might,null\n/castsequence [@target,mod:alt] reset=combat/target Blessing of Wisdom", nil);
+		PickupMacro(macroId)
+		PlaceAction(55)
+		ClearCursor()
+		local slot=38
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Blessing of Kings", nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+	end
+	if myclass=="Shaman" then
+		local rezlist=""
+		for i=1,TableLength(FSMB_toonlist) do
+			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Ancestral Spirit\n"
+		end
+  		macroId = CreateMacroFS("rez", "spell_holy_resurrection", rezlist, nil);
+		PickupMacro(macroId)
+		PlaceAction(8)
+		ClearCursor()
+		PickupSpellBookItem("Ancestral Spirit")
+		PlaceAction(68)
+		ClearCursor()
+  		--macroId = CreateMacroFS("tot", "INV_Misc_QuestionMark", "/click "..myspec.."_TOT", nil);
+		--PickupMacro(macroId)
+		--PlaceAction(61)
+		--ClearCursor()
+	end
+	if myclass=="Priest" then
+		local rezlist=""
+		for i=1,TableLength(FSMB_toonlist) do
+			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Resurrection\n"
+		end
+  		macroId = CreateMacroFS("rez", "spell_holy_resurrection", rezlist, nil);
+		PickupMacro(macroId)
+		PlaceAction(8)
+		ClearCursor()
+		PickupSpellBookItem("Resurrection")
+		PlaceAction(68)
+		ClearCursor()
+	end
+	if myclass=="Druid" then
+  		macroId = CreateMacroFS("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
+		PickupMacro(macroId)
+		PlaceAction(68)
+		ClearCursor()
+	end
+	if myclass=="Warlock" and SpellExists("Drain Soul") then
+		PickupSpellBookItem("Drain Soul")
+		PlaceAction(64)
+		--index=CreateMacroFS("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
+		PickupSpellBookItem("Demon Skin")
+		PlaceAction(37)
+		ClearCursor()
+	end
+	if myclass=="Mage" then
+		if findSpell("Conjure Water",BOOKTYPE_SPELL) then
+			PickupSpellBookItem("Conjure Water")
+			PlaceAction(12)
+			ClearCursor()
+		end
+		PickupSpellBookItem("Frost Armor")
+		PickupSpellBookItem("Ice Armor")
+		PlaceAction(37)
+		ClearCursor()
+		local slot=38
+		local idx=0
+		local i
+		for i=1,TableLength(FSMB_toonlist) do
+  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Arcane Intellect", nil);
+			PickupMacro(macroId)
+			PlaceAction(slot+idx)
+			ClearCursor()
+			idx=idx+1
+		end
+		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Arcane Intellect", nil);
+		PickupMacro(macroId)
+		PlaceAction(55)
+		ClearCursor()
+	else
+		PickupAction(12)
+		ClearCursor()
+	end
+	if FSMB_tank==myname or myclass=="Hunter" or myclass=="Warrior" or myclass=="Rogue" or myclass=="Shaman" or myclass=="Paladin" then
+  		macroId = CreateMacroFS("passive", "Spell_magic_polymorphchicken", "/petfollow [mod:alt]\n/stopattack [mod:alt]", nil);
+		PickupMacro(macroId)
+		PlaceAction(62)
+		ClearCursor()
+	else
+  		macroId = CreateMacroFS("poly", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myclass], nil);
+		PickupMacro(macroId)
+		PlaceAction(62)
+		ClearCursor()
+	end
+	--for healer,spelllist in pairs(FSMB_heal_names) do
+		--if myclass==healer then 
+			--healcasts=""
+			--for _,heal in pairs(spelllist) do
+				--healcasts=healcasts.."/cast [@player] "..heal.."\n"
+			--end
+			--macroId = CreateMacroFS("selfh","INV_Misc_Questionmark",healcasts, nil);
+			--PickupMacro(macroId)
+			--PlaceAction(6)
+			--ClearCursor()
+		--end
+	--end
+	macroId = CreateMacroFS("buff", "spell_holy_divinespirit", "", nil);
+	PickupMacro(macroId)
+	PlaceAction(57)
+	ClearCursor()
+	local index
+	if myname==FSMB_tank then
+		index=CreateMacroFS("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
+	else
+		index=CreateMacroFS("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
+	end
+	PickupMacro(index)
+	PlaceAction(1)
+	PickupMacro(index)
+	PlaceAction(73)
+	PickupMacro(index)
+	PlaceAction(85)
+	PickupMacro(index)
+	PlaceAction(97)
+	PickupMacro(index)
+	PlaceAction(109)
+	ClearCursor()
+	index=CreateMacroFS("single","ability_searingarrow","/click "..myspec.."_SINGLE",nil)
+	PickupMacro(index)
+	PlaceAction(2)
+	PickupMacro(index)
+	PlaceAction(74)
+	PickupMacro(index)
+	PlaceAction(86)
+	PickupMacro(index)
+	PlaceAction(98)
+	PickupMacro(index)
+	PlaceAction(110)
+	ClearCursor()
+	index=CreateMacroFS("multi","ability_upgrademoonglaive","/click "..myspec.."_MULTI",nil)
+	PickupMacro(index)
+	PlaceAction(3)
+	PickupMacro(index)
+	PlaceAction(75)
+	PickupMacro(index)
+	PlaceAction(87)
+	PickupMacro(index)
+	PlaceAction(99)
+	PickupMacro(index)
+	PlaceAction(111)
+	ClearCursor()
+	index=CreateMacroFS("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]\n/run SetView(4)",nil)
+	PickupMacro(index)
+	PlaceAction(4)
+	PickupMacro(index)
+	PlaceAction(76)
+	PickupMacro(index)
+	PlaceAction(88)
+	PickupMacro(index)
+	PlaceAction(100)
+	PickupMacro(index)
+	PlaceAction(112)
+	ClearCursor()
+	index=CreateMacroFS("aoe","spell_fire_selfdestruct","/click "..myspec.."_AOE",nil)
+	PickupMacro(index)
+	PlaceAction(5)
+	PickupMacro(index)
+	PlaceAction(77)
+	PickupMacro(index)
+	PlaceAction(89)
+	PickupMacro(index)
+	PlaceAction(101)
+	PickupMacro(index)
+	PlaceAction(113)
+	ClearCursor()
+	macroId = CreateMacroFS("int", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
+	PickupMacro(macroId)
+	PlaceAction(63)
+	ClearCursor()
+	--macroId = CreateMacroFS("decurse", "spell_nature_removecurse", "/click ".."DECURSE", nil);
+	--PickupMacro(macroId)
+	--PlaceAction(56)
+	--ClearCursor()
+	index=CreateMacroFS("reload","spell_frost_stun","/reload",nil)
+	PickupMacro(index)
+	PlaceAction(31)
+	ClearCursor()
+	index=CreateMacroFS("leave","spell_nature_purge","/script LeaveParty()",nil)
+	PickupMacro(index)
+	PlaceAction(30)
+	ClearCursor()
+	index=CreateMacroFS("dance","ability_druid_aquaticform","/dance",nil)
+	PickupMacro(index)
+	PlaceAction(29)
+	ClearCursor()
+	end
+	LoadBindings(1)
+	SetBinding("F1","MULTIACTIONBAR2BUTTON1")
+	SetBinding("F2","MULTIACTIONBAR2BUTTON2")
+	SetBinding("F3","MULTIACTIONBAR2BUTTON3")
+	SetBinding("F4","MULTIACTIONBAR2BUTTON4")
+	SetBinding("F5","MULTIACTIONBAR2BUTTON5")
+	SetBinding("F6","MULTIACTIONBAR2BUTTON6")
+	SetBinding("F7","MULTIACTIONBAR2BUTTON7")
+	SetBinding("F8","MULTIACTIONBAR2BUTTON8")
+	SetBinding("F9","MULTIACTIONBAR2BUTTON9")
+	SetBinding("F10","MULTIACTIONBAR2BUTTON10")
+	SetBinding("F11","MULTIACTIONBAR2BUTTON11")
+	SetBinding("F12","MULTIACTIONBAR2BUTTON12")
+	SetBinding("SHIFT-1","MULTIACTIONBAR1BUTTON1")
+	SetBinding("SHIFT-2","MULTIACTIONBAR1BUTTON2")
+	SetBinding("SHIFT-3","MULTIACTIONBAR1BUTTON3")
+	SetBinding("SHIFT-4","MULTIACTIONBAR1BUTTON4")
+	SetBinding("SHIFT-5","MULTIACTIONBAR1BUTTON5")
+	SetBinding("SHIFT-6","MULTIACTIONBAR1BUTTON6")
+	SetBinding("SHIFT-7","MULTIACTIONBAR1BUTTON7")
+	SetBinding("SHIFT-8","MULTIACTIONBAR1BUTTON8")
+	SetBinding("SHIFT-9","MULTIACTIONBAR1BUTTON9")
+	SetBinding("SHIFT-0","MULTIACTIONBAR1BUTTON10")
+	SetBinding("SHIFT--","MULTIACTIONBAR1BUTTON11")
+	SetBinding("SHIFT-=","MULTIACTIONBAR1BUTTON12")
+	SetBinding("F","INTERACTTARGET")
+	SetBinding("SHIFT-F1","MULTIACTIONBAR4BUTTON1")
+	SetBinding("SHIFT-F2","MULTIACTIONBAR4BUTTON2")
+	SetBinding("SHIFT-F3","MULTIACTIONBAR4BUTTON3")
+	SetBinding("SHIFT-F4","MULTIACTIONBAR4BUTTON4")
+	SetBinding("SHIFT-F5","MULTIACTIONBAR4BUTTON5")
+	SetBinding("SHIFT-F6","MULTIACTIONBAR4BUTTON6")
+	SetBinding("SHIFT-F7","MULTIACTIONBAR4BUTTON7")
+	SetBinding("SHIFT-F8","MULTIACTIONBAR4BUTTON8")
+	SetBinding("SHIFT-F9","MULTIACTIONBAR4BUTTON9")
+	SetBinding("SHIFT-F10","MULTIACTIONBAR4BUTTON10")
+	SetBinding("SHIFT-F11","MULTIACTIONBAR4BUTTON11")
+	SetBinding("SHIFT-F12","MULTIACTIONBAR4BUTTON12")
+	SetBinding("CTRL-F1","MULTIACTIONBAR3BUTTON1")
+	SetBinding("CTRL-F2","MULTIACTIONBAR3BUTTON2")
+	SetBinding("CTRL-F3","MULTIACTIONBAR3BUTTON3")
+	SetBinding("CTRL-F4","MULTIACTIONBAR3BUTTON4")
+	SetBinding("CTRL-F5","MULTIACTIONBAR3BUTTON5")
+	SetBinding("CTRL-F6","MULTIACTIONBAR3BUTTON6")
+	SetBinding("CTRL-F7","MULTIACTIONBAR3BUTTON7")
+	SetBinding("CTRL-F8","MULTIACTIONBAR3BUTTON8")
+	SetBinding("CTRL-F9","MULTIACTIONBAR3BUTTON9")
+	SetBinding("CTRL-F10","MULTIACTIONBAR3BUTTON10")
+	SetBinding("CTRL-F11","MULTIACTIONBAR3BUTTON11")
+	SetBinding("CTRL-F12","MULTIACTIONBAR3BUTTON12")
+	SetBinding("BUTTON3","MOVEBACKWARD")
+	SetBinding("ALT-CTRL-1","ACTIONBUTTON1")
+	SetBinding("CTRL-1")
+	SetBinding("CTRL-2")
+	SetBinding("CTRL-3")
+	SetBinding("CTRL-4")
+	SetBinding("CTRL-5")
+	SetBinding("CTRL-6")
+	SetBinding("CTRL-7")
+	SetBinding("CTRL-8")
+	SetBinding("CTRL-9")
+	SetBinding("CTRL-0")
+	SetBinding("CTRL--")
+	SetBinding("CTRL-=")
+	SetBinding("SHIFT-UP")
+	SetBinding("SHIFT-DOWN")
+	SetBinding("SHIFT-MOUSEWHEELUP")
+	SetBinding("SHIFT-MOUSEWHEELDOWN")
+	SetBinding("B","OPENALLBAGS")
+	AttemptToSaveBindings(1)
+	CompactRaidFrameManager:Show()
+	SetCVar("alwaysShowActionBars", true)
+	SetCVar("nameplateShowEnemies", true)
+	SetCVar("nameplateShowFriends", true)
+	SetCVar("enableFloatingCombatText", true)
+	SetCVar("autointeract", true)
+	SetCVar("autoInteract", true)
+	SetCVar("autoQuestWatch", false)
+	SetCVar("gameTip", false)
+	SetCVar("statusText", true)
+	SetCVar("statusTextDisplay", "NUMERIC")
+	SetCVar("autoLootDefault", true)
+	SetCVar("useCompactPartyFrames", 1)
+	SetCVar("blockChannelInvites", true)
+	SetCVar("instantQuestText", true)
+	SetCVar("lootUnderMouse", true)
+	SetCVar("nameplateMotion", true)
+	SetCVar("autoSelfCast", false)
+	SetCVar("showTutorials", false)
+	SetCVar("ShowClassColorInFriendlyNameplate", true)
+	SetCVar("showTargetOfTarget", true)
+	SetModifiedClick("SELFCAST","NONE")
+	SetActionBarToggles(true,true,true,true,true)
+	SHOW_MULTI_ACTIONBAR_1=true
+	SHOW_MULTI_ACTIONBAR_2=true
+	SHOW_MULTI_ACTIONBAR_3=true
+	SHOW_MULTI_ACTIONBAR_4=true
+	ALWAYS_SHOW_MULTI_ACTIONBAR=1
+	MultiActionBar_Update()
+	ClearTutorials()
+	ReloadUI()
+	if false then 
+		if myclass=="Hunter" then
+			index=CreateMacroFS("feign",124,"/script fd()",nil)
+			PickupMacro(index)
+			PlaceAction(61)
+		end
+		if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
+			PickupSpellBookItem("Shoot "..RangedWeaponType())
+			PlaceAction(61)
+		end
+		if myclass=="Druid" and SpellExists("Wrath") then
+			PickupSpellBookItem(findSpell("Wrath"),BOOKTYPE_SPELL)
+			PlaceAction(61)
+		end
+		index=CreateMacroFS("foc",9,"/script TargetByName(MB_raidleader,1)",1,nil)
+		PickupMacro(index)
+		PlaceAction(47)
+		index=CreateMacroFS("void",510,"/script SetLockPet(\"Voidwalker\")",1,nil)
+		PickupMacro(index)
+		PlaceAction(45)
+		index=CreateMacroFS("imp",507,"/script SetLockPet(\"Imp\")",1,nil)
+		PickupMacro(index)
+		PlaceAction(44)
+		index=CreateMacroFS("succ",509,"/script SetLockPet(\"Succubus\")",1,nil)
+		PickupMacro(index)
+		PlaceAction(43)
+		index=CreateMacroFS("felhunt",506,"/script SetLockPet(\"Felhunter\")",nil)
+		PickupMacro(index)
+		PlaceAction(42)
+		index=CreateMacroFS("tos",486,"/script SetLockPet(nil)",nil)
+		PickupMacro(index)
+		PlaceAction(41)
+		index=CreateMacroFS("fearbreak",489,"/script fearbreak()",nil)
+		PickupMacro(index)
+		PlaceAction(62)
+		index=CreateMacroFS("int",25,"/script interrupt_boss()",nil)
+		PickupMacro(index)
+		PlaceAction(63)
+		PickupAction(51)
+		ClearCursor()
+		index=CreateMacroFS("summ",511,"/run SummonOutOfRange()",1,nil)
+		PickupMacro(index)
+		PlaceAction(37)
+		if myclass=="Warlock" or myclass=="Hunter" or myclass=="Mage" or myclass=="Priest" or myclass=="Druid" or myclass=="Paladin" then
+			index=CreateMacroFS("sheep",394,"/script CC()",nil)
+			PickupMacro(index)
+			PlaceAction(51)
+		end
+		PickupAction(8)
+		ClearCursor()
+		PickupAction(80)
+		ClearCursor()
+		PickupAction(92)
+		ClearCursor()
+		PickupAction(104)
+		ClearCursor()
+		PickupAction(116)
+		ClearCursor()
+		index=CreateMacroFS("rezemall",303,"/script rezemall()",nil)
+		PickupMacro(index)
+		PlaceAction(8)
+		PickupMacro(index)
+		PlaceAction(80)
+		PickupMacro(index)
+		PlaceAction(92)
+		PickupMacro(index)
+		PlaceAction(104)
+		PickupMacro(index)
+		PlaceAction(116)
+		if myclass=="Priest" or myclass=="Druid" then
+			index=CreateMacroFS("preheal",292,"/script preheal_tanks()",nil)
+			PickupAction(50)
+			ClearCursor()
+			PickupMacro(index)
+			PlaceAction(50)
+		end
+		index=CreateMacroFS("cc",395,"/script MB_assign_cc()",nil)
+		PickupAction(49)
+		ClearCursor()
+		PickupMacro(index)
+		PlaceAction(49)
+		index=CreateMacroFS("ot",98,"/script MB_assign_ot()",1,nil)
+		PickupMacro(index)
+		PlaceAction(52)
+		index=CreateMacroFS("smartdrink",339,"/script smartdrink()",nil)
+		PickupMacro(index)
+		PlaceAction(53)
+		index=CreateMacroFS("line",294,"/script MakeALine()",1,nil)
+		PickupMacro(index)
+		PlaceAction(60)
+		PickupAction(59)
+		ClearCursor()
+		index=CreateMacroFS("pent",366,"/script Pentagram()",1,nil)
+		PickupMacro(index)
+		PlaceAction(59)
+		index=CreateMacroFS("clearot",133,"/script MB_clearraidtarget()",1,nil)
+		PickupMacro(index)
+		PlaceAction(54)
+		index=CreateMacroFS("cleartargs",138,"/script clearraidtargs()",1,nil)
+		PickupMacro(index)
+		PlaceAction(55)
+		index=CreateMacroFS("tankbrez",303,"/script rezemall(true)",nil)
+		PickupMacro(index)
+		PlaceAction(56)
+		index=CreateMacroFS("focus",1,"/script focusme()",nil)
+		PickupMacro(index)
+		PlaceAction(58)
+		index=CreateMacroFS("sortraid",63,"/script SortRaid()",nil)
+		PickupMacro(index)
+		PlaceAction(11)
+		PickupMacro(index)
+		PlaceAction(83)
+		PickupMacro(index)
+		PlaceAction(95)
+		PickupMacro(index)
+		PlaceAction(108)
+		PickupMacro(index)
+		PlaceAction(119)
+		index=CreateSuperMacro("levparty","Interface\\Icons\\Spell_Nature_EnchantArmor","/script leveling_parties()")
+		index=CreateMacroFS("party",320,"/script partyup()",1,nil)
+		PickupMacro(index)
+		PlaceAction(10)
+		PickupMacro(index)
+		PlaceAction(82)
+		PickupMacro(index)
+		PlaceAction(94)
+		PickupMacro(index)
+		PlaceAction(106)
+		PickupMacro(index)
+		PlaceAction(118)
+		PickupAction(7)
+		ClearCursor()
+		PickupAction(79)
+		ClearCursor()
+		PickupAction(91)
+		ClearCursor()
+		PickupAction(104)
+		ClearCursor()
+		PickupAction(115)
+		ClearCursor()
+		if myclass=="Warlock" and SpellExists("Life Tap") then
+			PickupSpellBookItem(findSpell("Life Tap"),BOOKTYPE_SPELL)
+			PlaceAction(7)
+		end
+		if myclass=="Warrior" or myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
+			index=CreateMacroFS("wall",165,"/script WarriorSurvive()",nil)
+			PickupMacro(index)
+			PlaceAction(6)
+			PickupMacro(index)
+			PlaceAction(78)
+			PickupMacro(index)
+			PlaceAction(90)
+			PickupMacro(index)
+			PlaceAction(103)
+			PickupMacro(index)
+			PlaceAction(114)
+		end
+		if myclass=="Warlock" then
+	        	index=CreateSuperMacro("HS","Interface\\Icons\\INV_stone_04","/run createhs()")
+			PickupMacro(index,"HS")
+			PlaceAction(68)
+		elseif myclass=="Priest" and SpellExists("Resurrection") then
+			PickupSpellBookItem(findSpell("Resurrection"),BOOKTYPE_SPELL)
+			PlaceAction(68)
+		elseif myclass=="Shaman" and SpellExists("Ancestral Spirit") then
+			PickupSpellBookItem(findSpell("Ancestral Spirit"),BOOKTYPE_SPELL)
+			PlaceAction(68)
+		elseif myclass=="Paladin" and SpellExists("Redemption") then
+			PickupSpellBookItem(findSpell("Redemption"),BOOKTYPE_SPELL)
+			PlaceAction(68)
+		end
+		if myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
+	        	index=CreateSuperMacro("flaoe","Interface\\Icons\\Spell_Holy_Prayerofhealing02","/script FloodAOEHeal()")
+			PickupMacro(index,"flaoe")
+			PlaceAction(65)
+			index=CreateMacroFS("aoeh",33,"/script AOEHeal()",1,nil)
+			PickupMacro(index)
+			PlaceAction(66)
+		else
+			PickupAction(65)
+			ClearCursor()
+			PickupAction(66)
+			ClearCursor()
+		end
+		if myclass=="Priest" or myclass=="Mage" or myclass=="Warlock" then
+			PickupSpellBookItem("Shoot")
+			PlaceAction(72)
+			PickupSpellBookItem("Attack")
+			PlaceAction(71)
+		elseif myclass=="Rogue" then
+			if SpellExists("Backstab") then PickupSpellBookItem("Backstab") end
+			PlaceAction(71)
+			PickupSpellBookItem("Attack")
+			PlaceAction(72)
+		elseif myclass=="Druid" then
+			if SpellExists("Ravage") then PickupSpellBookItem("Ravage") end
+			PlaceAction(71)
+			PickupSpellBookItem("Attack")
+			PlaceAction(72)
+		elseif myclass=="Hunter" then
+			PickupSpellBookItem("Auto Shot")
+			PlaceAction(72)
+			PickupSpellBookItem("Attack")
+			PlaceAction(71)
+			if SpellExists("Immolation Trap") then
+				PickupSpellBookItem("Freezing Trap")
+				PlaceAction(64)
+			end
+		else
+			PickupSpellBookItem("Attack")
+			PlaceAction(72)
+		end
+	end end
 function FindKeyInTable(table,string)
 	if not table then return end
 	for i,v in pairs(table) do
@@ -825,46 +857,50 @@ function TableLength(tab)
 	return len
 end
 function findSpell(spellName, bookType)
-   local i, s;
-   local found = false;
-   for i = 1, MAX_SKILLLINE_TABS do
-     local name, texture, offset, numSpells = GetSpellTabInfo(i);
-     if (not name) then break; end
-     for s = offset + 1, offset + numSpells do
-       local	spell, rank = GetSpellBookItemName(s, bookType);
-       if (spell == spellName) then found = true; end
-       if (found and spell ~=spellName) then return s-1; end
-     end
-   end
-   if (found) then return s; end
-   return nil;
- end
+  local i, s;
+  local found = false;
+  for i = 1, MAX_SKILLLINE_TABS do
+    local name, texture, offset, numSpells = GetSpellTabInfo(i);
+    if (not name) then break; end
+    for s = offset + 1, offset + numSpells do
+      local	spell, rank = GetSpellBookItemName(s, bookType);
+      if (spell == spellName) then found = true; end
+      if (found and spell ~=spellName) then return s-1; end
+    end
+  end
+  if (found) then return s; end
+  return nil;
+end
+function CreateMacroFS(nameorid, icon, body, perCharacter)
+    --print("CreateMacroFS: nameorid="..nameorid..", body="..body)
+    name,_,body_,_ = GetMacroInfo(nameorid)
+    --print("CreateMacroFS: name="..tostring(name)..", body_="..tostring(body_))
+    if name then
+        --print("Macro "..name.." already exist. NOT creating it again.")
+        return name
+    end
+    return CreateMacro(nameorid, icon, body, perCharacter)
+end
+function DeleteMacroFS(indexorname)
+    name,_,body,_ = GetMacroInfo(indexorname)
+    if body then
+        if not string.match(body, "^#noupdate") then
+            print("DELETE macro:      "..name.." and body: \n"..body)
+            DeleteMacro(name)
+        else
+            print("Found #noupdate macro:   "..name.." and body: \n"..body)
+        end
+    else
+        print("Nonexisting macro: "..indexorname)
+    end
+end
 function clearmacros()
-	MB_macronamestodelete={"hearth","pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
-	for k,macname in pairs(MB_macronamestodelete) do
-		while (GetMacroIndexByName(macname))>0 do
-			local index=GetMacroIndexByName(macname)
-			DeleteMacro(index)
-		end
-	end
-	for i=0,20 do 
-		while (GetMacroIndexByName("b"..i))>0 do
-			local index=GetMacroIndexByName("b"..i)
-			DeleteMacro(index)
-		end
-		while (GetMacroIndexByName("h"..i))>0 do
-			local index=GetMacroIndexByName("h"..i)
-			DeleteMacro(index)
-		end
-		while (GetMacroIndexByName("a"..i))>0 do
-			local index=GetMacroIndexByName("a"..i)
-			DeleteMacro(index)
-		end
-		while (GetMacroIndexByName("f"..i))>0 do
-			local index=GetMacroIndexByName("f"..i)
-			DeleteMacro(index)
-		end
-	end
+  print("Clearing Macros...")
+  MB_macronamestodelete={"rebirth","hearth","pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
+  for _,macname in pairs(MB_macronamestodelete) do
+    DeleteMacroFS(macname)
+  end
+  print("Done clearing Macros!")
 end
 function IsTank(name)
 	if name then 

@@ -1,42 +1,25 @@
-#THIS IS YOUR TOONLIST. READ THESE COMMENTS BEFORE ASKING
-# A QUESTION ON DISCORD. EVERY ONE.
-# Lines that start with # are comments, and have no effect.
-# Use a technical editor for this, NOT notepad. Notepad runs lines together.
-
-# monitor can be 1280x1024 / 1920x1080 / 2580x1440 /3360x1440 / 3840x2160
-monitor 3840x2160
-
-# OPTIONAL: Set this rectangle to your clique overlay area. 
-# I suggest the right half of the main window's raid interface
-# clique_overlay 105 260 65 430
-
-# Comment this out if you want your windows WITHOUT frames
-showframes
-
-# Uncomment this if your windows get named Unused*
-#fixunused
-
-# You can use 2 monitors by uncommenting the following
-# use2monitors
-
-# each window you open is defined by a box command.
-# Max number of box lines is 5 (for now).
+# YOU MUST EDIT THIS FILE TO MULTIBOX
+# Each wow window is defined by a box command. (max 5)
 # The box command starts with the word box.
 # Then battlenet account.
 # Then password.
 # Then subscription name
 # Then toon name.
-# Then role tank / melee / healer / caster / hunter
+# Then role: tank / melee / healer / caster / hunter
 # You may add letters at the end 
-# to launche certain boxes when you hit ctrl-alt-<letter>
+# to launch certain boxes when you hit ctrl-alt-<letter>
 # The letters are like their raid identifier. Example--The f
 # at the end of furyswipes line means ctrl-alt-f only opens him
 # Each toon can be in many different raids. 
 # ALL BOXES ARE IN RAID m by default. This cannot be changed!
 # ctrl alt m launches all your guys.
-# NO ALT CHARACTERS ALLOWED IN TOON NAMES!!! ONLY A-Z
+# NO ALT (special) CHARACTERS ALLOWED IN TOON NAMES!!! ONLY A-Z
+
 box bnetaccount bnetpassword wow1 Furyswipes tank f
 box bnetaccount bnetpassword wow2 mootalia melee
 box bnetaccount bnetpassword wow3 spirited healer
 box bnetaccount bnetpassword wow4 vajayjay caster
 box bnetaccount bnetpassword wow5 battlefield caster
+
+# REMOVE OR COMMENT OUT UNUSED BOX COMMANDS!!!
+# Ex: If you are 2-boxing, you should have only two box commands.

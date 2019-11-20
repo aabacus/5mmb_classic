@@ -495,8 +495,6 @@ Sequences['BOOMKIN_AOE'] = {
       "/cast [nomod,nochanneling] hurricane",
       "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
       "/cast [nomod] wrath",
-      --"/castsequence [nomod,@"..FSMB_strongestaoe.."] reset=combat/target renewal,regrowth,null",
-      --"/cast [nomod,@"..FSMB_strongestaoe.."] healing touch",
       PostMacro={
       },
       KeyRelease={

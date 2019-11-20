@@ -99,8 +99,6 @@ Sequences['RESTOSHAM_AOE'] = {
       PreMacro={
       },
 	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-	"/cast [@"..FSMB_strongestaoe.."] chain heal",
-	"/cast [@"..FSMB_strongestaoe.."] healing wave",
       PostMacro={
       },
       KeyRelease={
@@ -231,8 +229,6 @@ Sequences['ENH_AOE'] = {
       PreMacro={
       },
 	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-	"/cast [@"..FSMB_strongestaoe.."] chain heal",
-	"/cast [@"..FSMB_strongestaoe.."] healing wave",
       PostMacro={
       },
       KeyRelease={
@@ -364,8 +360,6 @@ Sequences['ELE_AOE'] = {
       PreMacro={
       },
 	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-	"/cast [@"..FSMB_strongestaoe.."] chain heal",
-	"/cast [@"..FSMB_strongestaoe.."] healing wave",
       PostMacro={
       },
       KeyRelease={

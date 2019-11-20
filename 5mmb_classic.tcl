@@ -1,4 +1,4 @@
-set version 110319_classic
+set version 113019_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -10,12 +10,13 @@ puts "=============================================="
 puts "My keyboard layout is $kb"
 puts "If shared mouseclicks don't automatically work using key "
 puts "to the left of 1, give this key code to Furyswipes"
+set display [twapi::get_display_size]
 array unset toons
 array unset autodelete
 array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
-set showframes ""
+set hideframes ""
 set fixunused ""
 set dontflashframe ""
 set useautotrade ""
@@ -23,28 +24,30 @@ set dontautodelete ""
 set dontbuystacks ""
 set dontautopass ""
 set autoturn ""
+set nomacros ""
 set clearcastmissiles ""
 set warlockpet ""
 set healhellfireat ""
 set healtankat ""
 set healchumpat ""
 set healselfat ""
-set maxheal "8 4 8 4"
-set clique_overlay "105 260 65 430"
+set maxheal "11 11 11 11"
+set clique_overlay ""
 set raidname "myraid1"
 set gazefollow ""
 set burningfollow ""
 set dedicated_healers ""
 set powerleveler ""
+set monitor ""
 set use2monitors false
 set openlevelers ""
 set shiftlevelers ""
 set ctrllevelers ""
 set goldto ""
 set boeto ""
-set monitor 3840x2160
 array set kb_oem "00000409 oem3"
 array set kb_oem "00000407 oem5"
+array set kb_oem "00000406 oem5"
 array set kb_oem "00000809 oem7"
 array set kb_oem "0000041d oem5"
 array set kb_oem "00000414 oem5"
@@ -192,9 +195,9 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "dontsoulstone" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontsoulstone true
-    } elseif { [string tolower [lindex $line 0]] == "showframes" } {
+    } elseif { [string tolower [lindex $line 0]] == "hideframes" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set showframes true
+				set hideframes true
 				 } elseif { [string tolower [lindex $line 0]] == "fixunused" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set fixunused true
@@ -216,6 +219,9 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "autoturn" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set autoturn true
+    } elseif { [string tolower [lindex $line 0]] == "nomacros" } {
+ 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set nomacros true
     } elseif { [string tolower [lindex $line 0]] == "clearcastmissiles" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set clearcastmissiles true
@@ -271,6 +277,20 @@ if $numtoons==0 {
 }
 set tooncount $numtoons
 close $tL 
+puts "Detected display size $display"
+if { $monitor != "" } { 
+	puts "Automatic monitor selection overridden by user to $monitor"
+} else {
+	set sizes "1280x1024 1920x1080 2560x1440 3360x1440 3840x2160"
+	foreach size $sizes {
+		regexp "(\\d+)" $size match x
+		regexp "x(\\d+)" $size match y
+		if { [lindex $display 0] >= $x && [lindex $display 1] >= $y } {
+			set monitor $size
+		}
+	}
+	puts "Monitor automatically set to $monitor"
+}
 #while { $tooncount >= 1 } {
   #incr tooncount -1
   #puts $toons($tooncount)
@@ -330,7 +350,7 @@ if { ! $nohotkeyoverwrite } {
 	set curdir [pwd]
 if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" -nosound>"
+	puts $hK "$curdir/Wow.exe\" >"
 	puts $hK {<TargetWin "World of Warcraft">  
 	<RenameTargetWin Unused%2%>
 	<Wait 300>
@@ -346,7 +366,7 @@ if { $fixunused=="" } {
 	<Key Enter>}
 } else {
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" -nosound>"
+	puts $hK "$curdir/Wow.exe\" >"
 	puts $hK {<TargetWin "World of Warcraft">
 		<RenameTargetWin %2%>
 	<Wait 300>
@@ -362,7 +382,7 @@ if { $fixunused=="" } {
 	<Text %4%>
 	<Key Enter>}
 	}
-if { $showframes=="" } {
+if { $hideframes=="true" } {
 	puts $hK "\t<RemoveWinFrame>"
 }
 	puts $hK "\t<TargetWin %2%>"
@@ -422,6 +442,15 @@ puts $hK {
 #Third list is each monitor position in the set
 # Right now, 3d only fully used (window switching) for raidhash(5) one monitor.
 # 20 Window Raid 
+if { $clique_overlay=="" } {
+	switch $monitor {
+	1280x1024 { set clique_overlay "33 84 21 106" }
+	1920x1080 { set clique_overlay "53 130 32 165" }
+	2560x1440 { set clique_overlay "67 172 46 219" }
+	3360x1440 { set clique_overlay "98 236 61 304" }
+	3840x2160 { set clique_overlay "105 260 65 330" }
+	}
+}
 if { $monitor == "3840x2160" } {
 #3840x2160
 if { $use2monitors } {
@@ -495,7 +524,7 @@ if { $use2monitors } {
 			set raidhash(2) {{640 540 0 0 } {640 540 0 540 }}
 			set raidhash(3) {{640 540 0 0 } {640 540 0 540 } {640 540 640 0 }}
 			set raidhash(4) {{640 540 0 0 } {640 540 0 540 } {640 540 640 0 } {640 540 640 540 }}
-		set raidhash(5) {{640 480 320 240} {320 240 0 240} {320 240 320 0} {320 240 640 0} {320 240 960 240}}
+			set raidhash(5) {{640 480 320 240} {320 240 0 240} {320 240 320 0} {320 240 640 0} {320 240 960 240}}
 	} else {
 	  #1080p
 		if { $use2monitors } { 
@@ -847,6 +876,7 @@ close $f
 	puts $hK {      <Wait 5>}
 	puts $hK {      <RestoreMousePos>}
 	puts $hK ""
+	#puts $hK "<CreateColoredButton clique $clique_overlay 0x101010 0x101010>"
 	puts -nonewline $hK {<Hotkey ScrollLockOn LButton, MButton, RButton, Button4, Button5>
 	<Passthrough>
 	<If MouseIsOverWindowRect }
@@ -875,7 +905,7 @@ close $f
 // Notice there is an exception list at the end.
 // The word %Trigger% gets replaced with whatever key you clicked.
 //-----------------------------------------------------------
-<Hotkey ScrollLockOn A-Z, 1-9, Shift, Ctrl, Alt, Plus, Minus, Esc , Divide, F1-F12 except 1-5,F7,F9,F10,E,F,Q,H, W, A, S, D, R, T, Y, I, U, J, V>}
+<Hotkey ScrollLockOn A-Z, 1-9, Shift, Ctrl, Alt, Plus, Minus, Esc , Divide, F1-F12 except 1-6,F7,F9,F10,E,F,Q,H, W, A, S, D, R, T, Y, I, U, J, V>}
 	puts $hK $winlabels
 	puts $hK { <Key %Trigger%>}
 	puts $hK ""
@@ -1109,8 +1139,8 @@ puts $hK {//-------------------------------------------------------------
 		}
 	}
 	puts $hK ""
-	puts $hK {// Same magic for 2-5, F7}
-	puts $hK {<Hotkey ScrollLockOn 2-5,F7>}
+	puts $hK {// Same magic for 2-6, F7}
+	puts $hK {<Hotkey ScrollLockOn 2-6,F7>}
 	puts $hK $winlabels
 	puts $hK "\t<Key %Trigger%>"
 	set totallabels 0
@@ -1302,8 +1332,7 @@ puts $hK {//-------------------------------------------------------------
 	}
 	puts $hK ""
 	puts $hK {// Shift-4 is also a skill that focuses tank target.
-<Hotkey ScrollLockOn Shift 4>
-	}
+<Hotkey ScrollLockOn Shift 4> }
 	set totallabels 0
 	for { set i 0 } { $i<[array size toons] } { incr i } {
 	  set toonname [string tolower [lindex $toons($i) 3]]
@@ -1329,6 +1358,7 @@ puts $hK {//-------------------------------------------------------------
 			incr totallabels
 		}
 	}
+	puts $hK "\t<Endif>"
 	puts $hK $winlabels
 	puts $hK "\t<Key Shift 4>"
 	puts $hK ""
@@ -1516,6 +1546,12 @@ if { ! $nosmoverwrite } {
 	      }
 	    }
 	    if { ! $found_tank } { puts $sMN \"\" }
+          } elseif { [regexp "^FSMB_nomacros" $line ] } {
+	    if { $nomacros=="true" } {
+	    	puts $sMN "FSMB_nomacros=true"
+	    } else { 
+		puts $sMN "FSMB_nomacros=nil"
+	    }
 	  } elseif { [regexp "^FSMB_healerlist" $line ] } {
 	    puts -nonewline $sMN "FSMB_healerlist=\{"
 	    set first false
@@ -1744,4 +1780,8 @@ if { ! $nosmoverwrite } {
 	file copy -force tmp $SME
 	file delete tmp
 }
+puts "================================================================="
+puts "                           ATTENTION"
+puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+puts "I WILL NOW POP OPEN WOW.EXE. Please make any selection there and CLOSE IT."
 puts "YOU CAN CLOSE THIS WINDOW NOW."

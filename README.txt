@@ -1,5 +1,6 @@
 HOW TO RUN 5-Minute Multiboxing:
-Remove geforce experience.
+BEFORE STARTING:
+Remove geforce experience!
 Set Read_Toonlist.bat to run as Administrator!
 Set HotKeyNet.exe to run as Administrator!
 
@@ -7,7 +8,7 @@ Set HotKeyNet.exe to run as Administrator!
 2) Edit toonlist.txt  ... put in your info. See toonlist for instructions.
 =======NOTE: NO ALT-CHARS ALLOWED IN TOON NAMES Only a-z=============
 3) Drag and drop the toonlist onto Read_Toonlist.bat
-4) START WOW MANUALLY by clicking on wow.exe (not the blizzard loader!), then close. (You don't have to login. Open and close. You only need to do this once, after drag-n-drop.
+4) WoW will open one window. Select Language then close it. DON'T LOG IN.
 5) Double click Hotkeynet.exe
 6) Click Load Script button--Load 5mmb_HKN_classic.txt
 7) scroll lock on
@@ -20,11 +21,7 @@ Set HotKeyNet.exe to run as Administrator!
 13) alt-4 to make everyone follow
 14) 2 to attack a single target. F-twice to make all toons attack/talk target.
 15) F1-F5 heals main window then next window clockwise
-16) alt-3 heals first guy with tank role in toonlist.
-17) type /clique and go to your healers/decursers and configure which button
-does what when clicking on raid bars. Clicking on those same raid bars in your
-main window will make those healers heal/decurse/shield that party member in
-exactly the same way!
+16) type /clique and go to your healers/decursers and configure which button does what when clicking on raid bars.
 
 Full controls here:
 https://www.reddit.com/r/Classic_Multiboxing/wiki/5mmbcontrols
