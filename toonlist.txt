@@ -11,7 +11,7 @@ monitor 3840x2160
 # locale "enUS"
 
 # Uncomment this if you want your windows with frames
-# showframes
+showframes
 
 # Uncomment this if your windows get named Unused*
 # fixunused
@@ -32,9 +32,9 @@ monitor 3840x2160
 # Each toon can be in many different raids. 
 # ALL BOXES ARE IN RAID m by default. This cannot be changed!
 # ctrl alt m launches all your guys.
-box bnet_acct bnet_passw wow1  Furyswipes melee f
-box bnet_acct bnet_passw wow2 mootalia tank  
-box bnet_acct bnet_passw wow3 spirited tank  l
+box bnet_acct bnet_passw wow1  Furyswipes tank f
+box bnet_acct bnet_passw wow2 mootalia melee  
+box bnet_acct bnet_passw wow3 spirited healer  l
 box bnet_acct bnet_passw wow4 icelance caster 
 box bnet_acct bnet_passw wow5 battlefield caster  w l
 

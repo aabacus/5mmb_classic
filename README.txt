@@ -1,4 +1,9 @@
 HOW TO RUN 5-Minute Multiboxing:
+SET UP FOCUS-FOLLOWS-MOUSE (Mouse window activation)
+Remove geforce experience.
+Set Read_Toonlist.bat to run as Administrator!
+Set HotKeyNet.exe to run as Administrator!
+
 1) Unzip contents into your classic dir
 2) Edit toonlist.txt  ... put in your info. See toonlist for instructions.
 =======NOTE: NO ALT-CHARS ALLOWED IN TOON NAMES Only a-z=============

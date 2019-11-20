@@ -1,4 +1,4 @@
-set version 101319b_classic
+set version 101719b_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [twapi::get_keyboard_layout_name]
@@ -345,6 +345,7 @@ if { $fixunused=="" } {
 	<RenameTargetWin %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
+	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
@@ -358,6 +359,7 @@ if { $fixunused=="" } {
 	<RenameTargetWin Unused%2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
+	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
@@ -367,7 +369,7 @@ if { $showframes=="" } {
 	puts $hK "\t<RemoveWinFrame>"
 }
 	puts $hK "\t<TargetWin %2%>"
-	puts $hK "\t<WaitForInputIdle 1000>"
+	puts $hK "\t<WaitForInputIdle 2000>"
 puts $hK {
 // This is the second Launcher command definition
 // It's not used. You CAN use it as a special wow setup for your main.
@@ -748,6 +750,7 @@ if { $use2monitors } {
 			puts $hK "<RestoreMousePos>"
 		}
 	}
+				file mkdir WTF
 				set f [open WTF\\config.wtf w]
 				puts $f "SET portal $portal"
 puts $f "SET textLocale $locale"
