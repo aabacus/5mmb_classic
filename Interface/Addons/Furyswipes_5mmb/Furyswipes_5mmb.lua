@@ -1,10 +1,10 @@
-FSMB_version="111319_classic"
+FSMB_version="111419_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Vajayjay",[5]="Battlefield"}
-FSMB_tank="Furyswipes"
+FSMB_toonlist={[1]="Mondri",[2]="Rasmothy",[3]="Derette",[4]="Orbendon",[5]="Tramdon"}
+FSMB_tank="Mondri"
 FSMB_nomacros=nil
-FSMB_healerlist={"Spirited"}
+FSMB_healerlist={"Derette"}
 FSMB_maxheal={Druid=3,Priest=3,Shaman=5,Paladin=3}
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
@@ -121,8 +121,10 @@ function init()
 			local x
 			for x=1,FSMB_maxheal[myclass] do 
 				local heallev=FSMB_maxheal[myclass]-x+1
-				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
-				break
+				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+					break
+				end
 			end
   			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
@@ -140,8 +142,10 @@ function init()
 			local x
 			for x=1,FSMB_maxheal[myclass] do 
 				local heallev=FSMB_maxheal[myclass]-x+1
-				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
-				break
+				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+					break
+				end
 			end
   			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
@@ -159,8 +163,10 @@ function init()
 				local x
 				for x=1,FSMB_maxheal[myclass] do 
 					local heallev=FSMB_maxheal[myclass]-x+1
-					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
-					break
+					if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
+						heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+						break
+					end
 				end
   				macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 				PickupMacro(macroId)
@@ -182,8 +188,10 @@ function init()
 			local x
 			for x=1,FSMB_maxheal[myclass] do 
 				local heallev=FSMB_maxheal[myclass]-x+1
-				heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
-				break
+				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+					break
+				end
 			end
   			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
@@ -200,8 +208,10 @@ function init()
 			local x
 			for x=1,FSMB_maxheal[myclass] do 
 				local heallev=FSMB_maxheal[myclass]-x+1
-				heallist=heallist.."\n/cast [nostance,@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
-				break
+				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
+					heallist=heallist.."\n/cast [nostance,@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+					break
+				end
 			end
   			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", heallist, nil);
 			PickupMacro(macroId)

@@ -1,0 +1,9 @@
+hideframes : get rid of frames on windows
+fixunused : fix wow when it comes up with unused in the window name
+nomacros : don't create dps macros--only the basics
+maxheal # # # # (four numbers) : Limit heals of classes to that level (
+numbers are Druid Priest Shaman Pally in that order )
+clique_overlay # # # # (four numbers) Change where the clique overlay box sits
+(xpos ypos box_x_size box_y_size)
+monitor # : Size of monitor 1280x1024 1920x1080 2560x1440 3360x1440 3840x2160
+use2monitors : spread windows over 2 monitors
