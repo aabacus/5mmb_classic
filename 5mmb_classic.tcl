@@ -383,7 +383,7 @@ if { ! $nohotkeyoverwrite } {
 	set curdir [pwd]
 if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" -nosound>"
+	puts $hK "$curdir/Wow.exe\" >"
 	puts $hK {<TargetWin "World of Warcraft">  
 	<RenameTargetWin Unused%2%>
 	<Wait 300>
@@ -399,7 +399,7 @@ if { $fixunused=="" } {
 	<Key Enter>}
 } else {
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" -nosound>"
+	puts $hK "$curdir/Wow.exe\" >"
 	puts $hK {<TargetWin "World of Warcraft">
 		<RenameTargetWin %2%>
 	<Wait 300>
