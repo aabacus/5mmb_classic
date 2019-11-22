@@ -40,27 +40,21 @@ Sequences['SURV_SINGLE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [@pet,dead] Revive Pet",
-	"/cast [nopet] Call Pet",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
 	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
       PostMacro={
       },
       KeyRelease={
@@ -81,29 +75,83 @@ Sequences['SURV_MULTI'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
-	"/cast [@pet,dead] Revive Pet",
-	"/cast [nopet] Call Pet",
 	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['SURV_SINGLE_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      PreMacro={
+	"/cast [nomod] Hunter's Mark",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['SURV_MULTI_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      "/cast [nomod] Multi-shot",
+      PreMacro={
+      },
       PostMacro={
       },
       KeyRelease={
@@ -122,35 +170,22 @@ Sequences['SURV_AOE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
-	"/cast [@pet,dead] Revive Pet",
-	"/cast [nopet] Call Pet",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
 	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
 	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
       PostMacro={
       },
       KeyRelease={
@@ -219,24 +254,21 @@ Sequences['BM_SINGLE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
       PostMacro={
       },
       KeyRelease={
@@ -257,26 +289,83 @@ Sequences['BM_MULTI'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['BM_SINGLE_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      PreMacro={
+	"/cast [nomod] Hunter's Mark",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['BM_MULTI_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      "/cast [nomod] Multi-shot",
+      PreMacro={
+      },
       PostMacro={
       },
       KeyRelease={
@@ -295,32 +384,22 @@ Sequences['BM_AOE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
 	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
       PostMacro={
       },
       KeyRelease={
@@ -389,24 +468,21 @@ Sequences['MM_SINGLE'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
       PostMacro={
       },
       KeyRelease={
@@ -427,26 +503,83 @@ Sequences['MM_MULTI'] = {
     [1] = {
       StepFunction = "Sequential",
       KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
+	"/cast [nomod] Raptor Strike",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
+	"/Cast [nomod] Wing Clip",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['MM_SINGLE_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      PreMacro={
+	"/cast [nomod] Hunter's Mark",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['MM_MULTI_RANGED'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Farcex@Grobbulus",
+  SpecID=3,
+  Talents = "",
+  Help = [[
+  It's MAAAAAAGIC!
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      KeyPress={
+	"/targetenemy [noexists][dead][help]",
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
+	"/petattack",
+	"/cast !Auto Shot",
+      },
+      "/castsequence [nomod] reset=10  Serpent Sting, Concussive Shot, Arcane Shot",
+      "/cast [nomod] Multi-shot",
+      PreMacro={
+      },
       PostMacro={
       },
       KeyRelease={
@@ -465,32 +598,22 @@ Sequences['MM_AOE'] = {
   Default=1,
   MacroVersions = {
     [1] = {
-      StepFunction = "Sequential",
+      StepFunction = "Priority",
       KeyPress={
+	"/cast [nopet,nodead] Call Pet; [@pet,dead] Revive Pet",
+	"/targetenemy [noexists][dead][help]",
 	"/petattack [nomod]",
 	"/cast [nomod] Charge",
-	"/cast [nomod] Auto Shot",
+	"/stopattack [mod:alt]",
+	"/startattack [nomod]", 
+	"/petautocastoff [group] Growl",
+	"/petautocaston [nogroup] Growl",
       },
       PreMacro={
-	"/cast [nomod] Arcane Shot",
       },
 	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling,@player] Volley",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod,nochanneling] Multi-Shot",
-	"/cast [nomod] Arcane Shot",
 	"/Cast [nomod] Mongoose Bite",
 	"/cast [nomod] Raptor Strike",
-	"/cast [nomod] Auto Shot",
-	"/cast [nomod] Bite",
-	"/Cast [mod:alt] Wing Clip",
-	"/Cast [mod:alt] Concussive Shot",
-	"/Cast [mod:Shift] Hunter's Mark",
-	"/cast [nomod] Claw",
-	"/Cast [nomod] Thunderstomp",
-	"/cast [nomod] Screech",
       PostMacro={
       },
       KeyRelease={

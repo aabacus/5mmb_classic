@@ -1,11 +1,11 @@
-FSMB_version="111419_classic"
+FSMB_version="112119_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Mondri",[2]="Rasmothy",[3]="Derette",[4]="Orbendon",[5]="Tramdon"}
-FSMB_tank="Mondri"
+FSMB_toonlist={[1]="Ulysses",[2]="Central",[3]="Wiggly",[4]="Thelnfinite",[5]="Antimagic"}
+FSMB_tank="Ulysses"
 FSMB_nomacros=nil
-FSMB_healerlist={"Derette"}
-FSMB_maxheal={Druid=3,Priest=3,Shaman=5,Paladin=3}
+FSMB_healerlist={"Wiggly"}
+FSMB_maxheal={Druid=11,Priest=11,Shaman=11,Paladin=11}
 FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
 FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
 FSMB_decurse={["Paladin"]="Cleanse",["Priest"]="Dispel Magic",["Mage"]="Remove Lesser Curse",["Druid"]="Remove Curse",["Shaman"]="Cure Poison",["Hunter"]="None",["Warlock"]="None",["Warrior"]="None",["Rogue"]="None",}
@@ -74,9 +74,11 @@ function init()
 	for i=1,TableLength(FSMB_toonlist) do
 		partymac=partymac.."/invite "..FSMB_toonlist[i].."\n"
 	end
-	local macroId = CreateMacroFS("party", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
+	local macroId = CreateMacroFS("party_fs", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
 	PickupMacro(macroId)
 	PlaceAction(10)
+	PickupMacro(macroId)
+	PlaceAction(22)
 	PickupMacro(macroId)
 	PlaceAction(82)
 	PickupMacro(macroId)
@@ -91,9 +93,9 @@ function init()
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
 		if myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("f"..i, "Ability_hunter_pet_gorilla", "", nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_hunter_pet_gorilla", "", nil);
 		else
-			macroId = CreateMacroFS("f"..i, "Ability_hunter_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_hunter_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(slot+i)
@@ -104,9 +106,9 @@ function init()
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
 		if myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("a"..i, "Ability_hunter_pet_hyena", "", nil);
+			macroId = CreateMacroFS("a"..i.."_fs", "Ability_hunter_pet_hyena", "", nil);
 		else
-			macroId = CreateMacroFS("a"..i, "Ability_hunter_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
+			macroId = CreateMacroFS("a"..i.."_fs", "Ability_hunter_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(slot+i)
@@ -126,7 +128,7 @@ function init()
 					break
 				end
 			end
-  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+  			macroId = CreateMacroFS("h"..i.."_fs", "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
@@ -147,7 +149,7 @@ function init()
 					break
 				end
 			end
-  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+  			macroId = CreateMacroFS("h"..i.."_fs", "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
@@ -168,7 +170,7 @@ function init()
 						break
 					end
 				end
-  				macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+  				macroId = CreateMacroFS("h"..i.."_fs", "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 				PickupMacro(macroId)
 				PlaceAction(slot+idx)
 				ClearCursor()
@@ -176,7 +178,7 @@ function init()
 			end
 	end
 	if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
-  		macroId = CreateMacroFS("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
+  		macroId = CreateMacroFS("rebirth.._fs", "spell_nature_reincarnation", "\n/cancelform\n/cast Rebirth", nil);
 		PickupMacro(macroId)
 		PlaceAction(68)
 		ClearCursor()
@@ -193,7 +195,7 @@ function init()
 					break
 				end
 			end
-  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
+  			macroId = CreateMacroFS("h"..i.."_fs", "spell_nature_healingtouch", "/run ClearCursor()\n/cleartarget"..heallist, nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
@@ -213,7 +215,7 @@ function init()
 					break
 				end
 			end
-  			macroId = CreateMacroFS("h"..i, "spell_nature_healingtouch", heallist, nil);
+  			macroId = CreateMacroFS("h"..i.."_fs", "spell_nature_healingtouch", heallist, nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
@@ -222,12 +224,12 @@ function init()
 	end
 	-- NONE OF THE FOLLOWING MACROS GET CREATED IF YOU put nomacros in your toonlist
 	if not FSMB_nomacros then 
-	local macroId = CreateMacroFS("spit", "Inv_misc_slime_01", "/spit", nil);
+	local macroId = CreateMacroFS("spit_fs", "Inv_misc_slime_01", "/spit", nil);
 	PickupMacro(macroId)
 	PlaceAction(59)
 	ClearCursor()
 	if myclass=="Druid" then
-		local macroId = CreateMacroFS("hearth", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
+		local macroId = CreateMacroFS("hearth_fs", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
 		PickupMacro(macroId)
 		PlaceAction(26)
 		ClearCursor()
@@ -238,21 +240,25 @@ function init()
 	end
 	for i=1,TableLength(FSMB_toonlist) do
 		if i==1 and myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("makealine", "Ability_hunter_pet_tallstrider", "", nil);
+			macroId = CreateMacroFS("makealine_fs", "Ability_hunter_pet_tallstrider", "", nil);
 		elseif myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("makealine", "Ability_hunter_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
+			macroId = CreateMacroFS("makealine_fs", "Ability_hunter_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(60)
 		ClearCursor()
 	end
 	if myclass=="Hunter" then
-		index=CreateMacroFS("feign","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
+		index=CreateMacroFS("feign_fs","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
 		PickupMacro(index)
 		PlaceAction(61)
-		index=CreateMacroFS("feed","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
+		index=CreateMacroFS("feed_fs","INV_Misc_QuestionMark","/cast [pet] feed pet\n/use 0 1\n/run ClearCursor()\n/cast [nopet] call pet\n/cast [@pet,dead] revive pet",nil)
+		PickupMacro(index)
+		PlaceAction(38)
+		index=CreateMacroFS("hawk_fs","INV_Misc_QuestionMark","/cast !Aspect of the Hawk",nil)
 		PickupMacro(index)
 		PlaceAction(37)
+		ClearCursor()
 	end
 	if myclass=="Warrior" and IsTank(myname) then
 		print("Checking ranged weap")
@@ -262,7 +268,7 @@ function init()
 		end
 	end
 	if myclass=="Druid" then
-  		macroId = CreateMacroFS("b0", "INV_Misc_QuestionMark", "/cancelform [stance]\n/cast [nostance,@"..FSMB_tank.."] thorns", nil);
+  		macroId = CreateMacroFS("b0_fs", "INV_Misc_QuestionMark", "/cancelform\n/cast [@"..FSMB_tank.."] thorns", nil);
 		PickupMacro(macroId)
 		PlaceAction(37)
 		ClearCursor()
@@ -270,13 +276,13 @@ function init()
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
-  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cancelform [stance]\n/cast [nostance,@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
+  			macroId = CreateMacroFS("b"..i.."_fs", "INV_Misc_QuestionMark", "/cancelform\n/cast [@"..FSMB_toonlist[i].."] Mark of the Wild", nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
 			idx=idx+1
 		end
-		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cancelform [stance]\n/castsequence [nostance,@target] reset=combat/target Mark of the Wild,thorns,null", nil);
+		macroId = CreateMacroFS("bufft_fs", "INV_Misc_QuestionMark", "/cast [stance:1] "..bearform.."\n/cancelform \n/castsequence [@target] reset=combat/target Mark of the Wild,thorns,null", nil);
 		PickupMacro(macroId)
 		PlaceAction(55)
 		ClearCursor()
@@ -285,7 +291,7 @@ function init()
 		ClearCursor()
 	end
 	if myclass=="Druid" and IsTank(myname) then
-  		macroId = CreateMacroFS("pull", "INV_Misc_QuestionMark", "/cancelform [nocombat,stance]\n/cast [nocombat,nostance] Wrath", nil);
+  		macroId = CreateMacroFS("pull_fs", "INV_Misc_QuestionMark", "/cancelform [nocombat]\n/cast [nocombat] Wrath", nil);
 		PickupMacro(macroId)
 		PlaceAction(61)
 		ClearCursor()
@@ -301,7 +307,7 @@ function init()
 		ClearCursor()
 	end
 	if myclass=="Priest" then
-  		macroId = CreateMacroFS("shackle", "INV_Misc_QuestionMark", "/cast Shackle Undead", nil);
+  		macroId = CreateMacroFS("shackle_fs", "INV_Misc_QuestionMark", "/cast Shackle Undead", nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
 		ClearCursor()
@@ -312,30 +318,30 @@ function init()
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
-  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Power Word: Fortitude", nil);
+  			macroId = CreateMacroFS("b"..i.."_fs", "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Power Word: Fortitude", nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
 			idx=idx+1
 		end
-		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Power Word: Fortitude,null", nil);
+		macroId = CreateMacroFS("bufft_fs", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Power Word: Fortitude,null", nil);
 		PickupMacro(macroId)
 		PlaceAction(55)
 		ClearCursor()
 	end
 	if myclass=="Paladin" then
 		if FindInTable(FSMB_healerlist,myname) then
-  			macroId = CreateMacroFS("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Wisdom,devotion aura", nil);
+  			macroId = CreateMacroFS("self_fs", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Wisdom,devotion aura", nil);
 			PickupMacro(macroId)
 			PlaceAction(37)
 			ClearCursor()
 		else
-  			macroId = CreateMacroFS("self", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Might,devotion aura", nil);
+  			macroId = CreateMacroFS("self_fs", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Might,devotion aura", nil);
 			PickupMacro(macroId)
 			PlaceAction(37)
 			ClearCursor()
 		end
-		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target,nomod] reset=combat/target Blessing of Might,null\n/castsequence [@target,mod:alt] reset=combat/target Blessing of Wisdom", nil);
+		macroId = CreateMacroFS("bufft_fs", "INV_Misc_QuestionMark", "/castsequence [@target,nomod] reset=combat/target Blessing of Might,null\n/castsequence [@target,mod:alt] reset=combat/target Blessing of Wisdom", nil);
 		PickupMacro(macroId)
 		PlaceAction(55)
 		ClearCursor()
@@ -343,7 +349,7 @@ function init()
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
-  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Blessing of Kings", nil);
+  			macroId = CreateMacroFS("b"..i.."_fs", "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Blessing of Kings", nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
@@ -355,7 +361,7 @@ function init()
 		for i=1,TableLength(FSMB_toonlist) do
 			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Ancestral Spirit\n"
 		end
-  		macroId = CreateMacroFS("rez", "spell_holy_resurrection", rezlist, nil);
+  		macroId = CreateMacroFS("rez_fs", "spell_holy_resurrection", rezlist, nil);
 		PickupMacro(macroId)
 		PlaceAction(8)
 		ClearCursor()
@@ -372,7 +378,7 @@ function init()
 		for i=1,TableLength(FSMB_toonlist) do
 			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Resurrection\n"
 		end
-  		macroId = CreateMacroFS("rez", "spell_holy_resurrection", rezlist, nil);
+  		macroId = CreateMacroFS("rez_fs", "spell_holy_resurrection", rezlist, nil);
 		PickupMacro(macroId)
 		PlaceAction(8)
 		ClearCursor()
@@ -381,7 +387,7 @@ function init()
 		ClearCursor()
 	end
 	if myclass=="Druid" then
-  		macroId = CreateMacroFS("rebirth", "spell_nature_reincarnation", "\n/cancelform\n/cast [nostance] Rebirth", nil);
+  		macroId = CreateMacroFS("rebirth_fs", "spell_nature_reincarnation", "\n/cancelform\n/cast Rebirth", nil);
 		PickupMacro(macroId)
 		PlaceAction(68)
 		ClearCursor()
@@ -389,8 +395,9 @@ function init()
 	if myclass=="Warlock" and SpellExists("Drain Soul") then
 		PickupSpellBookItem("Drain Soul")
 		PlaceAction(64)
-		--index=CreateMacroFS("pet","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
+		--index=CreateMacroFS("pet_fs","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
 		PickupSpellBookItem("Demon Skin")
+		PickupSpellBookItem("Demon Armor")
 		PlaceAction(37)
 		ClearCursor()
 	end
@@ -408,13 +415,13 @@ function init()
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
-  			macroId = CreateMacroFS("b"..i, "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Arcane Intellect", nil);
+  			macroId = CreateMacroFS("b"..i.."_fs", "INV_Misc_QuestionMark", "/cast [@"..FSMB_toonlist[i].."] Arcane Intellect", nil);
 			PickupMacro(macroId)
 			PlaceAction(slot+idx)
 			ClearCursor()
 			idx=idx+1
 		end
-		macroId = CreateMacroFS("bufft", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Arcane Intellect", nil);
+		macroId = CreateMacroFS("bufft_fs", "INV_Misc_QuestionMark", "/castsequence [@target] reset=combat/target Arcane Intellect", nil);
 		PickupMacro(macroId)
 		PlaceAction(55)
 		ClearCursor()
@@ -423,12 +430,12 @@ function init()
 		ClearCursor()
 	end
 	if FSMB_tank==myname or myclass=="Hunter" or myclass=="Warrior" or myclass=="Rogue" or myclass=="Shaman" or myclass=="Paladin" then
-  		macroId = CreateMacroFS("passive", "Spell_magic_polymorphchicken", "/petfollow [mod:alt]\n/stopattack [mod:alt]", nil);
+  		macroId = CreateMacroFS("passive_fs", "Spell_magic_polymorphchicken", "/petfollow [mod:alt]\n/stopattack [mod:alt]", nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
 		ClearCursor()
 	else
-  		macroId = CreateMacroFS("poly", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myclass], nil);
+  		macroId = CreateMacroFS("poly_fs", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myclass], nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
 		ClearCursor()
@@ -445,18 +452,20 @@ function init()
 			--ClearCursor()
 		--end
 	--end
-	macroId = CreateMacroFS("buff", "spell_holy_divinespirit", "", nil);
+	macroId = CreateMacroFS("buff_fs", "spell_holy_divinespirit", "", nil);
 	PickupMacro(macroId)
 	PlaceAction(57)
 	ClearCursor()
 	local index
 	if myname==FSMB_tank then
-		index=CreateMacroFS("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
+		index=CreateMacroFS("setup_fs","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
 	else
-		index=CreateMacroFS("setup","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
+		index=CreateMacroFS("setup_fs","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
 	end
 	PickupMacro(index)
 	PlaceAction(1)
+	PickupMacro(index)
+	PlaceAction(13)
 	PickupMacro(index)
 	PlaceAction(73)
 	PickupMacro(index)
@@ -466,7 +475,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(109)
 	ClearCursor()
-	index=CreateMacroFS("single","ability_searingarrow","/click "..myspec.."_SINGLE",nil)
+	index=CreateMacroFS("single_fs","ability_searingarrow","/click "..myspec.."_SINGLE",nil)
 	PickupMacro(index)
 	PlaceAction(2)
 	PickupMacro(index)
@@ -478,7 +487,13 @@ function init()
 	PickupMacro(index)
 	PlaceAction(110)
 	ClearCursor()
-	index=CreateMacroFS("multi","ability_upgrademoonglaive","/click "..myspec.."_MULTI",nil)
+	if myclass=="Hunter" then
+		index=CreateMacroFS("rsingle_fs","ability_searingarrow","/click "..myspec.."_SINGLE_RANGED",nil)
+	end
+	PickupMacro(index)
+	PlaceAction(14)
+	ClearCursor()
+	index=CreateMacroFS("multi_fs","ability_upgrademoonglaive","/click "..myspec.."_MULTI",nil)
 	PickupMacro(index)
 	PlaceAction(3)
 	PickupMacro(index)
@@ -490,9 +505,17 @@ function init()
 	PickupMacro(index)
 	PlaceAction(111)
 	ClearCursor()
-	index=CreateMacroFS("turbo","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]\n/run SetView(4)",nil)
+	if myclass=="Hunter" then
+		index=CreateMacroFS("rmulti_fs","ability_upgrademoonglaive","/click "..myspec.."_MULTI_RANGED",nil)
+	end
+	PickupMacro(index)
+	PlaceAction(15)
+	ClearCursor()
+	index=CreateMacroFS("turbo_fs","Spell_nature_lightning","/click "..myspec.."_TURBO\n/petpassive [mod:alt]\n/run SetView(4)",nil)
 	PickupMacro(index)
 	PlaceAction(4)
+	PickupMacro(index)
+	PlaceAction(16)
 	PickupMacro(index)
 	PlaceAction(76)
 	PickupMacro(index)
@@ -502,9 +525,11 @@ function init()
 	PickupMacro(index)
 	PlaceAction(112)
 	ClearCursor()
-	index=CreateMacroFS("aoe","spell_fire_selfdestruct","/click "..myspec.."_AOE",nil)
+	index=CreateMacroFS("aoe_fs","spell_fire_selfdestruct","/click "..myspec.."_AOE",nil)
 	PickupMacro(index)
 	PlaceAction(5)
+	PickupMacro(index)
+	PlaceAction(17)
 	PickupMacro(index)
 	PlaceAction(77)
 	PickupMacro(index)
@@ -514,7 +539,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(113)
 	ClearCursor()
-	macroId = CreateMacroFS("int", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
+	macroId = CreateMacroFS("int_fs", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
 	PickupMacro(macroId)
 	PlaceAction(63)
 	ClearCursor()
@@ -522,15 +547,15 @@ function init()
 	--PickupMacro(macroId)
 	--PlaceAction(56)
 	--ClearCursor()
-	index=CreateMacroFS("reload","spell_frost_stun","/reload",nil)
+	index=CreateMacroFS("reload_fs","spell_frost_stun","/reload",nil)
 	PickupMacro(index)
 	PlaceAction(31)
 	ClearCursor()
-	index=CreateMacroFS("leave","spell_nature_purge","/script LeaveParty()",nil)
+	index=CreateMacroFS("leave_fs","spell_nature_purge","/script LeaveParty()",nil)
 	PickupMacro(index)
 	PlaceAction(30)
 	ClearCursor()
-	index=CreateMacroFS("dance","ability_druid_aquaticform","/dance",nil)
+	index=CreateMacroFS("dance_fs","ability_druid_aquaticform","/dance",nil)
 	PickupMacro(index)
 	PlaceAction(29)
 	ClearCursor()
@@ -556,8 +581,13 @@ function init()
 	SetBinding("SHIFT-6","MULTIACTIONBAR1BUTTON6")
 	SetBinding("SHIFT-7","MULTIACTIONBAR1BUTTON7")
 	SetBinding("SHIFT-8","MULTIACTIONBAR1BUTTON8")
-	SetBinding("SHIFT-9","MULTIACTIONBAR1BUTTON9")
-	SetBinding("SHIFT-0","MULTIACTIONBAR1BUTTON10")
+	if myclass=="Hunter" then 
+		SetBinding("SHIFT-9","ACTIONPAGE2")
+		SetBinding("SHIFT-0","ACTIONPAGE1")
+	else
+		SetBinding("SHIFT-9","MULTIACTIONBAR1BUTTON9")
+		SetBinding("SHIFT-0","MULTIACTIONBAR1BUTTON10")
+	end
 	SetBinding("SHIFT--","MULTIACTIONBAR1BUTTON11")
 	SetBinding("SHIFT-=","MULTIACTIONBAR1BUTTON12")
 	SetBinding("F","INTERACTTARGET")
@@ -607,6 +637,7 @@ function init()
 	AttemptToSaveBindings(1)
 	CompactRaidFrameManager:Show()
 	SetCVar("alwaysShowActionBars", true)
+	SetCVar("raidFramesDisplayPowerBars", true)
 	SetCVar("nameplateShowEnemies", true)
 	SetCVar("nameplateShowFriends", true)
 	SetCVar("enableFloatingCombatText", true)
@@ -636,219 +667,7 @@ function init()
 	MultiActionBar_Update()
 	ClearTutorials()
 	ReloadUI()
-	if false then 
-		if myclass=="Hunter" then
-			index=CreateMacroFS("feign",124,"/script fd()",nil)
-			PickupMacro(index)
-			PlaceAction(61)
-		end
-		if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
-			PickupSpellBookItem("Shoot "..RangedWeaponType())
-			PlaceAction(61)
-		end
-		if myclass=="Druid" and SpellExists("Wrath") then
-			PickupSpellBookItem(findSpell("Wrath"),BOOKTYPE_SPELL)
-			PlaceAction(61)
-		end
-		index=CreateMacroFS("foc",9,"/script TargetByName(MB_raidleader,1)",1,nil)
-		PickupMacro(index)
-		PlaceAction(47)
-		index=CreateMacroFS("void",510,"/script SetLockPet(\"Voidwalker\")",1,nil)
-		PickupMacro(index)
-		PlaceAction(45)
-		index=CreateMacroFS("imp",507,"/script SetLockPet(\"Imp\")",1,nil)
-		PickupMacro(index)
-		PlaceAction(44)
-		index=CreateMacroFS("succ",509,"/script SetLockPet(\"Succubus\")",1,nil)
-		PickupMacro(index)
-		PlaceAction(43)
-		index=CreateMacroFS("felhunt",506,"/script SetLockPet(\"Felhunter\")",nil)
-		PickupMacro(index)
-		PlaceAction(42)
-		index=CreateMacroFS("tos",486,"/script SetLockPet(nil)",nil)
-		PickupMacro(index)
-		PlaceAction(41)
-		index=CreateMacroFS("fearbreak",489,"/script fearbreak()",nil)
-		PickupMacro(index)
-		PlaceAction(62)
-		index=CreateMacroFS("int",25,"/script interrupt_boss()",nil)
-		PickupMacro(index)
-		PlaceAction(63)
-		PickupAction(51)
-		ClearCursor()
-		index=CreateMacroFS("summ",511,"/run SummonOutOfRange()",1,nil)
-		PickupMacro(index)
-		PlaceAction(37)
-		if myclass=="Warlock" or myclass=="Hunter" or myclass=="Mage" or myclass=="Priest" or myclass=="Druid" or myclass=="Paladin" then
-			index=CreateMacroFS("sheep",394,"/script CC()",nil)
-			PickupMacro(index)
-			PlaceAction(51)
-		end
-		PickupAction(8)
-		ClearCursor()
-		PickupAction(80)
-		ClearCursor()
-		PickupAction(92)
-		ClearCursor()
-		PickupAction(104)
-		ClearCursor()
-		PickupAction(116)
-		ClearCursor()
-		index=CreateMacroFS("rezemall",303,"/script rezemall()",nil)
-		PickupMacro(index)
-		PlaceAction(8)
-		PickupMacro(index)
-		PlaceAction(80)
-		PickupMacro(index)
-		PlaceAction(92)
-		PickupMacro(index)
-		PlaceAction(104)
-		PickupMacro(index)
-		PlaceAction(116)
-		if myclass=="Priest" or myclass=="Druid" then
-			index=CreateMacroFS("preheal",292,"/script preheal_tanks()",nil)
-			PickupAction(50)
-			ClearCursor()
-			PickupMacro(index)
-			PlaceAction(50)
-		end
-		index=CreateMacroFS("cc",395,"/script MB_assign_cc()",nil)
-		PickupAction(49)
-		ClearCursor()
-		PickupMacro(index)
-		PlaceAction(49)
-		index=CreateMacroFS("ot",98,"/script MB_assign_ot()",1,nil)
-		PickupMacro(index)
-		PlaceAction(52)
-		index=CreateMacroFS("smartdrink",339,"/script smartdrink()",nil)
-		PickupMacro(index)
-		PlaceAction(53)
-		index=CreateMacroFS("line",294,"/script MakeALine()",1,nil)
-		PickupMacro(index)
-		PlaceAction(60)
-		PickupAction(59)
-		ClearCursor()
-		index=CreateMacroFS("pent",366,"/script Pentagram()",1,nil)
-		PickupMacro(index)
-		PlaceAction(59)
-		index=CreateMacroFS("clearot",133,"/script MB_clearraidtarget()",1,nil)
-		PickupMacro(index)
-		PlaceAction(54)
-		index=CreateMacroFS("cleartargs",138,"/script clearraidtargs()",1,nil)
-		PickupMacro(index)
-		PlaceAction(55)
-		index=CreateMacroFS("tankbrez",303,"/script rezemall(true)",nil)
-		PickupMacro(index)
-		PlaceAction(56)
-		index=CreateMacroFS("focus",1,"/script focusme()",nil)
-		PickupMacro(index)
-		PlaceAction(58)
-		index=CreateMacroFS("sortraid",63,"/script SortRaid()",nil)
-		PickupMacro(index)
-		PlaceAction(11)
-		PickupMacro(index)
-		PlaceAction(83)
-		PickupMacro(index)
-		PlaceAction(95)
-		PickupMacro(index)
-		PlaceAction(108)
-		PickupMacro(index)
-		PlaceAction(119)
-		index=CreateSuperMacro("levparty","Interface\\Icons\\Spell_Nature_EnchantArmor","/script leveling_parties()")
-		index=CreateMacroFS("party",320,"/script partyup()",1,nil)
-		PickupMacro(index)
-		PlaceAction(10)
-		PickupMacro(index)
-		PlaceAction(82)
-		PickupMacro(index)
-		PlaceAction(94)
-		PickupMacro(index)
-		PlaceAction(106)
-		PickupMacro(index)
-		PlaceAction(118)
-		PickupAction(7)
-		ClearCursor()
-		PickupAction(79)
-		ClearCursor()
-		PickupAction(91)
-		ClearCursor()
-		PickupAction(104)
-		ClearCursor()
-		PickupAction(115)
-		ClearCursor()
-		if myclass=="Warlock" and SpellExists("Life Tap") then
-			PickupSpellBookItem(findSpell("Life Tap"),BOOKTYPE_SPELL)
-			PlaceAction(7)
-		end
-		if myclass=="Warrior" or myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
-			index=CreateMacroFS("wall",165,"/script WarriorSurvive()",nil)
-			PickupMacro(index)
-			PlaceAction(6)
-			PickupMacro(index)
-			PlaceAction(78)
-			PickupMacro(index)
-			PlaceAction(90)
-			PickupMacro(index)
-			PlaceAction(103)
-			PickupMacro(index)
-			PlaceAction(114)
-		end
-		if myclass=="Warlock" then
-	        	index=CreateSuperMacro("HS","Interface\\Icons\\INV_stone_04","/run createhs()")
-			PickupMacro(index,"HS")
-			PlaceAction(68)
-		elseif myclass=="Priest" and SpellExists("Resurrection") then
-			PickupSpellBookItem(findSpell("Resurrection"),BOOKTYPE_SPELL)
-			PlaceAction(68)
-		elseif myclass=="Shaman" and SpellExists("Ancestral Spirit") then
-			PickupSpellBookItem(findSpell("Ancestral Spirit"),BOOKTYPE_SPELL)
-			PlaceAction(68)
-		elseif myclass=="Paladin" and SpellExists("Redemption") then
-			PickupSpellBookItem(findSpell("Redemption"),BOOKTYPE_SPELL)
-			PlaceAction(68)
-		end
-		if myclass=="Priest" or myclass=="Shaman" or myclass=="Druid" or myclass=="Paladin" then
-	        	index=CreateSuperMacro("flaoe","Interface\\Icons\\Spell_Holy_Prayerofhealing02","/script FloodAOEHeal()")
-			PickupMacro(index,"flaoe")
-			PlaceAction(65)
-			index=CreateMacroFS("aoeh",33,"/script AOEHeal()",1,nil)
-			PickupMacro(index)
-			PlaceAction(66)
-		else
-			PickupAction(65)
-			ClearCursor()
-			PickupAction(66)
-			ClearCursor()
-		end
-		if myclass=="Priest" or myclass=="Mage" or myclass=="Warlock" then
-			PickupSpellBookItem("Shoot")
-			PlaceAction(72)
-			PickupSpellBookItem("Attack")
-			PlaceAction(71)
-		elseif myclass=="Rogue" then
-			if SpellExists("Backstab") then PickupSpellBookItem("Backstab") end
-			PlaceAction(71)
-			PickupSpellBookItem("Attack")
-			PlaceAction(72)
-		elseif myclass=="Druid" then
-			if SpellExists("Ravage") then PickupSpellBookItem("Ravage") end
-			PlaceAction(71)
-			PickupSpellBookItem("Attack")
-			PlaceAction(72)
-		elseif myclass=="Hunter" then
-			PickupSpellBookItem("Auto Shot")
-			PlaceAction(72)
-			PickupSpellBookItem("Attack")
-			PlaceAction(71)
-			if SpellExists("Immolation Trap") then
-				PickupSpellBookItem("Freezing Trap")
-				PlaceAction(64)
-			end
-		else
-			PickupSpellBookItem("Attack")
-			PlaceAction(72)
-		end
-	end end
+end
 function FindKeyInTable(table,string)
 	if not table then return end
 	for i,v in pairs(table) do
@@ -906,7 +725,7 @@ function DeleteMacroFS(indexorname)
 end
 function clearmacros()
   print("Clearing Macros...")
-  MB_macronamestodelete={"rebirth","hearth","pet","spit","bufft","self","healpot","manapot","tot","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5"}
+  MB_macronamestodelete={"rsingle","rmulti","rebirth","hearth","pet","spit","bufft","self","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5","rsingle_fs","rmulti_fs","rebirth_fs","hearth_fs","pet_fs","spit_fs","bufft_fs","self_fs","healpot_fs","manapot_fs","tot_fs","rez_fs","setup_fs","pull_fs","feign_fs","shackle_fs","feed_fs","single_fs","multi_fs","selfh_fs","decurse_fs","reload_fs","dance_fs","leave_fs","makealine_fs","drink_fs","buff_fs","healtank_fs","aoe_fs","turbo_fs","int_fs","passive_fs","poly_fs","h1_fs","h2_fs","h3_fs","h4_fs","h5_fs","f1_fs","f2_fs","f3_fs","f4_fs","f5_fs","a1_fs","a2_fs","a3_fs","a4_fs","a5_fs","party_fs","b0_fs","b1_fs","b2_fs","b3_fs","b4_fs","b5_fs"}
   for _,macname in pairs(MB_macronamestodelete) do
     DeleteMacroFS(macname)
   end

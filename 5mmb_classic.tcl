@@ -1,4 +1,4 @@
-set version 113019_classic
+set version 112119b_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -45,6 +45,10 @@ set shiftlevelers ""
 set ctrllevelers ""
 set goldto ""
 set boeto ""
+set hunterlabels ""
+set meleelabels ""
+set healerlabels ""
+set manalabels ""
 array set kb_oem "00000409 oem3"
 array set kb_oem "00000407 oem5"
 array set kb_oem "00000406 oem5"
@@ -316,6 +320,7 @@ if { ! $nohotkeyoverwrite } {
 	for { set i 0 } { $i<[array size toons] } { incr i } {
 	  set toonname [string tolower [lindex $toons($i) 3]]
 	  set account [lindex $toons($i) 1]
+	  set role [string tolower [lindex $toons($i) 4]]
 	  set raids [lrange $toons($i) 5 end]
 		set comps 1
 		foreach myraid $raids {
@@ -332,6 +337,34 @@ if { ! $nohotkeyoverwrite } {
 	  	}
 	  	set acct_winname($account) ${acctnick}
 		#puts "acct_winname for $account is $acct_winname($account)"
+		if { $role=="melee" } { 
+			if { $meleelabels=="" } { 
+				set meleelabels "w${totallabels}"
+			} else {
+				set meleelabels "$meleelabels,w${totallabels}"
+			}
+		}
+		if { $role=="hunter" } { 
+			if { $hunterlabels=="" } { 
+				set hunterlabels "w${totallabels}"
+			} else {
+				set hunterlabels "$hunterlabels,w${totallabels}"
+			}
+		}
+		if { $role=="healer" } { 
+			if { $healerlabels=="" } { 
+				set healerlabels "w${totallabels}"
+			} else {
+				set healerlabels "$healerlabels,w${totallabels}"
+			}
+		}
+		if { $role=="healer" || $role=="caster" } { 
+			if { $manalabels=="" } { 
+				set manalabels "w${totallabels}"
+			} else {
+				set manalabels "$manalabels,w${totallabels}"
+			}
+		}
 	  	puts $hK "  <Label w${totallabels} $computer($mycomp) SendWinM ${toonname}_${mycomp}${acctnick}>"
 			incr totallabels
 		}
@@ -350,7 +383,7 @@ if { ! $nohotkeyoverwrite } {
 	set curdir [pwd]
 if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" >"
+	puts $hK "$curdir/Wow.exe\" -nosound>"
 	puts $hK {<TargetWin "World of Warcraft">  
 	<RenameTargetWin Unused%2%>
 	<Wait 300>
@@ -366,7 +399,7 @@ if { $fixunused=="" } {
 	<Key Enter>}
 } else {
 	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" >"
+	puts $hK "$curdir/Wow.exe\" -nosound>"
 	puts $hK {<TargetWin "World of Warcraft">
 		<RenameTargetWin %2%>
 	<Wait 300>
@@ -918,158 +951,55 @@ close $f
 // wow movement keys to move your side  toons.
 // Use the arrow keys for that. (see, they are there)
 //-----------------------------------------------------------
-	<MovementHotkey ScrollLockOn space, up, down, left, right,e,q>}
+	<MovementHotkey ScrollLockOn space, up, left, right,e,q>}
 	puts $hK $winlabels
 	puts $hK "\t<Key %Trigger%>"
 	puts $hK ""
-puts $hK {//You can even make special movement keys for just some of your toons.}
-        set hunter_present 0
-	for { set i 0 } { $i<[array size toons] } { incr i } {
-	  set role [lindex $toons($i) 4]
-          if {$role=="hunter"} { set hunter_present 1}
-  	}
-	if {$hunter_present} { 
-		puts $hK {//Hunter backup}
+	puts $hK {//You can even make special movement keys for just some of your toons.}
+		puts $hK {//Hunter goes into ranged mode on down arrow, too}
+		puts $hK {<MovementHotkey ScrollLockOn down>}
+		puts $hK $winlabels
+		puts $hK "\t<Key Down>"
+		puts $hK "\t<Sendlabel ${hunterlabels}>"
+		puts $hK "\t<Key Shift 9>"
+		puts $hK ""
+	if {$hunterlabels!=""} { 
+		puts $hK {//Hunter backup,ranged mode}
 		puts $hK {<MovementHotkey ScrollLockOn T>}
-		set totallabels 0
-		set hunterlabels "\t<Sendlabel"
-		for { set i 0 } { $i<[array size toons] } { incr i } {
-	  	set role [lindex $toons($i) 4]
-	  	set role [string tolower $role ]
-	  	set raids [lrange $toons($i) 5 end]
-			set comps 1
-			foreach myraid $raids {
-			  	regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
-			  	if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
-			}
-			foreach mycomp $comps {
-	    	if { $role=="hunter" } { 
-	      	if { $hunterlabels=="\t<Sendlabel" } { set hunterlabels  "$hunterlabels w${totallabels}" } else { set hunterlabels "$hunterlabels,w${totallabels}" } 
-				}
-		  	incr totallabels		
-	  	}
-		}
-		set hunterlabels "${hunterlabels}>"
-		puts $hK $hunterlabels
-		puts $hK "  <Key Down>"
+		puts $hK "\t<Sendlabel ${hunterlabels}>"
+		puts $hK "\t<Key Down>"
+		puts $hK "\t<Key Shift 9>"
 		puts $hK ""
 	}
-        set melee_present 0
-	for { set i 0 } { $i<[array size toons] } { incr i } {
-	  set role [lindex $toons($i) 4]
-          if {$role=="melee" } { set melee_present 1}
-  	}
-	if {$melee_present} {
+	if {$meleelabels!="" || $hunterlabels!=""} { 
+		puts $hK {//Melee/Hunter forward}
+		puts $hK {<MovementHotkey ScrollLockOn R>}
+		puts $hK "\t<Sendlabel ${hunterlabels}>"
+		puts $hK "\t<Key Up>"
+		puts $hK "\t<Key Shift 0>"
+		puts $hK "\t<Sendlabel ${meleelabels}>"
+		puts $hK "\t<Key Up>"
+		puts $hK ""
+	}
+	if {$meleelabels!=""} {
 		puts $hK {//Melee backup}
-		puts $hK {<MovementHotkey ScrollLockOn v>}
-		set totallabels 0
-		set meleelabels "\t<Sendlabel"
-		for { set i 0 } { $i<[array size toons] } { incr i } {
-	  	set role [lindex $toons($i) 4]
-	  	set role [string tolower $role ]
-	  	set raids [lrange $toons($i) 5 end]
-			set comps 1
-			foreach myraid $raids {
-			  	regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
-			  	if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
-			}
-			foreach mycomp $comps {
-	  		if { $role=="melee" } { 
-	   	 	if { $meleelabels=="\t<Sendlabel" } { set meleelabels  "$meleelabels w${totallabels}" } else { set meleelabels "$meleelabels,w${totallabels}" } 
-	  		}
-				incr totallabels
-			}
-		}
-		set meleelabels "${meleelabels}>"
-		puts $hK $meleelabels
-		puts $hK "  <Key Down>"
-		puts $hK ""
-		puts $hK {//Melee forward}
-		puts $hK {<MovementHotkey ScrollLockOn r>}
-		set totallabels 0
-		set meleelabels "\t<Sendlabel"
-		for { set i 0 } { $i<[array size toons] } { incr i } {
-	  	set role [lindex $toons($i) 4]
-	  	set role [string tolower $role ]
-	  	set raids [lrange $toons($i) 5 end]
-			set comps 1
-			foreach myraid $raids {
-			  	regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
-			  	if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
-			}
-			foreach mycomp $comps {
-	  		if { $role=="melee" } { 
-	    		if { $meleelabels=="\t<Sendlabel" } { set meleelabels  "$meleelabels w${totallabels}" } else { set meleelabels "$meleelabels,w${totallabels}" } 
-	  		}
-				incr totallabels
-			}
-		}
-		set meleelabels "${meleelabels}>"
-		puts $hK $meleelabels
-		puts $hK "  <Key Up>"
+		puts $hK {<MovementHotkey ScrollLockOn V>}
+		puts $hK "\t<Sendlabel ${meleelabels}>"
+		puts $hK "\t<Key Down>"
 		puts $hK ""
 	}
-        set healer_present 0
-	for { set i 0 } { $i<[array size toons] } { incr i } {
-	  set role [lindex $toons($i) 4]
-          if {$role=="healer" } { set healer_present 1}
-  	}
-	if {$healer_present} {
+	if {$healerlabels!=""} {
 		puts $hK {//Healer backup}
 		puts $hK {<MovementHotkey ScrollLockOn Y>}
-		set totallabels 0
-		set healerlabels "\t<Sendlabel"
-		for { set i 0 } { $i<[array size toons] } { incr i } {
-	  	set dname [lindex $toons($i) 3]
-	  	set role [lindex $toons($i) 4]
-	  	set role [string tolower $role ]
-	  	set raids [lrange $toons($i) 5 end]
-			set comps 1
-			foreach myraid $raids {
-			  	regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
-			  	if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
-			}
-			foreach mycomp $comps {
-	  		if { $role=="healer" } { 
-	   	 	if { $healerlabels=="\t<Sendlabel" } { set healerlabels  "$healerlabels w${totallabels}" } else { set healerlabels "$healerlabels,w${totallabels}" } 
-	  		}
-				incr totallabels
-			}
-		}
-		set healerlabels "${healerlabels}>"
-		puts $hK $healerlabels
-		puts $hK "  <Key Down>"
+		puts $hK "\t<Sendlabel ${healerlabels}>"
+		puts $hK "\t<Key Down>"
 		puts $hK ""
 	}
-        set mana_present 0
-	for { set i 0 } { $i<[array size toons] } { incr i } {
-	  set role [lindex $toons($i) 4]
-          if {$role=="healer" || $role=="caster" } { set mana_present 1}
-  	}
-	if {$mana_present} {
+	if {$manalabels!=""} {
 		puts $hK {//Mana backup}
 		puts $hK {<MovementHotkey ScrollLockOn H>}
-		set totallabels 0
-		set manalabels "\t<Sendlabel"
-		for { set i 0 } { $i<[array size toons] } { incr i } {
-	  	set role [lindex $toons($i) 4]
-	  	set role [string tolower $role ]
-	  	set raids [lrange $toons($i) 5 end]
-			set comps 1
-			foreach myraid $raids {
-			  	regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
-			  	if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
-			}
-			foreach mycomp $comps {
-	  		if { $role=="healer" || $role=="caster" } { 
-	    		if { $manalabels=="\t<Sendlabel" } { set manalabels  "$manalabels w${totallabels}" } else { set manalabels "$manalabels,w${totallabels}" } 
-	  		}
-				incr totallabels
-			}
-		}
-		set manalabels "${manalabels}>"
-		puts $hK $manalabels
-		puts $hK "  <Key Down>"
+		puts $hK "\t<Sendlabel ${manalabels}>"
+		puts $hK "\t<Key Down>"
 		puts $hK ""
 	}
 puts $hK {//-------------------------------------------------------------
@@ -1168,47 +1098,33 @@ puts $hK {//-------------------------------------------------------------
 			incr totallabels
 		}
 	}
+	puts $hK ""
 	puts $hK {<Hotkey ScrollLockOn 1>}
 	puts $hK $winlabels
 	puts $hK "\t<Key 1>"
-	set meleewinlabs ""
-	set melee_present 0
-	for { set i 0 } { $i<[array size toons] } { incr i } {
-	  set role [lindex $toons($i) 4]
-          if {$role=="melee" } { 
-		  if { ! $melee_present } {
-			  set meleewinlabs "\t<SendLabel w${i}"
-		  } else { 
-			  set meleewinlabs "${meleewinlabs},w${i}"
-		  }
-		  set melee_present 1
-  	  }
-	}
-	if { $melee_present } { set meleewinlabs "${meleewinlabs}>"}
-	if { $melee_present } {
+	if { $meleelabels!="" } {
 		set totallabels 0
 		for { set i 0 } { $i<[array size toons] } { incr i } {
-		  	set toonname [string tolower [lindex $toons($i) 3]]
-		  	set account [lindex $toons($i) 1]
-		  	set role [lindex $toons($i) 4]
-		  	set raids [lrange $toons($i) 5 end]
+	  	set toonname [string tolower [lindex $toons($i) 3]]
+	  	set account [lindex $toons($i) 1]
+	  	set raids [lrange $toons($i) 5 end]
 			set comps 1
 			foreach myraid $raids {
 				regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
 				if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
 			}
-		  	set length [string length $account]
+	  	set length [string length $account]
 			foreach mycomp $comps {
-	  			if { $length > 2 } {
-	    				set length [string length $account]
-	    				set acctnick "[string index $account 0][string index $account [expr $length-2]][string index $account [expr $length-1]]"
-	  			} else {
-	    				set acctnick ${account}
-	  			}
-	  			set acct_winname($account) ${acctnick}
-	  			puts $hK "\t<if MouseIsOverWindow ${toonname}_${mycomp}${acctnick}>"
-				puts $hK $meleewinlabs
-				puts $hK "\t<Key shift f[expr 8+$totallabels]>"
+	  		if { $length > 2 } {
+	    		set length [string length $account]
+	    		set acctnick "[string index $account 0][string index $account [expr $length-2]][string index $account [expr $length-1]]"
+	  		} else {
+	    		set acctnick ${account}
+	  		}
+	  		set acct_winname($account) ${acctnick}
+	  		puts $hK "\t<if MouseIsOverWindow ${toonname}_${mycomp}${acctnick}>"
+			puts $hK "\t<SendLabel ${meleelabels}>"
+			puts $hK "\t<Key shift f[expr 8+$totallabels]>"
 				incr totallabels
 			}
 		}
@@ -1227,8 +1143,12 @@ puts $hK {//-------------------------------------------------------------
 // It also sends an F10 (a macro with /follow furyswipes) and F11 (the assist macro)
 // So alt-4 is how you make your toons follow again.
 // YOU WILL USE ALT-4 CONSTANTLY. GET USED TO IT, SUCKAS.
-<Hotkey ScrollLockOn Alt 4>
-	<ResetToggles>}
+<Hotkey ScrollLockOn Alt 4>}
+	if {$hunterlabels!=""} {
+		puts $hK "\t<SendLabel ${hunterlabels}>"
+		puts $hK "\t<Key Shift 0>"
+	}	
+	puts $hK "\t<ResetToggles>"
 	set totallabels 0
 	for { set i 0 } { $i<[array size toons] } { incr i } {
 	  set toonname [string tolower [lindex $toons($i) 3]]

@@ -19,7 +19,7 @@ box bnetaccount bnetpassword wow1 Furyswipes tank f
 box bnetaccount bnetpassword wow2 mootalia melee
 box bnetaccount bnetpassword wow3 spirited healer
 box bnetaccount bnetpassword wow4 vajayjay caster
-box bnetaccount bnetpassword wow5 battlefield caster
+box bnetaccount bnetpassword wow5 battlefield hunter
 
 # REMOVE OR COMMENT OUT UNUSED BOX COMMANDS!!!
 # Ex: If you are 2-boxing, you should have only two box commands.
