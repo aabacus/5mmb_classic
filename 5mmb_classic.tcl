@@ -1,4 +1,4 @@
-set version 112119b_classic
+set version 112119c_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
