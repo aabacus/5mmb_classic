@@ -1,4 +1,4 @@
-set version 112119c_classic
+set version 112719d_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -50,8 +50,10 @@ set meleelabels ""
 set healerlabels ""
 set manalabels ""
 array set kb_oem "00000409 oem3"
+array set kb_oem "00020409 oem3"
 array set kb_oem "00000407 oem5"
 array set kb_oem "00000406 oem5"
+array set kb_oem "00000410 oem5"
 array set kb_oem "00000809 oem7"
 array set kb_oem "0000041d oem5"
 array set kb_oem "00000414 oem5"
@@ -499,8 +501,8 @@ if { $use2monitors } {
 } else { 
 	set raidhash(1) {{3840 2160 0 0 }}
 	set raidhash(2) {{1920 1080 0 0 } {1920 1080 0 1080}}
-	set raidhash(3) {{1920 1080 3840 0 } {1920 1080 5760 0 } {1920 1080 3840 1080}}
-	set raidhash(4) {{1920 1080 3840 0 } {1920 1080 5760 0 } {1920 1080 3840 1080} {1920 1080 5760 1080}}
+	set raidhash(3) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0}}
+	set raidhash(4) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0} {1920 1080 1920 1080}}
 	set raidhash(5) {{1920 1440 960 720 } {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720 }}
 	set raidhash(10) {{1280 1020 0 960} {1280 1020 1280 960} {1280 1020 2560 960} {640 480 640 0} {640 480 0 0} {640 480 0 480} {640 480 1280 0} {640 480 640 480} {640 480 1280 480} {640 480 1920 480}}
 	set raidhash(20) {{640 480 0 0} {960 720 0 1440} {960 720 960 1440} {960 720 1920 1440} {640 480 640 0} {640 480 1280 0} {640 480 1920 0} {640 480 2560 0} {640 480 3200 0} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 2560 480} {640 480 3200 480} {640 480 0 960} {640 480 640 960} {640 480 1280 960} {640 480 1920 960 } {640 480 2560 960}} 
@@ -560,10 +562,10 @@ if { $use2monitors } {
 			set raidhash(5) {{640 480 320 240} {320 240 0 240} {320 240 320 0} {320 240 640 0} {320 240 960 240}}
 	} else {
 	  #1080p
-		if { $use2monitors } { 
+		if { $use2monitors } {
 	set raidhash(1) {{1920 1080 0 0 }}
 	set raidhash(2) {{1920 1080 0 0 } {1920 1080 1920 0 }}
-	set raidhash(3) {{960 540 0 0 } {960 540 0 0 } {960 540 960 0}}
+	set raidhash(3) {{1920 1080 0 0 } {960 540 1920 0 } {960 540 1920 540}}
 	set raidhash(4) {{1920 1080 0 0 } {960 540 1920 0 } {960 540 2880 0 } {960 540 1920 540}}
 						set raidhash(5) {{1920 1080 0 0} {960 540 1920 540} {960 540 1920 0} {960 540 2880 0} {960 540 2880 540}}
 			set raidhash(10) {{1920 1080 0 0} {640 360 1920 0} {640 360 2560 0} {640 360 3200 0} {640 360 1920 360} {640 360 2560 360} {640 360 3200 360} {640 360 1920 720} {640 360 2560 720} {640 360 3200 720}}
@@ -574,9 +576,9 @@ if { $use2monitors } {
 		set raidhash(40) {{240 180 0 0} {480 360 480 720} {480 360 0 720} {480 360 960 720} {480 360 1440 720} {240 180 120 0} {240 180 240 0} {240 180 360 0} {240 180 480 0} {240 180 600 0} {240 180 720 0} {240 180 840 0} {240 180 960 0} {240 180 1200 0} {240 180 1440 0} {240 180 1680 0} {240 180 0 180} {240 180 240 180} {240 180 480 180} {240 180 720 180} {240 180 960 180} {240 180 1200 180} {240 180 1440 180} {240 180 1680 180} {240 180 0 360} {240 180 240 360} {240 180 480 360} {240 180 720 360} {240 180 960 360} {240 180 1200 360} {240 180 1440 360} {240 180 1680 360} {240 180 0 540} {240 180 240 540} {240 180 480 540} {240 180 720 540} {240 180 960 540} {240 180 1200 540} {240 180 1440 540} {240 180 1680 540}}
 		} else { 
 	set raidhash(1) {{1920 1080 0 0 }}
-	set raidhash(2) {{960 540 0 0 } {960 540 0 540}}
-	set raidhash(3) {{960 540 0 0 } {960 540 0 0 } {960 540 960 0}}
-	set raidhash(4) {{960 540 0 0 } {960 540 0 0 } {960 540 960 0} {960 540 960 540}}
+	set raidhash(2) {{960 540 0 540 } {960 540 0 0}}
+	set raidhash(3) {{960 540 0 540 } {960 540 0 0 } {960 540 960 0}}
+	set raidhash(4) {{960 540 0 540 } {960 540 0 0 } {960 540 960 0} {960 540 960 540}}
 			set raidhash(5) {{960 720 480 360} {480 360 0 360} {480 360 480 0} {480 360 960 0} {480 360 1440 360}}
 			set raidhash(10) {{640 510 0 480} {640 510 640 480} {640 510 1280 480} {320 240 320 0} {320 240 0 0} {320 240
 	 	0 240} {320 240 640 0} {320 240 320 240} {320 240 640 240} {320 240 960 240}}
@@ -956,12 +958,14 @@ close $f
 	puts $hK "\t<Key %Trigger%>"
 	puts $hK ""
 	puts $hK {//You can even make special movement keys for just some of your toons.}
-		puts $hK {//Hunter goes into ranged mode on down arrow, too}
-		puts $hK {<MovementHotkey ScrollLockOn down>}
-		puts $hK $winlabels
-		puts $hK "\t<Key Down>"
+	puts $hK {//Hunter goes into ranged mode on down arrow, too}
+	puts $hK {<MovementHotkey ScrollLockOn down>}
+	puts $hK $winlabels
+	puts $hK "\t<Key Down>"
+	if {$hunterlabels!=""} { 
 		puts $hK "\t<Sendlabel ${hunterlabels}>"
 		puts $hK "\t<Key Shift 9>"
+	}
 		puts $hK ""
 	if {$hunterlabels!=""} { 
 		puts $hK {//Hunter backup,ranged mode}
@@ -974,9 +978,11 @@ close $f
 	if {$meleelabels!="" || $hunterlabels!=""} { 
 		puts $hK {//Melee/Hunter forward}
 		puts $hK {<MovementHotkey ScrollLockOn R>}
+	if {$hunterlabels!=""} { 
 		puts $hK "\t<Sendlabel ${hunterlabels}>"
 		puts $hK "\t<Key Up>"
 		puts $hK "\t<Key Shift 0>"
+	}
 		puts $hK "\t<Sendlabel ${meleelabels}>"
 		puts $hK "\t<Key Up>"
 		puts $hK ""
