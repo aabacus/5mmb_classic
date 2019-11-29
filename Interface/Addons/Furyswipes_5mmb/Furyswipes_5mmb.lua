@@ -1,18 +1,42 @@
-FSMB_version="112119_classic"
+FSMB_version="112919_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
-FSMB_toonlist={[1]="Ulysses",[2]="Central",[3]="Wiggly",[4]="Thelnfinite",[5]="Antimagic"}
-FSMB_tank="Ulysses"
+
+-- Find players region and set the spelling for Rank
+region=GetLocale()
+if (region == "deDE" or region == "frFR") then
+rankName = "Rang"
+elseif (region == "esES") then
+rankName = "Rango"
+elseif (region == "ptBR") then
+rankName = "Grau"
+else
+rankName = "Rank"
+end
+--
+-- Find Spellnames by ID, result will be in players locale
+local hearthStone = GetItemInfo(6948)
+local priestHeal = GetSpellInfo(2050)
+local shamanHeal = GetSpellInfo(331)
+local druidHeal = GetSpellInfo(5185)
+local palaHeal = GetSpellInfo(635)
+local druidRebirth = GetSpellInfo(20484)
+--
+FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Vajayjay",[5]="Battlefield"}
+FSMB_tank="Furyswipes"
 FSMB_nomacros=nil
-FSMB_healerlist={"Wiggly"}
-FSMB_maxheal={Druid=11,Priest=11,Shaman=11,Paladin=11}
-FSMB_mypoly={["Priest"]="Shackle",["Mage"]="Polymorph",["Druid"]="Hibernate",["Warlock"]="Banish"}
-FSMB_myint={["Paladin"]="Hammer of Justice",["Priest"]="Silence",["Mage"]="Counterspell",["Druid"]="Bash",["Shaman"]="Earth Shock",["Hunter"]="Scatter Shot",["Warlock"]="",["Warrior"]="Pummel",["Rogue"]="Kick",}
-FSMB_decurse={["Paladin"]="Cleanse",["Priest"]="Dispel Magic",["Mage"]="Remove Lesser Curse",["Druid"]="Remove Curse",["Shaman"]="Cure Poison",["Hunter"]="None",["Warlock"]="None",["Warrior"]="None",["Rogue"]="None",}
-FSMB_heal_names={["Paladin"]="Holy Light",["Priest"]="Lesser Heal",["Druid"]="Healing Touch",["Shaman"]="Healing Wave"}
+FSMB_healerlist={"Spirited"}
+FSMB_maxheal={DRUID=11,PRIEST=11,SHAMAN=11,PALADIN=11}
+FSMB_mypoly={["PRIEST"]="Shackle",["MAGE"]="Polymorph",["DRUID"]="Hibernate",["WARLOCK"]="Banish"}
+FSMB_myint={["PALADIN"]="Hammer of Justice",["PRIEST"]="Silence",["MAGE"]="Counterspell",["DRUID"]="Bash",["SHAMAN"]="Earth Shock",["HUNTER"]="Scatter Shot",["WARLOCK"]="",["WARRIOR"]="Pummel",["ROGUE"]="Kick",}
+FSMB_decurse={["PALADIN"]="Cleanse",["PRIEST"]="Dispel Magic",["MAGE"]="Remove Lesser Curse",["DRUID"]="Remove Curse",["SHAMAN"]="Cure Poison",["HUNTER"]="None",["WARLOCK"]="None",["WARRIOR"]="None",["ROGUE"]="None",}
+FSMB_heal_names={["PALADIN"]=(palaHeal),["PRIEST"]=(priestHeal),["DRUID"]=(druidHeal),["SHAMAN"]=(shamanHeal)}
 FSMB_mydecurse=FSMB_decurse[UnitClass("player")]
 myname=UnitName("player")
-myclass=UnitClass("player")
+
+-- Find players class, first variable is in players locale, second in english and in CAPS
+notUsed, myClass=UnitClass("player")
+--
 mylevel=UnitLevel("player")
 if UnitLevel("player")>7 then 
 	FSMB_myseal="Seal of the Crusader"
@@ -34,37 +58,37 @@ function init()
 	if UnitAffectingCombat("player") then return end
 	local myspec="UNKNOWN"
 	if mylevel>39 then bearform="Dire Bear Form" else bearform="Bear Form" end
-	if myclass=="Warrior" then
+	if myClass=="WARRIOR" then
 		if IsFury() then myspec="FURY"
 		else myspec="ARMS" end
-	elseif myclass=="Druid" then
+	elseif myClass=="DRUID" then
 		if IsBoomkin() then myspec="BOOMKIN" 
-		elseif IsDruidHealer() then myspec="RESTODRU"
+		elseif IsDRUIDHealer() then myspec="RESTODRU"
 		elseif IsTank(myname) then myspec="BEAR_TANK"
 		else myspec="FERAL" end
-	elseif myclass=="Mage" then
+	elseif myClass=="MAGE" then
 		if IsFrost() then myspec="FROST" 
 		else myspec="FIRE" end
-	elseif myclass=="Shaman" then
+	elseif myClass=="SHAMAN" then
 		if IsElementalShammy() then myspec="ELE" 
 		elseif IsEnhanceShammy() then myspec="ENH"
 		else myspec="RESTOSHAM" end
-	elseif myclass=="Hunter" then
+	elseif myClass=="HUNTER" then
 		if IsMM() then myspec="MM" 
 		elseif IsBM() then myspec="BM"
 		else myspec="SURV" end
-	elseif myclass=="Priest" then
+	elseif myClass=="PRIEST" then
 		if IsShadow() then myspec="SHADOW" 
 		else myspec="HOLY" end
-	elseif myclass=="Hunter" then
+	elseif myClass=="HUNTER" then
 		if IsMM() then myspec="MM" 
 		elseif IsBM() then myspec="BM"
 		else myspec="SURV" end
-	elseif myclass=="Rogue" then
+	elseif myClass=="ROGUE" then
 		myspec="COMBAT"
-	elseif myclass=="Warlock" then
+	elseif myClass=="WARLOCK" then
 		myspec="DESTRO"
-	elseif myclass=="Paladin" then
+	elseif myClass=="PALADIN" then
 		if IsPallyTank() then myspec="PROT" 
 		elseif IsHolyPally() then myspec="HOLY"
 		else myspec="RET" end
@@ -74,7 +98,7 @@ function init()
 	for i=1,TableLength(FSMB_toonlist) do
 		partymac=partymac.."/invite "..FSMB_toonlist[i].."\n"
 	end
-	local macroId = CreateMacroFS("party_fs", "Ability_hunter_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
+	local macroId = CreateMacroFS("party_fs", "Ability_HUNTER_pathfinding", partymac.."\n/run SetLootMethod(\"freeforall\",UnitName(\"player\"))" , nil);
 	PickupMacro(macroId)
 	PlaceAction(10)
 	PickupMacro(macroId)
@@ -93,9 +117,9 @@ function init()
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
 		if myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("f"..i.."_fs", "Ability_hunter_pet_gorilla", "", nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "", nil);
 		else
-			macroId = CreateMacroFS("f"..i.."_fs", "Ability_hunter_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(slot+i)
@@ -106,25 +130,27 @@ function init()
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
 		if myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("a"..i.."_fs", "Ability_hunter_pet_hyena", "", nil);
+			macroId = CreateMacroFS("a"..i.."_fs", "Ability_HUNTER_pet_hyena", "", nil);
 		else
-			macroId = CreateMacroFS("a"..i.."_fs", "Ability_hunter_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
+			macroId = CreateMacroFS("a"..i.."_fs", "Ability_HUNTER_pet_hyena", "/assist "..FSMB_toonlist[i], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(slot+i)
 		ClearCursor()
 	end
-	if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
+	if myClass=="SHAMAN" and FindInTable(FSMB_healerlist,myname) then
 		local slot=49
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
 			local heallist=""
 			local x
-			for x=1,FSMB_maxheal[myclass] do 
-				local heallev=FSMB_maxheal[myclass]-x+1
-				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
-					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+			for x=1,FSMB_maxheal[myClass] do 
+				local heallev=FSMB_maxheal[myClass]-x+1
+				-- Edited for multi language
+				if SpellExists(FSMB_heal_names[myClass].."("..rankName.." "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myClass].."("..rankName.." "..heallev..")"
+					--
 					break
 				end
 			end
@@ -135,17 +161,17 @@ function init()
 			idx=idx+1
 		end
 	end
-	if myclass=="Priest" and FindInTable(FSMB_healerlist,myname) then
+	if myClass=="PRIEST" and FindInTable(FSMB_healerlist,myname) then
 		local slot=49
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
 			local heallist=""
 			local x
-			for x=1,FSMB_maxheal[myclass] do 
-				local heallev=FSMB_maxheal[myclass]-x+1
-				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
-					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+			for x=1,FSMB_maxheal[myClass] do 
+				local heallev=FSMB_maxheal[myClass]-x+1
+				if SpellExists(FSMB_heal_names[myClass].."("..rankName.." "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myClass].."("..rankName.." "..heallev..")"
 					break
 				end
 			end
@@ -156,17 +182,17 @@ function init()
 			idx=idx+1
 		end
 	end
-	if myclass=="Paladin" and FindInTable(FSMB_healerlist,myname) then
+	if myClass=="PALADIN" and FindInTable(FSMB_healerlist,myname) then
 			local slot=49
 			local idx=0
 			local i
 			for i=1,TableLength(FSMB_toonlist) do
 				local heallist=""
 				local x
-				for x=1,FSMB_maxheal[myclass] do 
-					local heallev=FSMB_maxheal[myclass]-x+1
-					if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
-						heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+				for x=1,FSMB_maxheal[myClass] do 
+					local heallev=FSMB_maxheal[myClass]-x+1
+					if SpellExists(FSMB_heal_names[myClass].."("..rankName.." "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myClass].."("..rankName.." "..heallev..")"
 						break
 					end
 				end
@@ -177,8 +203,8 @@ function init()
 				idx=idx+1
 			end
 	end
-	if myclass=="Druid" and FindInTable(FSMB_healerlist,myname) then
-  		macroId = CreateMacroFS("rebirth.._fs", "spell_nature_reincarnation", "\n/cancelform\n/cast Rebirth", nil);
+	if myClass=="DRUID" and FindInTable(FSMB_healerlist,myname) then
+  		macroId = CreateMacroFS("rebirth.._fs", "spell_nature_reincarnation", "\n/cancelform\n/cast "..druidRebirth.."", nil);
 		PickupMacro(macroId)
 		PlaceAction(68)
 		ClearCursor()
@@ -188,10 +214,10 @@ function init()
 		for i=1,TableLength(FSMB_toonlist) do
 			local heallist=""
 			local x
-			for x=1,FSMB_maxheal[myclass] do 
-				local heallev=FSMB_maxheal[myclass]-x+1
-				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
-					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+			for x=1,FSMB_maxheal[myClass] do 
+				local heallev=FSMB_maxheal[myClass]-x+1
+				if SpellExists(FSMB_heal_names[myClass].."("..rankName.." "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myClass].."("..rankName.." "..heallev..")"
 					break
 				end
 			end
@@ -201,17 +227,17 @@ function init()
 			ClearCursor()
 			idx=idx+1
 		end
-	elseif myclass=="Druid" then
+	elseif myClass=="DRUID" then
 		local slot=49
 		local idx=0
 		local i
 		for i=1,TableLength(FSMB_toonlist) do
 			local heallist=""
 			local x
-			for x=1,FSMB_maxheal[myclass] do 
-				local heallev=FSMB_maxheal[myclass]-x+1
-				if SpellExists(FSMB_heal_names[myclass].."(Rank "..heallev..")") then 
-					heallist=heallist.."\n/cast [nostance,@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myclass].."(Rank "..heallev..")"
+			for x=1,FSMB_maxheal[myClass] do 
+				local heallev=FSMB_maxheal[myClass]-x+1
+				if SpellExists(FSMB_heal_names[myClass].."("..rankName.." "..heallev..")") then 
+					heallist=heallist.."\n/cast [@"..FSMB_toonlist[i].."] "..FSMB_heal_names[myClass].."("..rankName.." "..heallev..")"
 					break
 				end
 			end
@@ -228,27 +254,27 @@ function init()
 	PickupMacro(macroId)
 	PlaceAction(59)
 	ClearCursor()
-	if myclass=="Druid" then
-		local macroId = CreateMacroFS("hearth_fs", "INV_Misc_QuestionMark", "/cancelform\n/use hearthstone", nil);
+	if myClass=="DRUID" then
+		local macroId = CreateMacroFS("hearth_fs", "INV_Misc_QuestionMark", "/cancelform\n/use "..hearthStone.."", nil);
 		PickupMacro(macroId)
 		PlaceAction(26)
 		ClearCursor()
 	else
-		PickupItem("Hearthstone")
+		PickupItem(hearthStone)
 		PlaceAction(26)
 		ClearCursor()
 	end
 	for i=1,TableLength(FSMB_toonlist) do
 		if i==1 and myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("makealine_fs", "Ability_hunter_pet_tallstrider", "", nil);
+			macroId = CreateMacroFS("makealine_fs", "Ability_HUNTER_pet_tallstrider", "", nil);
 		elseif myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("makealine_fs", "Ability_hunter_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
+			macroId = CreateMacroFS("makealine_fs", "Ability_HUNTER_pet_tallstrider", "/follow "..FSMB_toonlist[i-1], nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(60)
 		ClearCursor()
 	end
-	if myclass=="Hunter" then
+	if myClass=="HUNTER" then
 		index=CreateMacroFS("feign_fs","INV_Misc_QuestionMark","/petfollow\n/petpassive\n/stopattack\n/cast Freezing Trap\n/cast Feign Death",nil)
 		PickupMacro(index)
 		PlaceAction(61)
@@ -260,14 +286,14 @@ function init()
 		PlaceAction(37)
 		ClearCursor()
 	end
-	if myclass=="Warrior" and IsTank(myname) then
+	if myClass=="WARRIOR" and IsTank(myname) then
 		print("Checking ranged weap")
-		if myclass=="Warrior" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
+		if myClass=="WARRIOR" and RangedWeaponType() and SpellExists("Shoot "..RangedWeaponType()) then
 			PickupSpellBookItem("Shoot "..RangedWeaponType())
 			PlaceAction(61)
 		end
 	end
-	if myclass=="Druid" then
+	if myClass=="DRUID" then
   		macroId = CreateMacroFS("b0_fs", "INV_Misc_QuestionMark", "/cancelform\n/cast [@"..FSMB_tank.."] thorns", nil);
 		PickupMacro(macroId)
 		PlaceAction(37)
@@ -290,13 +316,13 @@ function init()
 		PlaceAction(61)
 		ClearCursor()
 	end
-	if myclass=="Druid" and IsTank(myname) then
+	if myClass=="DRUID" and IsTank(myname) then
   		macroId = CreateMacroFS("pull_fs", "INV_Misc_QuestionMark", "/cancelform [nocombat]\n/cast [nocombat] Wrath", nil);
 		PickupMacro(macroId)
 		PlaceAction(61)
 		ClearCursor()
 	end
-	if myclass=="Shaman" and FindInTable(FSMB_healerlist,myname) then
+	if myClass=="SHAMAN" and FindInTable(FSMB_healerlist,myname) then
 		if IsRestoShammy() then 
 			PickupSpellBookItem("Flametongue Weapon")
 		else
@@ -306,7 +332,7 @@ function init()
 		PlaceAction(37)
 		ClearCursor()
 	end
-	if myclass=="Priest" then
+	if myClass=="PRIEST" then
   		macroId = CreateMacroFS("shackle_fs", "INV_Misc_QuestionMark", "/cast Shackle Undead", nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
@@ -329,7 +355,7 @@ function init()
 		PlaceAction(55)
 		ClearCursor()
 	end
-	if myclass=="Paladin" then
+	if myClass=="PALADIN" then
 		if FindInTable(FSMB_healerlist,myname) then
   			macroId = CreateMacroFS("self_fs", "INV_Misc_QuestionMark", "/castsequence [@player] reset=combat Blessing of Wisdom,devotion aura", nil);
 			PickupMacro(macroId)
@@ -356,7 +382,7 @@ function init()
 			idx=idx+1
 		end
 	end
-	if myclass=="Shaman" then
+	if myClass=="SHAMAN" then
 		local rezlist=""
 		for i=1,TableLength(FSMB_toonlist) do
 			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Ancestral Spirit\n"
@@ -373,7 +399,7 @@ function init()
 		--PlaceAction(61)
 		--ClearCursor()
 	end
-	if myclass=="Priest" then
+	if myClass=="PRIEST" then
 		local rezlist=""
 		for i=1,TableLength(FSMB_toonlist) do
 			rezlist=rezlist.."/target "..FSMB_toonlist[i].."\n/cast [dead] Resurrection\n"
@@ -386,13 +412,13 @@ function init()
 		PlaceAction(68)
 		ClearCursor()
 	end
-	if myclass=="Druid" then
-  		macroId = CreateMacroFS("rebirth_fs", "spell_nature_reincarnation", "\n/cancelform\n/cast Rebirth", nil);
+	if myClass=="DRUID" then
+  		macroId = CreateMacroFS("rebirth_fs", "spell_nature_reincarnation", "\n/cancelform\n/cast "..druidRebirth.."", nil);
 		PickupMacro(macroId)
 		PlaceAction(68)
 		ClearCursor()
 	end
-	if myclass=="Warlock" and SpellExists("Drain Soul") then
+	if myClass=="WARLOCK" and SpellExists("Drain Soul") then
 		PickupSpellBookItem("Drain Soul")
 		PlaceAction(64)
 		--index=CreateMacroFS("pet_fs","INV_Misc_QuestionMark","/cast [nopet, group, nocombat] Summon Imp\n/cast [nopet, nogroup, nocombat] Summon Voidwalker")
@@ -401,7 +427,7 @@ function init()
 		PlaceAction(37)
 		ClearCursor()
 	end
-	if myclass=="Mage" then
+	if myClass=="MAGE" then
 		if findSpell("Conjure Water",BOOKTYPE_SPELL) then
 			PickupSpellBookItem("Conjure Water")
 			PlaceAction(12)
@@ -429,19 +455,19 @@ function init()
 		PickupAction(12)
 		ClearCursor()
 	end
-	if FSMB_tank==myname or myclass=="Hunter" or myclass=="Warrior" or myclass=="Rogue" or myclass=="Shaman" or myclass=="Paladin" then
+	if FSMB_tank==myname or myClass=="HUNTER" or myClass=="WARRIOR" or myClass=="ROGUE" or myClass=="SHAMAN" or myClass=="PALADIN" then
   		macroId = CreateMacroFS("passive_fs", "Spell_magic_polymorphchicken", "/petfollow [mod:alt]\n/stopattack [mod:alt]", nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
 		ClearCursor()
 	else
-  		macroId = CreateMacroFS("poly_fs", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myclass], nil);
+  		macroId = CreateMacroFS("poly_fs", "INV_Misc_QuestionMark", "/cast "..FSMB_mypoly[myClass], nil);
 		PickupMacro(macroId)
 		PlaceAction(62)
 		ClearCursor()
 	end
 	--for healer,spelllist in pairs(FSMB_heal_names) do
-		--if myclass==healer then 
+		--if myClass==healer then 
 			--healcasts=""
 			--for _,heal in pairs(spelllist) do
 				--healcasts=healcasts.."/cast [@player] "..heal.."\n"
@@ -487,7 +513,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(110)
 	ClearCursor()
-	if myclass=="Hunter" then
+	if myClass=="HUNTER" then
 		index=CreateMacroFS("rsingle_fs","ability_searingarrow","/click "..myspec.."_SINGLE_RANGED",nil)
 	end
 	PickupMacro(index)
@@ -505,7 +531,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(111)
 	ClearCursor()
-	if myclass=="Hunter" then
+	if myClass=="HUNTER" then
 		index=CreateMacroFS("rmulti_fs","ability_upgrademoonglaive","/click "..myspec.."_MULTI_RANGED",nil)
 	end
 	PickupMacro(index)
@@ -539,7 +565,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(113)
 	ClearCursor()
-	macroId = CreateMacroFS("int_fs", "ability_druid_bash", "/cast "..FSMB_myint[myclass], nil);
+	macroId = CreateMacroFS("int_fs", "ability_DRUID_bash", "/cast "..FSMB_myint[myClass], nil);
 	PickupMacro(macroId)
 	PlaceAction(63)
 	ClearCursor()
@@ -555,7 +581,7 @@ function init()
 	PickupMacro(index)
 	PlaceAction(30)
 	ClearCursor()
-	index=CreateMacroFS("dance_fs","ability_druid_aquaticform","/dance",nil)
+	index=CreateMacroFS("dance_fs","ability_DRUID_aquaticform","/dance",nil)
 	PickupMacro(index)
 	PlaceAction(29)
 	ClearCursor()
@@ -581,7 +607,7 @@ function init()
 	SetBinding("SHIFT-6","MULTIACTIONBAR1BUTTON6")
 	SetBinding("SHIFT-7","MULTIACTIONBAR1BUTTON7")
 	SetBinding("SHIFT-8","MULTIACTIONBAR1BUTTON8")
-	if myclass=="Hunter" then 
+	if myClass=="HUNTER" then 
 		SetBinding("SHIFT-9","ACTIONPAGE2")
 		SetBinding("SHIFT-0","ACTIONPAGE1")
 	else
@@ -759,16 +785,16 @@ function IsFrost()
 	return (TalentPointsIn(3)>TalentPointsIn(1) and TalentPointsIn(3)>TalentPointsIn(2))
 end
 function IsBoomkin()
-	return not IsHybridDruid() and (TalentPointsIn(1)>=TalentPointsIn(2) and TalentPointsIn(1)>=TalentPointsIn(3))
+	return not IsHybridDRUID() and (TalentPointsIn(1)>=TalentPointsIn(2) and TalentPointsIn(1)>=TalentPointsIn(3))
 end
 function IsTouchOfShadowLock()
 	n,ic,t,c,EM=GetTalentInfo(2,13)
 	if EM>0 then return EM else return nil end
 end
-function IsDruidHealer()
-	return not IsHybridDruid() and (TalentPointsIn(3)>TalentPointsIn(2) and TalentPointsIn(3)>TalentPointsIn(1))
+function IsDRUIDHealer()
+	return not IsHybridDRUID() and (TalentPointsIn(3)>TalentPointsIn(2) and TalentPointsIn(3)>TalentPointsIn(1))
 end
-function IsHybridDruid()
+function IsHybridDRUID()
 	return TalentPointsIn(3)>17 and TalentPointsIn(2)==0 and TalentPointsIn(1)>15
 end
 function IsShadow()
@@ -791,31 +817,31 @@ function IsEnhancementShammy()
 end
 -- specID for GSE
 --[0] = "Global",
---  [1] = "Warrior",
---  [2] = "Paladin",
---  [3] = "Hunter",
---  [4] = "Rogue",
---  [5] = "Priest",
+--  [1] = "WARRIOR",
+--  [2] = "PALADIN",
+--  [3] = "HUNTER",
+--  [4] = "ROGUE",
+--  [5] = "PRIEST",
 --  [6] = "Death Knight",
---  [7] = "Shaman",
---  [8] = "Mage",
---  [9] = "Warlock",
+--  [7] = "SHAMAN",
+--  [8] = "MAGE",
+--  [9] = "WARLOCK",
 --  [10] = "Monk",
---  [11] = "Druid",
---  [12] = "Demon Hunter",
+--  [11] = "DRUID",
+--  [12] = "Demon HUNTER",
 --  [62] = "Arcane",
 --  [63] = "Fire",
---  [64] = "Frost - Mage",
---  [65] = "Holy - Paladin",
---  [66] = "Protection - Paladin",
+--  [64] = "Frost - MAGE",
+--  [65] = "Holy - PALADIN",
+--  [66] = "Protection - PALADIN",
 --  [70] = "Retribution",
 --  [71] = "Arms",
 --  [72] = "Fury",
---  [73] = "Protection - Warrior",
+--  [73] = "Protection - WARRIOR",
 --  [102] = "Balance",
 --  [103] = "Feral",
 --  [104] = "Guardian",
---  [105] = "Restoration - Druid",
+--  [105] = "Restoration - DRUID",
 --  [250] = "Blood",
 --  [251] = "Frost - DK",
 --  [252] = "Unholy",
@@ -823,14 +849,14 @@ end
 --  [254] = "Marksmanship",
 --  [255] = "Survival",
 --  [256] = "Discipline",
---  [257] = "Holy - Priest",
+--  [257] = "Holy - PRIEST",
 --  [258] = "Shadow",
 --  [259] = "Assassination",
 --  [260] = "Outlaw",
 --  [261] = "Subtlety",
 --  [262] = "Elemental",
 --  [263] = "Enhancement",
---  [264] = "Restoration - Shaman",
+--  [264] = "Restoration - SHAMAN",
 --  [265] = "Affliction",
 --  [266] = "Demonology",
 --  [267] = "Destruction",
@@ -897,7 +923,7 @@ function FSMB_Find(item)
 	local class="all"
 	local _,_,key=string.find(item,"(%a+)%s*")
 	key=string.lower(key)
-	local FSMB_classlist={"Warrior","Mage","Shaman","Paladin","Priest","Rogue","Druid","Hunter","Warlock"}
+	local FSMB_classlist={"WARRIOR","MAGE","SHAMAN","PALADIN","PRIEST","ROGUE","DRUID","HUNTER","WARLOCK"}
 	classlist={}
 	for _,class in pairs(FSMB_classlist) do
 		table.insert(classlist,string.lower(class))
