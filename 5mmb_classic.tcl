@@ -1,4 +1,4 @@
-set version 112719d_classic
+set version 112719f_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -8,8 +8,6 @@ puts ""
 puts "USING 5MMB_classic.TCL VERSION $version"
 puts "=============================================="
 puts "My keyboard layout is $kb"
-puts "If shared mouseclicks don't automatically work using key "
-puts "to the left of 1, give this key code to Furyswipes"
 set display [twapi::get_display_size]
 array unset toons
 array unset autodelete
@@ -34,6 +32,7 @@ set healselfat ""
 set maxheal "11 11 11 11"
 set clique_overlay ""
 set raidname "myraid1"
+set oemkey ""
 set gazefollow ""
 set burningfollow ""
 set dedicated_healers ""
@@ -55,9 +54,9 @@ array set kb_oem "00000407 oem5"
 array set kb_oem "00000406 oem5"
 array set kb_oem "00000410 oem5"
 array set kb_oem "00000809 oem7"
+array set kb_oem "00000813 oem7"
 array set kb_oem "0000041d oem5"
 array set kb_oem "00000414 oem5"
-set oem $kb_oem($kb)
 set HKN 5mmb_HKN_classic.txt
 set SME "Interface\\Addons\\Furyswipes_5mmb\\Furyswipes_5mmb.lua"
 #set SME SM_Extend.lua
@@ -160,6 +159,10 @@ while { [gets $tL line] >= 0 } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set raidname [lindex $line 1]
+    } elseif { [string tolower [lindex $line 0]] == "oemkey" } {
+ 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+ 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set oemkey [lindex $line 1]
     } elseif { [string tolower [lindex $line 0]] == "powerleveler" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
@@ -283,6 +286,22 @@ if $numtoons==0 {
 }
 set tooncount $numtoons
 close $tL 
+if { $oemkey != "" } { 
+	set oem $oemkey
+} else {
+	if { [info exists kb_oem($kb)] } {
+		set oem $kb_oem($kb)
+	} else {
+		set oem oem5
+		puts "WARNING: I COULD NOT FIND YOUR KEYBOARD. ASSIGNING MOUSECLICK SHARING TO OEM5" 
+		puts "NOTIFY Furyswipes on discord."
+		puts "NEXT STEP: Turn on Last Key Press panel on hotkeynet and click the key to the left of 1. What is it called? oem3? oem5?"
+		puts "Put this in your toonlist:"
+		puts "oemkey oem5"
+		puts "(or whichever it is)"
+		puts "and drag-n-drop again"
+	}
+}
 puts "Detected display size $display"
 if { $monitor != "" } { 
 	puts "Automatic monitor selection overridden by user to $monitor"
@@ -503,6 +522,8 @@ if { $use2monitors } {
 	set raidhash(2) {{1920 1080 0 0 } {1920 1080 0 1080}}
 	set raidhash(3) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0}}
 	set raidhash(4) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0} {1920 1080 1920 1080}}
+	set raidhash(5) {{2560 1440 0 0} {1280 720 2560 720} {1280 720 0 1440} {1280 720 1280 1440} {1280 720 2560 1440}}
+	set raidhash(5) {{1680 720 0 0} {840 360 1680 360} {840 360 0 720} {840 360 840 720} {840 360 1680 720}}	
 	set raidhash(5) {{1920 1440 960 720 } {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720 }}
 	set raidhash(10) {{1280 1020 0 960} {1280 1020 1280 960} {1280 1020 2560 960} {640 480 640 0} {640 480 0 0} {640 480 0 480} {640 480 1280 0} {640 480 640 480} {640 480 1280 480} {640 480 1920 480}}
 	set raidhash(20) {{640 480 0 0} {960 720 0 1440} {960 720 960 1440} {960 720 1920 1440} {640 480 640 0} {640 480 1280 0} {640 480 1920 0} {640 480 2560 0} {640 480 3200 0} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 2560 480} {640 480 3200 480} {640 480 0 960} {640 480 640 960} {640 480 1280 960} {640 480 1920 960 } {640 480 2560 960}} 
@@ -1710,4 +1731,3 @@ puts "================================================================="
 puts "                           ATTENTION"
 puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 puts "I WILL NOW POP OPEN WOW.EXE. Please make any selection there and CLOSE IT."
-puts "YOU CAN CLOSE THIS WINDOW NOW."
