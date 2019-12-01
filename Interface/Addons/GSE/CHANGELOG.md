@@ -1,10 +1,12 @@
 # GSE2: Gnome Sequencer Enhanced
 
-## [2.4.18](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.4.18) (2019-09-16)
-[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.4.17...2.4.18)
+## [2.4.23](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/tree/2.4.23) (2019-10-17)
+[Full Changelog](https://github.com/TimothyLuke/GnomeSequencer-Enhanced/compare/2.4.22...2.4.23)
 
-- #582 Handle lack of Sample macros gracefully.  
-- #592 Starter warrior macro  
-- #593 Reset macros when gaining a level.  
-- #592 Mage sample macro  
-- #592 Warrior and Paladin starter macro  
+- Patron and TOC updates  
+- #606 Clear KeyBindings  
+- #605 Under 10 macro  
+- #605 MotW Druid Buff Macro  
+- #603 Classic Starter Lock Macro update  
+- #587 Rank string formatting  
+- #587 Localisation of "Rank" to allow "Rang" for German clients etc  

@@ -3,6 +3,8 @@ BEFORE STARTING:
 Remove geforce experience!
 Set Read_Toonlist.bat to run as Administrator!
 Set HotKeyNet.exe to run as Administrator!
+10 LANGUAGE SUPPORT: Your GSE macros may get translated, they may not. Check
+when you start leveling.
 
 1) Unzip contents into your classic dir
 2) Edit toonlist.txt  ... put in your info. See toonlist for instructions.

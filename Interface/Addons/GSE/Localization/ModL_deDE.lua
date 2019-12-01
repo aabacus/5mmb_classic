@@ -92,7 +92,11 @@ L["Choose import action:"] = "Choose import action:"
 L["Choose Language"] = "Wähle die Sprache"
 L["Classwide Macro"] = "Klassenweites Makro"
 L["Clear"] = "Löschen"
+--[[Translation missing --]]
+L["Clear Common Keybindings"] = "Clear Common Keybindings"
 L["Clear Errors"] = "Lösche Fehler"
+--[[Translation missing --]]
+L["Clear Keybindings"] = "Clear Keybindings"
 L["Close"] = "Beenden"
 L["Close to Maximum Macros.|r  You can have a maximum of "] = "Die maximale Anzahl an Makros ist fast erreicht.|r Das Maximum beträgt"
 L["Close to Maximum Personal Macros.|r  You can have a maximum of "] = "Die maximale Anzahl an persönlichen Makros ist fast erreicht.|r Das Maximum beträgt"
@@ -207,7 +211,7 @@ L["GSE has a LibDataBroker (LDB) data feed.  Set this option to show queued Out 
 L["GSE is a complete rewrite of that addon that allows you create a sequence of macros to be executed at the push of a button."] = "GSE is a complete rewrite of that addon that allows you create a sequence of macros to be executed at the push of a button."
 L["GSE is out of date. You can download the newest version from https://mods.curse.com/addons/wow/gnomesequencer-enhanced."] = "GSE ist veraltet. Du kannst die neuste Version hier https://mods.curse.com/addons/wow/gnomesequencer-enhanced herunterladen."
 L["GSE Macro"] = "GSE Makro"
-L["GS-E Plugins"] = "GS-E Plugins"
+L["GS-E Plugins"] = "GSE Plugins"
 L["GSE Users"] = "GSE Benutzer"
 L["GSE Version: %s"] = "GSE VErsion: %s"
 --[[Translation missing --]]
@@ -217,7 +221,7 @@ GSE itself wouldn't be what it is without the efforts of the people who write ma
 
 GSE itself wouldn't be what it is without the efforts of the people who write macros with it.  Check out https://wowlazymacros.com for the things that make this mod work.  Special thanks to Lutechi for creating this community.]=]
 L["GSE: Left Click to open the Sequence Editor"] = "GSE: Linksklick um den Sequenz Editor zu öffnen."
-L["GS-E: Left Click to open the Sequence Editor"] = "GS-E: Linksklick um den Sequenz Editor zu öffnen."
+L["GS-E: Left Click to open the Sequence Editor"] = "GSE: Linksklick um den Sequenz Editor zu öffnen."
 --[[Translation missing --]]
 L["GSE: Middle Click to open the Transmission Interface"] = "GSE: Middle Click to open the Transmission Interface"
 --[[Translation missing --]]
@@ -389,6 +393,7 @@ L["Raid"] = "Raid"
 --[[Translation missing --]]
 L["Raid setting changed to Default."] = "Raid setting changed to Default."
 L["Random - It will select .... a spell, any spell"] = "Zufällig - Es wird irgendein zufälliger Zauber ausgewählt."
+L["Rank"] = "Rang"
 L["Ready to Send"] = "bereit zum senden"
 L["Received Sequence "] = "erhaltene Sequenz"
 L["Record"] = "aufnehmen"
@@ -546,6 +551,8 @@ L["These options combine to allow you to reset a macro while it is running.  The
 L["These tick boxes have three settings for each slot.  Gold = Definately use this item. Blank = Do not use this item automatically.  Silver = Either use or not based on my default settings store in GSE's Options."] = "These tick boxes have three settings for each slot.  Gold = Definately use this item. Blank = Do not use this item automatically.  Silver = Either use or not based on my default settings store in GSE's Options."
 L["This change will not come into effect until you save this macro."] = "Die Änderung wird übernommen, sobald Sie das Makro speichern."
 --[[Translation missing --]]
+L["This function will remove the SHIFT+N, ALT+N and CTRL+N keybindings for this character.  Useful if [mod:shift] etc conditions don't work in game."] = "This function will remove the SHIFT+N, ALT+N and CTRL+N keybindings for this character.  Useful if [mod:shift] etc conditions don't work in game."
+--[[Translation missing --]]
 L["This function will update macro stubs to support listening to the options below.  This is required to be completed 1 time per character."] = "This function will update macro stubs to support listening to the options below.  This is required to be completed 1 time per character."
 L["This is a small addon that allows you create a sequence of macros to be executed at the push of a button."] = "Dies ist ein kleines Addon, das es Ihnen erlaubt, Makrosequenzen zu erstellen welche auf Knopfdruck ausgeführt werden können."
 L["This is the only version of this macro.  Delete the entire macro to delete this version."] = "Dies ist die einzige Version dieses Makros. Um diese Version zu löschen, lösche das gesamte Makro."
@@ -582,7 +589,7 @@ L["Translated Sequence"] = "Übersetzte Sequenz"
 L["Trinket 1"] = "Schmuckstück 1"
 L["Trinket 2"] = "Schmuckstück 2"
 L["Two sequences with unknown sources found."] = "Zwei Sequenzen mit unbekannter Herkunft gefunden."
-L["Unknown Author|r "] = "Unbekannter Verfasser |r"
+L["Unknown Author|r "] = "Unbekannter Verfasser|r"
 L["Unknown Colour"] = "Unbekannte Farbe"
 L["Update"] = "Aktualisieren"
 --[[Translation missing --]]

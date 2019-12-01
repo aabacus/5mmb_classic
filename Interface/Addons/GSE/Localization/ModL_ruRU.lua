@@ -101,7 +101,11 @@ L["Choose Language"] = "Выберите Язык"
 --[[Translation missing --]]
 L["Classwide Macro"] = "Classwide Macro"
 L["Clear"] = "Очистить"
+--[[Translation missing --]]
+L["Clear Common Keybindings"] = "Clear Common Keybindings"
 L["Clear Errors"] = "Очистить Ошибки"
+--[[Translation missing --]]
+L["Clear Keybindings"] = "Clear Keybindings"
 L["Close"] = "Закрыть"
 --[[Translation missing --]]
 L["Close to Maximum Macros.|r  You can have a maximum of "] = "Close to Maximum Macros.|r  You can have a maximum of "
@@ -450,6 +454,8 @@ L["Raid setting changed to Default."] = "Raid setting changed to Default."
 --[[Translation missing --]]
 L["Random - It will select .... a spell, any spell"] = "Random - It will select .... a spell, any spell"
 --[[Translation missing --]]
+L["Rank"] = "Rank"
+--[[Translation missing --]]
 L["Ready to Send"] = "Ready to Send"
 --[[Translation missing --]]
 L["Received Sequence "] = "Received Sequence "
@@ -630,6 +636,8 @@ L["These options combine to allow you to reset a macro while it is running.  The
 L["These tick boxes have three settings for each slot.  Gold = Definately use this item. Blank = Do not use this item automatically.  Silver = Either use or not based on my default settings store in GSE's Options."] = "These tick boxes have three settings for each slot.  Gold = Definately use this item. Blank = Do not use this item automatically.  Silver = Either use or not based on my default settings store in GSE's Options."
 --[[Translation missing --]]
 L["This change will not come into effect until you save this macro."] = "This change will not come into effect until you save this macro."
+--[[Translation missing --]]
+L["This function will remove the SHIFT+N, ALT+N and CTRL+N keybindings for this character.  Useful if [mod:shift] etc conditions don't work in game."] = "This function will remove the SHIFT+N, ALT+N and CTRL+N keybindings for this character.  Useful if [mod:shift] etc conditions don't work in game."
 --[[Translation missing --]]
 L["This function will update macro stubs to support listening to the options below.  This is required to be completed 1 time per character."] = "This function will update macro stubs to support listening to the options below.  This is required to be completed 1 time per character."
 --[[Translation missing --]]
