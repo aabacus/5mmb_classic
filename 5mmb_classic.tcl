@@ -15,7 +15,6 @@ array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
 set hideframes ""
-set fixunused ""
 set dontflashframe ""
 set useautotrade ""
 set dontautodelete ""
@@ -207,9 +206,6 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "hideframes" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set hideframes true
-				 } elseif { [string tolower [lindex $line 0]] == "fixunused" } {
- 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set fixunused true
     } elseif { [string tolower [lindex $line 0]] == "dontflashframe" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontflashframe true
@@ -398,44 +394,26 @@ if { ! $nohotkeyoverwrite } {
 // Toon name and a hint at the end about what wow license to click
 // It's not critical, but it's very helpful
 
+<Command RenameWoW>}
+	set curdir [pwd]
+  puts $hK "  <Run \"$curdir/tclkitsh-win32.upx.exe\" \"renwowwin.tcl %1%\">"
+  puts $hK {    <WaitForWin %1% 10000>
+
 // This is the main launcher command definition.
 <Command LaunchAndRename>
 	<SendPC %1%>}
-	set curdir [pwd]
-if { $fixunused=="" } { 
 	puts -nonewline $hK {   <Run "}
 	puts $hK "$curdir/Wow.exe\" >"
-	puts $hK {<TargetWin "World of Warcraft">  
-	<RenameTargetWin Unused%2%>
-	<Wait 300>
-	<TargetWin "World of Warcraft">
-	<RenameTargetWin %2%>
-	<Wait 300>
+	puts $hK {
+	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<SetForegroundWin>
-	<Text %3%>
-	<Key Tab>
-	<Text %4%>
-	<Key Enter>}
-} else {
-	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" >"
-	puts $hK {<TargetWin "World of Warcraft">
-		<RenameTargetWin %2%>
-	<Wait 300>
-	<TargetWin "World of Warcraft">
-	<RenameTargetWin Unused%2%>
-	<Wait 300>
 	<TargetWin %2%>
-	<SetWinSize %5% %6%>
-	<SetWinPos %7% %8%>
 	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
 	<Key Enter>}
-	}
 if { $hideframes=="true" } {
 	puts $hK "\t<RemoveWinFrame>"
 }
