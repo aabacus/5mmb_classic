@@ -1,4 +1,4 @@
-FSMB_version="112919d_classic"
+FSMB_version="120219_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -149,7 +149,8 @@ function init()
 	if mylevel>39 then bearform=(direBearForm) else bearform=(bearForm) end
 	--print (bearform)
 	if myClass=="WARRIOR" then
-		if IsFury() then myspec="FURY"
+		if IsTank(myname) then myspec="PROT"
+		elseif IsFury() then myspec="FURY"
 		else myspec="ARMS" end
 	elseif myClass=="DRUID" then
 		if IsBoomkin() then myspec="BOOMKIN"
