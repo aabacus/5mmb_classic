@@ -1,4 +1,4 @@
-FSMB_version="120219b_classic"
+FSMB_version="120219c_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -208,9 +208,9 @@ function init()
 	local i
 	for i=1,TableLength(FSMB_toonlist) do
 		if myname==FSMB_toonlist[i] then
-			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "", nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "/console AutoInteract 0", nil);
 		else
-			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "/follow "..FSMB_toonlist[i], nil);
+			macroId = CreateMacroFS("f"..i.."_fs", "Ability_HUNTER_pet_gorilla", "/follow "..FSMB_toonlist[i].."\n/console AutoInteract 1", nil);
 		end
 		PickupMacro(macroId)
 		PlaceAction(slot+i)
