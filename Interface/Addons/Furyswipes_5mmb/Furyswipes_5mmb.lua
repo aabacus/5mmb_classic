@@ -1,4 +1,4 @@
-FSMB_version="120219_classic"
+FSMB_version="120219b_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -61,7 +61,7 @@ local palaHeal = GetSpellInfo(635)
 local druidRebirth = GetSpellInfo(20484)
 local crusaderSeal = GetSpellInfo(21082)
 local rightSeal = GetSpellInfo(20154)
-local devotionAura GetSpellInfo(465)
+local devotionAura = GetSpellInfo(465)
 local conjureWater = GetSpellInfo(5504)
 local frostArmor = GetSpellInfo(168)
 local iceArmor = GetSpellInfo(7302)

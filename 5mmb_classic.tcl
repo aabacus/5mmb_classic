@@ -1,4 +1,4 @@
-set version 112719f_classic
+set version 120319_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -15,7 +15,6 @@ array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
 set hideframes ""
-set fixunused ""
 set dontflashframe ""
 set useautotrade ""
 set dontautodelete ""
@@ -207,9 +206,6 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "hideframes" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set hideframes true
-				 } elseif { [string tolower [lindex $line 0]] == "fixunused" } {
- 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
-				set fixunused true
     } elseif { [string tolower [lindex $line 0]] == "dontflashframe" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontflashframe true
@@ -398,44 +394,25 @@ if { ! $nohotkeyoverwrite } {
 // Toon name and a hint at the end about what wow license to click
 // It's not critical, but it's very helpful
 
+<Command RenameWoW>}
+	set curdir [pwd]
+  puts $hK "  <Run \"$curdir/tclkitsh-win32.upx.exe\" \"renwowwin.tcl %1%\">"
+  puts $hK {    <WaitForWin %1% 10000>
+
 // This is the main launcher command definition.
 <Command LaunchAndRename>
 	<SendPC %1%>}
-	set curdir [pwd]
-if { $fixunused=="" } { 
-	puts -nonewline $hK {   <Run "}
+	puts -nonewline $hK {	<Run "}
 	puts $hK "$curdir/Wow.exe\" >"
-	puts $hK {<TargetWin "World of Warcraft">  
-	<RenameTargetWin Unused%2%>
-	<Wait 300>
-	<TargetWin "World of Warcraft">
-	<RenameTargetWin %2%>
-	<Wait 300>
+	puts $hK {	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<SetForegroundWin>
-	<Text %3%>
-	<Key Tab>
-	<Text %4%>
-	<Key Enter>}
-} else {
-	puts -nonewline $hK {   <Run "}
-	puts $hK "$curdir/Wow.exe\" >"
-	puts $hK {<TargetWin "World of Warcraft">
-		<RenameTargetWin %2%>
-	<Wait 300>
-	<TargetWin "World of Warcraft">
-	<RenameTargetWin Unused%2%>
-	<Wait 300>
 	<TargetWin %2%>
-	<SetWinSize %5% %6%>
-	<SetWinPos %7% %8%>
 	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
 	<Key Enter>}
-	}
 if { $hideframes=="true" } {
 	puts $hK "\t<RemoveWinFrame>"
 }
@@ -448,26 +425,23 @@ puts $hK {
 // NEXT STEP: If you want to do this, you have to make a SEPERATE WOW
 // DIR and put the path below. Set that wow up the way you want.
 <Command LaunchHiresAndRename>
-	<SendPC %1%>
-	<Run "G:/World of Warcraft/_classic_/Wow.exe" >
-	<WaitForInputIdle 400>
-	<TargetWin "World of Warcraft">  
-	<RenameTargetWin %2%>  
-	<WaitForInputIdle 400>
-	<TargetWin "World of Warcraft">  
-	<RenameTargetWin Unused%2%>  
+	<SendPC %1%>}
+	puts -nonewline $hK {	<Run "}
+	puts $hK "C:/hirezwow/Wow.exe\" >"
+	puts $hK {	<RenameWoW %2%>
+	<SetWinSize %5% %6%>
+	<SetWinPos %7% %8%>
 	<TargetWin %2%>
-	<TargetWin %2%>
-	<WaitForInputIdle 400>
-	<WaitForInputIdle 400>
+	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
-	<TargetWin %2%>
-	//<RemoveWinFrame>
-	<SetWinSize %5% %6%>
-	<SetWinPos %7% %8%>
-	<SetVar LastWin ActiveWindowName>
+	<Key Enter>}
+if { $hideframes=="true" } {
+	puts $hK "\t<RemoveWinFrame>"
+}
+	puts $hK {	<TargetWin %2%>
+	<WaitForInputIdle 2000>
 
 // This command is used to resize your window.	
 <Command ResetWindowPosition>
