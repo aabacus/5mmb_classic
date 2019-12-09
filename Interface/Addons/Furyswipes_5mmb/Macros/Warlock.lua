@@ -1,165 +1,127 @@
-local _, Sequences = ...
+local _,Sequences = ...
 
-------------------
------ Warlock
-------------------
-
-Sequences['DESTRO_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=9,
-  Talents = "",
-  Help = [[
-  Let's add corruption later maybe?
-]],
-  Default=2,
-  PVP=2,
-  Party=1,
-  Dungeon=1,
-  Raid=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-	"/petattack [nomod,@target,exists,harm]",
-	"/cast [mod:ctrl] Life Tap",
-      },
-      PreMacro={
-      },
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod] Life Tap",
-	"/cast [nomod,nochanneling] Shoot",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-    [2] = {
-      StepFunction = "Priority",
-      KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-	"/petattack [nomod,@target,exists,harm]",
-	"/cast [mod:ctrl] Life Tap",
-      },
-      PreMacro={
-      },
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod,nochanneling] Shoot",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['DESTRO_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=9,
-  Talents = "",
-  Help = [[
-  Let's add corruption later maybe?
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-	"/startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-	"/petattack [nomod,@target,exists,harm]",
-      },
-      PreMacro={
-      },
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod] Shadow Bolt",
-	"/cast [nomod] Life Tap",
-	"/cast [nomod,nochanneling] Shoot",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['DESTRO_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=9,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-	      "/petattack [nomod,@target,exists,harm]",
-      },
-      PreMacro={
-      },
-        "/cast [nomod,nochanneling,@player] Rain of Fire",
-	"/cast [nomod,nochanneling,@player] Rain of Fire",
-	"/cast [nomod,nochanneling] Life Tap",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['DESTRO_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=9,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-	Trinket2=true,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['DESTRO_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=9,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	      "/stopattack [mod:alt]",
-	      "/petfollow [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
+		Sequences["DESTRO_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["MacroVersions"] = {
+				{
+					"/castsequence [nomod,nochanneling] reset=target/combat  704, null", -- [1]
+					"/castsequence [nomod,nochanneling] reset=combat  11659, 11659, 11659, 11659, 11688", -- [2]
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyPress"] = {
+						"/startattack [nomod,@target,exists,harm]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/petattack [nomod,@target,exists,harm]", -- [3]
+						"/cast [mod:ctrl] 11688", -- [4]
+					},
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+			["Dungeon"] = 1,
+			["Default"] = 1,
+			["PVP"] = 1,
+			["SpecID"] = 9,
+			["Raid"] = 1,
+			["Help"] = "  Let's add corruption later maybe?\n",
+			["Author"] = "Furyswipesvg@gmail.com",
+		}
+		Sequences["DESTRO_TURBO"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Default"] = 1,
+			["Help"] = "",
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["Trinket2"] = true,
+					["KeyPress"] = {
+						"/cast [mod:ctrl] 5784", -- [1]
+					},
+					["PreMacro"] = {
+					},
+					["Combat"] = true,
+				}, -- [1]
+			},
+			["SpecID"] = 9,
+			["ManualIntervention"] = true,
+		}
+		Sequences["DESTRO_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+						"/petfollow [mod:alt]", -- [2]
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 9,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = false,
+		}
+		Sequences["DESTRO_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Default"] = 1,
+			["Help"] = "",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod,nochanneling,@player] 6219", -- [1]
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/petattack [nomod,@target,exists,harm]", -- [1]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 9,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = true,
+		}
+		Sequences["DESTRO_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Default"] = 1,
+			["SpecID"] = 9,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/castsequence [nomod,nochanneling] reset=combat  11659, 11659, 11659, 11659, 11688", -- [1]
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyPress"] = {
+						"/startattack [nomod,@target,exists,harm]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/petattack [nomod,@target,exists,harm]", -- [3]
+					},
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}

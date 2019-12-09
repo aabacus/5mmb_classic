@@ -1,4 +1,4 @@
-set version 120319_classic
+set version 120819_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -448,6 +448,7 @@ if { $hideframes=="true" } {
 	<SendPC %1%> 
 	<TargetWin %2%>
 	<SetForegroundWin>
+	<SetWinRegion none>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 
@@ -954,20 +955,26 @@ close $f
 	puts $hK ""
 	puts $hK {//You can even make special movement keys for just some of your toons.}
 	puts $hK {//Hunter goes into ranged mode on down arrow, too}
-	puts $hK {<MovementHotkey ScrollLockOn down>}
+	puts $hK {<Hotkey ScrollLockOn down>}
 	puts $hK $winlabels
-	puts $hK "\t<Key Down>"
+	puts $hK "\t<KeyDown Down>"
 	if {$hunterlabels!=""} { 
 		puts $hK "\t<Sendlabel ${hunterlabels}>"
 		puts $hK "\t<Key Shift 9>"
 	}
-		puts $hK ""
+	puts $hK {<HotkeyUp ScrollLockOn down>}
+	puts $hK $winlabels
+	puts $hK "\t<KeyUp Down>"
+	puts $hK ""
 	if {$hunterlabels!=""} { 
 		puts $hK {//Hunter backup,ranged mode}
-		puts $hK {<MovementHotkey ScrollLockOn T>}
+		puts $hK {<Hotkey ScrollLockOn T>}
 		puts $hK "\t<Sendlabel ${hunterlabels}>"
-		puts $hK "\t<Key Down>"
+		puts $hK "\t<KeyDown Down>"
 		puts $hK "\t<Key Shift 9>"
+		puts $hK {<HotkeyUp ScrollLockOn T>}
+		puts $hK "\t<Sendlabel ${hunterlabels}>"
+		puts $hK "\t<KeyUp Down>"
 		puts $hK ""
 	}
 	if {$meleelabels!="" || $hunterlabels!=""} { 

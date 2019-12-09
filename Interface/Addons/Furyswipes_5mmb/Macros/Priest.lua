@@ -1,271 +1,260 @@
-local _, Sequences = ...
-
-------------------
------ Priest
-------------------
-
-
-Sequences['SINGLE_HOLY'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  You're holy, whattre you gonna do? Swing your staff, healgirl.
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-	"/cast [nomod,nochanneling] !Shoot",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['MULTI_HOLY'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Heal tank on alt
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-		"/cast [nomod,nochanneling] !Shoot",
-	      "/cast [mod:alt,@"..FSMB_tank.."] Lesser Heal",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['HOLY_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Holy nova, of course!
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-      },
-      PreMacro={
-      },
-        "/cast [nomod] Holy Nova",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['HOLY_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Nothing but Trinket2
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-	Trinket2=true,
-      StepFunction = "Priority",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['HOLY_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Nothing here yet
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-      StepFunction = "Priority",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['SHADOW_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-Smite when you are a lowbie
-SWP every 30 clicks
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      LoopLimit=30,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-        "/cast [nomod] Shadow Word: Pain",
-      },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Smite",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['SHADOW_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Heal tank on alt.
-Smite when you are a lowbie
-SWP every 30 clicks
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      LoopLimit=30,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-		"/cast [mod:alt,@"..FSMB_tank.."] Lesser Heal",
-      },
-      PreMacro={
-        "/cast [nomod] Shadow Word: Pain",
-      },
-	"/cast [nomod,nochanneling] !Shoot",
-        "/cast [nomod] Smite",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['SHADOW_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Holy nova, better speck it sucka!
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Priority",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      "/cast [nomod] holy nova",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['SHADOW_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Does nothing yet but Trinket2
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-	Trinket2=true,
-      StepFunction = "Priority",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['SHADOW_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=5,
-  Talents = "",
-  Help = [[
-  Does nothing yet
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-	Combat=true,
-      StepFunction = "Priority",
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
+local _,Sequences = ...
+		Sequences["HOLY_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Don't do jack shit.\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 2,
+			["ManualIntervention"] = false,
+		}
+		Sequences["HOLY_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Heal tank on alt-3\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 2,
+			["ManualIntervention"] = false,
+		}
+		Sequences["HOLY_TURBO"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Nothing but Trinket2\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["KeyRelease"] = {
+					},
+					["Combat"] = true,
+					["StepFunction"] = "Priority",
+					["PostMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+					["PreMacro"] = {
+					},
+					["Trinket2"] = true,
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["SHADOW_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Does nothing yet\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["SHADOW_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Heal tank on alt.\nSmite when you are a lowbie\nSWP every 30 clicks\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod,nochanneling] !Shoot", -- [1]
+					"/cast [nomod] Smite", -- [2]
+					["LoopLimit"] = 30,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+						"/cast [nomod] Shadow Word: Pain", -- [1]
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/cast [mod:alt,@Furyswipes] Lesser Heal", -- [3]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["SHADOW_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "Smite when you are a lowbie\nSWP every 30 clicks\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod,nochanneling] !Shoot", -- [1]
+					"/cast [nomod] Smite", -- [2]
+					["LoopLimit"] = 30,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+						"/cast [nomod] Shadow Word: Pain", -- [1]
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["HOLY_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Default"] = 1,
+			["Help"] = "  You're holy, whattre you gonna do? Swing your staff, healgirl.\n",
+			["SpecID"] = 5,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}
+		Sequences["SHADOW_TURBO"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Does nothing yet but Trinket2\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["KeyRelease"] = {
+					},
+					["Combat"] = true,
+					["StepFunction"] = "Priority",
+					["PostMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+					["PreMacro"] = {
+					},
+					["Trinket2"] = true,
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["SHADOW_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Holy nova, better speck it sucka!\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod] holy nova", -- [1]
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}
+		Sequences["HOLY_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Holy nova, of course!\n",
+			["Default"] = 1,
+			["MacroVersions"] = {
+				{
+					"/cast [nomod] Holy Nova", -- [1]
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = true,
+		}
+		Sequences["HOLY_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Nothing here yet\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Priority",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 5,
+			["ManualIntervention"] = false,
+		}

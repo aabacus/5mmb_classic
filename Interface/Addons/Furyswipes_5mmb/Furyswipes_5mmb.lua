@@ -1,4 +1,4 @@
-FSMB_version="120219c_classic"
+FSMB_version="120819_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -149,39 +149,32 @@ function init()
 	if mylevel>39 then bearform=(direBearForm) else bearform=(bearForm) end
 	--print (bearform)
 	if myClass=="WARRIOR" then
+		--arms no longer supported
 		if IsTank(myname) then myspec="PROT"
-		elseif IsFury() then myspec="FURY"
-		else myspec="ARMS" end
+		else myspec="FURY" end
 	elseif myClass=="DRUID" then
-		if IsBoomkin() then myspec="BOOMKIN"
-		elseif IsDRUIDHealer() then myspec="RESTODRU"
-		elseif IsTank(myname) then myspec="BEAR_TANK"
-		else myspec="FERAL" end
+		if IsDRUIDHealer() then myspec="RESTODRU"
+		else myspec="BEAR_TANK" end
 	elseif myClass=="MAGE" then
 		if IsFrost() then myspec="FROST"
 		else myspec="FIRE" end
 	elseif myClass=="SHAMAN" then
-		if IsElementalShammy() then myspec="ELE"
-		elseif IsEnhanceShammy() then myspec="ENH"
-		else myspec="RESTOSHAM" end
-	elseif myClass=="HUNTER" then
-		if IsMM() then myspec="MM"
-		elseif IsBM() then myspec="BM"
-		else myspec="SURV" end
+		--only elemental and heals supported
+		if FindInTable(FSMB_healerlist,myname) then 
+			myspec="RESTOSHAM"
+	        else myspec="ELE" end
+	elseif myClass=="HUNTER" then myspec="HUNTER" 
 	elseif myClass=="PRIEST" then
-		if IsShadow() then myspec="SHADOW"
-		else myspec="HOLY" end
-	elseif myClass=="HUNTER" then
-		if IsMM() then myspec="MM"
-		elseif IsBM() then myspec="BM"
-		else myspec="SURV" end
+		if FindInTable(FSMB_healerlist,myname) then 
+			myspec="HOLY" 
+		else myspec="SHADOW" end
 	elseif myClass=="ROGUE" then
 		myspec="COMBAT"
 	elseif myClass=="WARLOCK" then
 		myspec="DESTRO"
 	elseif myClass=="PALADIN" then
-		if IsPallyTank() then myspec="PROT"
-		elseif IsHolyPally() then myspec="HOLY"
+		if IsPallyTank() then myspec="PALAPROT"
+		elseif IsHolyPally() then myspec="PALAHOLY"
 		else myspec="RET" end
 	end
 	clearmacros()
@@ -588,7 +581,7 @@ function init()
 	if myname==FSMB_tank then
 		index=CreateMacroFS("setup_fs","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP",nil)
 	else
-		index=CreateMacroFS("setup_fs","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]\n/cleartarget [mod:alt]",nil)
+		index=CreateMacroFS("setup_fs","Spell_magic_polymorphchicken","/click "..myspec.."_SETUP\n/stopcasting [mod:alt]",nil)
 	end
 	PickupMacro(index)
 	PlaceAction(1)

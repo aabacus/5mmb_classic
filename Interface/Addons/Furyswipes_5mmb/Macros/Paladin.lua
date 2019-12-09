@@ -134,7 +134,7 @@ Sequences['RET_SETUP'] = {
     },
   },
 }
-Sequences['PROT_SINGLE'] = {
+Sequences['PALAPROT_SINGLE'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -160,34 +160,7 @@ Sequences['PROT_SINGLE'] = {
     },
   },
 }
-Sequences['PROT_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=2,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=20,
-      KeyPress={
-	"/startattack [nomod]",
-	"/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      	"/cast [nomod] consecration",
-        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['PROT_AOE'] = {
+Sequences['PALAPROT_MULTI'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -214,7 +187,34 @@ Sequences['PROT_AOE'] = {
     },
   },
 }
-Sequences['PROT_TURBO'] = {
+Sequences['PALAPROT_AOE'] = {
+-- This Sequence was exported from GSE 2.2.02.
+  Author="Furyswipesvg@gmail.com",
+  SpecID=2,
+  Talents = "",
+  Help = [[
+]],
+  Default=1,
+  MacroVersions = {
+    [1] = {
+      StepFunction = "Sequential",
+      LoopLimit=20,
+      KeyPress={
+	"/startattack [nomod]",
+	"/stopattack [mod:alt]",
+      },
+      PreMacro={
+      },
+      	"/cast [nomod] consecration",
+        "/castsequence [nomod] reset=25 "..FSMB_myseal..", Judgement",
+      PostMacro={
+      },
+      KeyRelease={
+      },
+    },
+  },
+}
+Sequences['PALAPROT_TURBO'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -240,7 +240,7 @@ Sequences['PROT_TURBO'] = {
   },
 }
 
-Sequences['PROT_SETUP'] = {
+Sequences['PALAPROT_SETUP'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -265,7 +265,7 @@ Sequences['PROT_SETUP'] = {
     },
   },
 }
-Sequences['HOLY_SINGLE'] = {
+Sequences['PALAHOLY_SINGLE'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -290,7 +290,7 @@ Sequences['HOLY_SINGLE'] = {
     },
   },
 }
-Sequences['HOLY_MULTI'] = {
+Sequences['PALAHOLY_MULTI'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -316,7 +316,7 @@ Sequences['HOLY_MULTI'] = {
     },
   },
 }
-Sequences['HOLY_AOE'] = {
+Sequences['PALAHOLY_AOE'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -339,7 +339,7 @@ Sequences['HOLY_AOE'] = {
     },
   },
 }
-Sequences['HOLY_TURBO'] = {
+Sequences['PALAHOLY_TURBO'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,
@@ -365,7 +365,7 @@ Sequences['HOLY_TURBO'] = {
   },
 }
 
-Sequences['HOLY_SETUP'] = {
+Sequences['PALAHOLY_SETUP'] = {
 -- This Sequence was exported from GSE 2.2.02.
   Author="Furyswipesvg@gmail.com",
   SpecID=2,

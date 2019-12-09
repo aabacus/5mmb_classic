@@ -1,530 +1,282 @@
-local _, Sequences = ...
-
-------------------
------ Druid
-------------------
-Sequences['BEAR_TANK_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
-	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
-      },
-      PreMacro={
-      },
-        "/cast [mod:alt] Growl",
-        "/cast [mod:ctrl] Demoralizing Roar",
-        "/cast [nomod] maul",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BEAR_TANK_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BEAR_TANK_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Priority",
-      KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
-	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
-      },
-      PreMacro={
-      },
-        "/cast [nomod] Swipe",
-        "/cast [nomod] maul",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BEAR_TANK_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cancelform [mod:ctrl]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BEAR_TANK_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
-	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
-      },
-      PreMacro={
-      },
-        "/cast [nomod] Swipe",
-        "/cast [nomod] Swipe",
-        "/cast [nomod] Swipe",
-        "/cast [nomod] Demoralizing Roar",
-        "/cast [nomod] maul",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['FERAL_SINGLE'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cast [nostance:2] Cat Form",
-	"/cast [stealth] Pounce",
-	"/cast [mod:alt,stealth] Ravage",
-	"/Startattack [nomod,@target,exists,harm]",
-	"/cast [mod:ctrl] Prowl",
-	"/cast [mod:alt,nostealth] cower",
-      },
-      PreMacro={
-      },
-      "/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null",
-	"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip",
-	"/cast [nomod,combat,nostealth] Shred",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['FERAL_MULTI'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      LoopLimit=20,
-      KeyPress={
-	"/cast [nostance:2] Cat Form",
-	"/cast [stealth] Ravage",
-	"/Startattack [nomod,@target,exists,harm]",
-	"/cast [mod:alt,nostealth] cower",
-      },
-      PreMacro={
-      },
-        "/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null",
-	"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip",
-	"/cast [nomod,combat,nostealth] Shred",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['FERAL_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	      "/stopattack [mod:alt]",
-	      "/cast [mod:alt,nostealth] cower",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['FERAL_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cast [nomod,@target,exists] Charge",
-	"/cast [combat,@target,exists] Enrage",
-	"/cast [nostance:1] Bear Form",
-	"/Startattack [nomod,@target,exists]",
-      },
-      PreMacro={
-      },
-        "/cast [nomod] Swipe",
-        "/cast [nomod] Swipe",
-        "/cast [nomod] Swipe",
-        "/cast [nomod] maul",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['FERAL_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cancelform [mod:ctrl]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTODRU_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Notthing here yet. Stop attack on alt
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-	      "/startattack [nomod]",
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTODRU_SINGLE'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/Startattack [nomod]",
-	"/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTODRU_MULTI'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/Startattack [nomod]",
-	"/stopattack [mod:alt]",
-	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTODRU_AOE'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Heal strongestaoe?
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/Startattack [nomod]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTODRU_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Just trinket2 for now
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cancelform [mod:ctrl]",
-	"/cast [mod:ctrl,nostance,nochanneling] Travel Form",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Notthing here yet. Stop attack on alt
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_SINGLE'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/Startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-	"/cast [nostance:5] Moonkin Form",
-	"/cast [mod:ctrl] Entangling Roots", 
-      },
-      PreMacro={
-      },
-      "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
-      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
-      "/cast [nomod,nochanneling] wrath",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_MULTI'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?," ,
-  Help = [[5mmb]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/Startattack [nomod,@target,exists,harm]",
-	"/stopattack [mod:alt]",
-	"/cast [nostance:5] Moonkin Form",
-	"/cast [mod:alt,@"..FSMB_tank.."] healing touch",
-      },
-      PreMacro={
-      },
-      "/castsequence [nomod,nochanneling] reset=combat/target Faerie Fire, null",
-      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
-      "/cast [nomod,nochanneling] wrath",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_AOE'] = {
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Heal strongestaoe?
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-      },
-      PreMacro={
-      },
-      "/cast [nomod,nochanneling] hurricane",
-      "/castsequence [nomod,nochanneling] reset=combat moonfire,starfire,starfire",
-      "/cast [nomod] wrath",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['BOOMKIN_TURBO'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=11,
-  Talents = "?,?,?,?,?,?,?,",
-  Help = [[
-  Just trinket2 for now
-  ]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-     Combat=true,
-      StepFunction = "Sequential",
-      KeyPress={
-	"/cancelform [mod:ctrl]",
-	"/cast [mod:ctrl,nostance,nochanneling] Travel Form",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
+local _,Sequences = ...
+		Sequences["BEAR_TANK_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["BEAR_TANK_TURBO"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Default"] = 1,
+			["Help"] = "5mmb",
+			["SpecID"] = 11,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nostance,nocombat,mod:ctrl] Gray Kodo", -- [1]
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cancelform [mod:ctrl,stance]", -- [1]
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}
+		Sequences["FERAL_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod] Swipe", -- [1]
+					"/cast [nomod] Swipe", -- [2]
+					"/cast [nomod] Swipe", -- [3]
+					"/cast [nomod] maul", -- [4]
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cast [nomod,@target,exists] Charge", -- [1]
+						"/cast [combat,@target,exists] Enrage", -- [2]
+						"/cast [nostance:1] Bear Form", -- [3]
+						"/Startattack [nomod,@target,exists]", -- [4]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["FERAL_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+						"/cast [mod:alt,nostealth] cower", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["BEAR_TANK_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast Maul", -- [1]
+					"/cast Demoralizing Roar", -- [2]
+					"/cast [@mouseover,harm] Growl", -- [3]
+					"/cast 17391", -- [4]
+					["PostMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cast [mod:alt,@target,exists] Feral Charge", -- [1]
+						"/cast [@target,exists,harm] Enrage", -- [2]
+						"/cast [nostance:1] Dire Bear Form", -- [3]
+						"/cancelform [nostance:1]", -- [4]
+						"/Startattack [@target,exists]", -- [5]
+						"/cast [mod:alt] Growl", -- [6]
+					},
+					["StepFunction"] = "Sequential",
+					["Combat"] = true,
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = true,
+		}
+		Sequences["FERAL_TURBO"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cancelform [mod:ctrl]", -- [1]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["BEAR_TANK_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Default"] = 1,
+			["Help"] = "5mmb",
+			["SpecID"] = 11,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [@mouseover,harm] 6795", -- [1]
+					"/cast 9754", -- [2]
+					"/cast 9747", -- [3]
+					"/cast 9880", -- [4]
+					"/cast 9754", -- [5]
+					"/cast 17391", -- [6]
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyPress"] = {
+						"/cast [combat,@target,exists] 5229", -- [1]
+						"/cast [nostance:1] 9634", -- [2]
+						"/Startattack [@target,exists]", -- [3]
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}
+		Sequences["FERAL_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null", -- [1]
+					"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip", -- [2]
+					"/cast [nomod,combat,nostealth] Shred", -- [3]
+					["LoopLimit"] = 20,
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cast [nostance:2] Cat Form", -- [1]
+						"/cast [stealth] Ravage", -- [2]
+						"/Startattack [nomod,@target,exists,harm]", -- [3]
+						"/cast [mod:alt,nostealth] cower", -- [4]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["FERAL_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Help"] = "5mmb",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/castsequence [nomod,combat,nostealth] reset=target  Faerie Fire, null", -- [1]
+					"/castsequence [nomod,combat,nostealth] reset=target/combat  Tiger's Fury, Rake, Claw, Claw, Claw, Rip", -- [2]
+					"/cast [nomod,combat,nostealth] Shred", -- [3]
+					["Combat"] = true,
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PostMacro"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cast [nostance:2] Cat Form", -- [1]
+						"/cast [stealth] Pounce", -- [2]
+						"/cast [mod:alt,stealth] Ravage", -- [3]
+						"/Startattack [nomod,@target,exists,harm]", -- [4]
+						"/cast [mod:ctrl] Prowl", -- [5]
+						"/cast [mod:alt,nostealth] cower", -- [6]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 11,
+			["ManualIntervention"] = false,
+		}
+		Sequences["BEAR_TANK_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?,",
+			["Default"] = 1,
+			["Help"] = "5mmb",
+			["SpecID"] = 11,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [@mouseover,harm] 6795", -- [1]
+					"/cast 9754", -- [2]
+					"/cast 9880", -- [3]
+					"/cast 9754", -- [4]
+					"/cast 9880", -- [5]
+					"/cast 9747", -- [6]
+					"/cast 17391", -- [7]
+					["KeyRelease"] = {
+					},
+					["KeyPress"] = {
+						"/cast [@target,exists] 16979", -- [1]
+						"/cast [combat,@target,exists] 5229", -- [2]
+						"/cast [nostance:1] 9634", -- [3]
+						"/Startattack [@target,exists]", -- [4]
+						"/cast [mod:ctrl] 5209", -- [5]
+					},
+					["PostMacro"] = {
+					},
+					["Combat"] = true,
+					["PreMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}

@@ -1,394 +1,322 @@
-local _, Sequences = ...
-
-------------------
------ Shaman
-------------------
-Sequences['RESTOSHAM_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['RESTOSHAM_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['RESTOSHAM_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-	      "/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTOSHAM_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['RESTOSHAM_TOT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/castsequence reset=60/combat strength of earth totem, fire nova totem,null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ENH_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-  Just stops attack on alt.
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ENH_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-  Flame Shock every 30 clicks
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=20,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ENH_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
-      },
-      PreMacro={
-      },
-	      "/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['ENH_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['ENH_TOT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/castsequence reset=60/combat strength of earth totem, fire nova totem,null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ELE_SETUP'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/stopattack [mod:alt]",
-      },
-      PreMacro={
-      },
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ELE_SINGLE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=20,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
-      },
-      PreMacro={
-      },
-      "/cast [nomod] lightning bolt",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
-Sequences['ELE_MULTI'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-	      "/startattack [nomod]",
-	      "/stopattack [mod:alt]",
-	      "/cast [nomod] Flame Shock",
-      },
-      PreMacro={
-      },
-	"/cast [mod:alt,@"..FSMB_tank.."] Healing Wave",
-      	"/cast [nomod] Chain lightning",
-      	"/cast [nomod] Lightning Bolt",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['ELE_AOE'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-Sequences['ELE_TOT'] = {
--- This Sequence was exported from GSE 2.2.02.
-  Author="Furyswipesvg@gmail.com",
-  SpecID=7,
-  Talents = "",
-  Help = [[
-]],
-  Default=1,
-  MacroVersions = {
-    [1] = {
-      StepFunction = "Sequential",
-      LoopLimit=1,
-      KeyPress={
-      },
-      PreMacro={
-      },
-	"/castsequence reset=60/combat strength of earth totem, fire nova totem,null",
-      PostMacro={
-      },
-      KeyRelease={
-      },
-    },
-  },
-}
-
+local _,Sequences = ...
+		Sequences["ENH_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [mod:alt,@Furyswipes] Healing Wave", -- [1]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/cast [nomod] Flame Shock", -- [3]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["ELE_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [mod:alt,@Furyswipes] Healing Wave", -- [1]
+					"/cast [nomod] Chain lightning", -- [2]
+					"/cast [nomod] Lightning Bolt", -- [3]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/cast [nomod] Flame Shock", -- [3]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["ENH_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Just stops attack on alt.\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["RESTOSHAM_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Default"] = 1,
+			["Help"] = "",
+			["MacroVersions"] = {
+				{
+					"/castsequence  reset=combat  11314, 10407, 10613, 10496, null", -- [1]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = true,
+		}
+		Sequences["RESTOSHAM_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["SpecID"] = 7,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = false,
+		}
+		Sequences["ELE_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/cast [nomod] lightning bolt", -- [1]
+					["LoopLimit"] = 20,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/cast [nomod] Flame Shock", -- [3]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["RESTOSHAM_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["MacroVersions"] = {
+				{
+					"/castsequence [combat] reset=combat  10613, 8161, 10496, null", -- [1]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = true,
+		}
+		Sequences["ENH_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null", -- [1]
+					"/cast [@Icelance] chain heal", -- [2]
+					"/cast [@Icelance] healing wave", -- [3]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["ELE_AOE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					"/castsequence reset=combat Fire Nova Totem, Stoneskin Totem, null", -- [1]
+					"/cast [@Icelance] chain heal", -- [2]
+					"/cast [@Icelance] healing wave", -- [3]
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["RESTOSHAM_MULTI"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["MacroVersions"] = {
+				{
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/target battlefield", -- [3]
+						"/cast [mod:alt] 10395", -- [4]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["ManualIntervention"] = true,
+		}
+		Sequences["ELE_SETUP"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["LoopLimit"] = 1,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/stopattack [mod:alt]", -- [1]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["ENH_SINGLE"] = {
+			["Talents"] = "?,?,?,?,?,?,?",
+			["Help"] = "  Flame Shock every 30 clicks\n",
+			["Default"] = 1,
+			["Author"] = "Furyswipesvg@gmail.com",
+			["MacroVersions"] = {
+				{
+					["LoopLimit"] = 20,
+					["PostMacro"] = {
+					},
+					["StepFunction"] = "Sequential",
+					["KeyRelease"] = {
+					},
+					["PreMacro"] = {
+					},
+					["KeyPress"] = {
+						"/startattack [nomod]", -- [1]
+						"/stopattack [mod:alt]", -- [2]
+						"/cast [nomod] Flame Shock", -- [3]
+					},
+				}, -- [1]
+			},
+			["SpecID"] = 7,
+			["ManualIntervention"] = false,
+		}
+		Sequences["RESTOSHAM_TURBO"] = {
+			["Talents"] = "CLASSIC",
+			["Default"] = 1,
+			["SpecID"] = 7,
+			["Author"] = "Spirited@Arcanite Reaper",
+			["MacroVersions"] = {
+				{
+					["PostMacro"] = {
+					},
+					["KeyPress"] = {
+						"/cast [mod:ctrl,nocombat] Horn of the Dire Wolf", -- [1]
+					},
+					["StepFunction"] = "Sequential",
+					["PreMacro"] = {
+					},
+					["KeyRelease"] = {
+					},
+				}, -- [1]
+			},
+			["ManualIntervention"] = true,
+		}
