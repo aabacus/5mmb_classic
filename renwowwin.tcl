@@ -5,7 +5,7 @@ package require twapi_process
 # look for the first match and rename it to whatever user
 # specified on command line as first argument.
 set wow_name "World of Warcraft"
-set wow_pids [twapi::get_process_ids -glob -name "*Wow\\.exe"]
+set wow_pids [twapi::get_process_ids -glob -name "*WowClassic\\.exe"]
 puts "PIDs: $wow_pids"
 set hwin [twapi::find_windows -single -visible true -pids $wow_pids -text $wow_name]
 if {$argc < 1} {
@@ -23,7 +23,7 @@ twapi::set_window_text $hwin "$rename_to"
 exit
 # plural version
 set wow_name "World of Warcraft"
-set wow_pids [twapi::get_process_ids -glob -name "*Wow\\.exe"]
+set wow_pids [twapi::get_process_ids -glob -name "*WowClassic\\.exe"]
 puts "PIDs: $wow_pids"
 set wows [twapi::find_windows -visible true -pids $wow_pids -text $wow_name]
 puts "Found [llength $wows] WoW windows."
@@ -37,11 +37,11 @@ foreach {hwin} [lreverse $wows] {
 exit
 #set wow_path "C:\\Users\\Public\\Games\\World of Warcraft\\_classic_\\Wow.exe"
 #set wow_path "C:.Users.Public.Games.World of Warcraft._classic_.Wow.exe"
-set wow_path "*Wow\\.exe"
+set wow_path "*WowClassic\\.exe"
 set wow_name "World of Warcraft"
 #set wow_pids [twapi::get_process_ids -path $wow_path]
 #set wow_pids [twapi::get_process_ids -glob -path $wow_path]
-set wow_pids [twapi::get_process_ids -glob -name "*Wow\\.exe"]
+set wow_pids [twapi::get_process_ids -glob -name "*WowClassic\\.exe"]
 #set wow_pids [twapi::get_process_ids -glob -path $wow_path]
 puts "PIDs: $wow_pids"
 set wows [twapi::find_windows -visible true -pids $wow_pids -text $wow_name]

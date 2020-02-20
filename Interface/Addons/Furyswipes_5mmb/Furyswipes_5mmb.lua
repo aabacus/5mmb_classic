@@ -1,4 +1,4 @@
-FSMB_version="120819_classic"
+FSMB_version="121019_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -111,10 +111,10 @@ local remLesserCurse = GetSpellInfo(475)
 local remCurse = GetSpellInfo(2782)
 local curePoison = GetSpellInfo(526)
 --
-FSMB_toonlist={[1]="Ulysses",[2]="Central",[3]="Wiggly",[4]="Thelnfinite",[5]="Antimagic"}
-FSMB_tank="Ulysses"
+FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Vajayjay",[5]="Battlefield"}
+FSMB_tank="Furyswipes"
 FSMB_nomacros=nil
-FSMB_healerlist={"Wiggly"}
+FSMB_healerlist={"Spirited"}
 FSMB_maxheal={DRUID=11,PRIEST=11,SHAMAN=11,PALADIN=11}
 FSMB_mypoly={["PRIEST"]=(shackleUndead),["MAGE"]=(magePoly),["DRUID"]=(druidHibernate),["WARLOCK"]=(warlockBanish)}
 FSMB_myint={["PALADIN"]=(hammerJustice),["PRIEST"]=(priestSilence),["MAGE"]=(mageCounter),["DRUID"]=(druidBash),["SHAMAN"]=(earthShock),["HUNTER"]=(scatterShot),["WARLOCK"]="",["WARRIOR"]=(warPummel),["ROGUE"]=(rogueKick),}
@@ -757,6 +757,8 @@ function init()
 	SetBinding("B","OPENALLBAGS")
 	AttemptToSaveBindings(1)
 	CompactRaidFrameManager:Show()
+	SetCVar("Sound_EnableErrorSpeech", 0)
+	SetCVar("Sound_EnablePetSounds", 0)
 	SetCVar("alwaysShowActionBars", true)
 	SetCVar("raidFramesDisplayPowerBars", true)
 	SetCVar("nameplateShowEnemies", true)
@@ -846,7 +848,7 @@ function DeleteMacroFS(indexorname)
 end
 function clearmacros()
   print("Clearing Macros...")
-  MB_macronamestodelete={"rsingle","rmulti","rebirth","hearth","pet","spit","bufft","self","rez","setup","pull","feign","shackle","feed","single","multi","selfh","decurse","reload","dance","leave","makealine","drink","buff","healtank","aoe","turbo","int","passive","poly","h1","h2","h3","h4","h5","f1","f2","f3","f4","f5","a1","a2","a3","a4","a5","party","b0","b1","b2","b3","b4","b5","rsingle_fs","rmulti_fs","rebirth_fs","hearth_fs","pet_fs","spit_fs","bufft_fs","self_fs","healpot_fs","manapot_fs","tot_fs","rez_fs","setup_fs","pull_fs","feign_fs","shackle_fs","feed_fs","single_fs","multi_fs","selfh_fs","decurse_fs","reload_fs","dance_fs","leave_fs","makealine_fs","drink_fs","buff_fs","healtank_fs","aoe_fs","turbo_fs","int_fs","passive_fs","poly_fs","h1_fs","h2_fs","h3_fs","h4_fs","h5_fs","f1_fs","f2_fs","f3_fs","f4_fs","f5_fs","a1_fs","a2_fs","a3_fs","a4_fs","a5_fs","party_fs","b0_fs","b1_fs","b2_fs","b3_fs","b4_fs","b5_fs"}
+  MB_macronamestodelete={"rsingle_fs","rmulti_fs","rebirth_fs","hearth_fs","pet_fs","spit_fs","bufft_fs","self_fs","healpot_fs","manapot_fs","tot_fs","rez_fs","setup_fs","pull_fs","feign_fs","shackle_fs","feed_fs","single_fs","multi_fs","selfh_fs","decurse_fs","reload_fs","dance_fs","leave_fs","makealine_fs","drink_fs","buff_fs","healtank_fs","aoe_fs","turbo_fs","int_fs","passive_fs","poly_fs","h1_fs","h2_fs","h3_fs","h4_fs","h5_fs","f1_fs","f2_fs","f3_fs","f4_fs","f5_fs","a1_fs","a2_fs","a3_fs","a4_fs","a5_fs","party_fs","b0_fs","b1_fs","b2_fs","b3_fs","b4_fs","b5_fs"}
   for _,macname in pairs(MB_macronamestodelete) do
     DeleteMacroFS(macname)
   end

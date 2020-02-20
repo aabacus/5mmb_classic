@@ -1,4 +1,4 @@
-set version 120819_classic
+set version 121019b_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -75,8 +75,8 @@ if { ! [file exist $toonlistf ] } {
 	puts "Tanks will get bigger windows, if possible"
 	return
 }
-if { ! [file exist "wow.exe" ] && ! [file exist "Wow.exe"] } {
-	puts "ERROR: THIS PROGRAM MUST BE THE DIRECTORY WHERE YOUR WOW.EXE resides"
+if { ! [file exist "WowClassic.exe" ] } {
+	puts "ERROR: THIS PROGRAM MUST BE THE DIRECTORY WHERE YOUR WowClassic.EXE resides"
 	return
 }
 set nohotkeyoverwrite false
@@ -403,7 +403,7 @@ if { ! $nohotkeyoverwrite } {
 <Command LaunchAndRename>
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
-	puts $hK "$curdir/Wow.exe\" >"
+	puts $hK "$curdir/WowClassic.exe\" >"
 	puts $hK {	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
@@ -427,7 +427,7 @@ puts $hK {
 <Command LaunchHiresAndRename>
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
-	puts $hK "C:/hirezwow/Wow.exe\" >"
+	puts $hK "C:/hirezwow/WowClassic.exe\" >"
 	puts $hK {	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
@@ -813,11 +813,9 @@ SET hwDetect "0"
 SET videoOptionsVersion "19"
 SET gxApi "D3D11"
 SET gxMaximize "0"
-SET graphicsQuality "3"
-SET RAIDgraphicsQuality "3"
+SET graphicsQuality "5"
+SET RAIDgraphicsQuality "5"
 SET mouseSpeed "1"
-SET Sound_MusicVolume "0.40000000596046"
-SET Sound_AmbienceVolume "0.60000002384186"
 SET spellClutterRangeConstantRaid "10.000000"
 SET CACHE-WQST-QuestV2RecordCount "4549"
 SET CACHE-WQST-QuestV2HotfixCount "0"
