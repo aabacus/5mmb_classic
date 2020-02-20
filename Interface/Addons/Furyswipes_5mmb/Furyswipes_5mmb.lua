@@ -1,4 +1,4 @@
-FSMB_version="121019_classic"
+FSMB_version="012020_classic"
 AceComm=LibStub("AceComm-3.0")
 print('Hello from 5mmb!')
 
@@ -111,10 +111,10 @@ local remLesserCurse = GetSpellInfo(475)
 local remCurse = GetSpellInfo(2782)
 local curePoison = GetSpellInfo(526)
 --
-FSMB_toonlist={[1]="Furyswipes",[2]="Mootalia",[3]="Spirited",[4]="Vajayjay",[5]="Battlefield"}
-FSMB_tank="Furyswipes"
+FSMB_toonlist={[1]="Wit",[2]="Mootalia",[3]="Oio",[4]="Vajayjay",[5]="Vaj"}
+FSMB_tank=""
 FSMB_nomacros=nil
-FSMB_healerlist={"Spirited"}
+FSMB_healerlist={"Vaj"}
 FSMB_maxheal={DRUID=11,PRIEST=11,SHAMAN=11,PALADIN=11}
 FSMB_mypoly={["PRIEST"]=(shackleUndead),["MAGE"]=(magePoly),["DRUID"]=(druidHibernate),["WARLOCK"]=(warlockBanish)}
 FSMB_myint={["PALADIN"]=(hammerJustice),["PRIEST"]=(priestSilence),["MAGE"]=(mageCounter),["DRUID"]=(druidBash),["SHAMAN"]=(earthShock),["HUNTER"]=(scatterShot),["WARLOCK"]="",["WARRIOR"]=(warPummel),["ROGUE"]=(rogueKick),}
@@ -977,19 +977,48 @@ FSMB:RegisterEvent("ADDON_LOADED") -- register event "ADDON_LOADED"
 FSMB:RegisterEvent("CHAT_MSG_ADDON")
 FSMB:RegisterEvent("CONFIRM_SUMMON")
 FSMB:RegisterEvent("RESURRECT_REQUEST")
+FSMB:RegisterEvent("UI_ERROR_MESSAGE")
+FSMB:RegisterEvent("TAXIMAP_OPENED")
 FSMB:RegisterEvent("PLAYER_LOGIN")
 FSMB:RegisterEvent("UI_ERROR_MESSAGE")
 FSMB:RegisterEvent("AUTOFOLLOW_END")
 FSMBtooltip=CreateFrame("GAMETOOLTIP", "FSMBtooltip", UIParent, "GameTooltipTemplate")
 Print=print
-function FSMB:OnEvent()
+FSMB:SetScript("OnEvent", function(self,event, arg1, arg2, ...) -- event handler
+    --print("arg1:", arg1, "| arg2:", arg2)
     if (event == "CHAT_MSG_ADDON") then
-        Print("Addon message recieved from"..arg3)
+        --Print("Addon message recieved from"..arg3)
         if arg1=="FSMB_FIND" then
             local item = arg2
             print("Got find request for "..item)
-            MB_Find(item)
+            FSMB_Find(item)
         end
+     elseif event == "UI_ERROR_MESSAGE" then
+		if arg1 == 50 then
+			if arg2 == SPELL_FAILED_NOT_STANDING then
+				DoEmote("STAND")
+			elseif arg2 == SPELL_FAILED_NOT_MOUNTED then
+				Dismount()
+			end
+		elseif arg1 == 159 then
+			if arg2 == ERR_LOOT_NOTSTANDING then
+				DoEmote("STAND")
+			end
+		elseif arg1 == 198 then
+			if arg2 == ERR_ATTACK_MOUNTED then
+				Dismount()
+			end
+		elseif arg1 == 213 then
+			if arg2 == ERR_TAXIPLAYERALREADYMOUNTED then
+				Dismount()
+			end
+		elseif arg1 == 504 then
+			if arg2 == ERR_NOT_WHILE_MOUNTED then
+				Dismount()
+			end
+		end
+    elseif event == "TAXIMAP_OPENED" then
+		Dismount()
     elseif event == "CONFIRM_SUMMON" then
     elseif event == "RESURRECT_REQUEST" then
     -- this event fires when you get a resurrect request
@@ -997,11 +1026,9 @@ function FSMB:OnEvent()
         StaticPopup_Hide("RESURRECT_NO_TIMER"); -- hides popup frame
         StaticPopup_Hide("RESURRECT_NO_SICKNESS"); -- hides popup frame
         StaticPopup_Hide("RESURRECT"); -- hides popup frame
-    elseif (event == "UI_ERROR_MESSAGE") then
     elseif (event == "AUTOFOLLOW_END") then
         end
-end
-FSMB:SetScript("OnEvent", FSMB.OnEvent) -- event handler
+end)
 FSMB:Show()
 function TableReverse(table)
 	local t={}
