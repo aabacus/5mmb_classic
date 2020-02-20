@@ -4,3 +4,4 @@
 cd /d %~dp0
 tclkitsh-win32.upx.exe 5mmb_classic.tcl "%~1"
 WowClassic.exe
+pause

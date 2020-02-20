@@ -1,4 +1,4 @@
-set version 121019b_classic
+set version 020120_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -15,6 +15,8 @@ array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
 set hideframes ""
+set meleeiwt false
+set huntermeleeonfollow false
 set dontflashframe ""
 set useautotrade ""
 set dontautodelete ""
@@ -47,6 +49,7 @@ set hunterlabels ""
 set meleelabels ""
 set healerlabels ""
 set manalabels ""
+array set kb_oem "0000040a oem5"
 array set kb_oem "00000409 oem3"
 array set kb_oem "00020409 oem3"
 array set kb_oem "00000407 oem5"
@@ -206,6 +209,12 @@ while { [gets $tL line] >= 0 } {
     } elseif { [string tolower [lindex $line 0]] == "hideframes" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set hideframes true
+    } elseif { [string tolower [lindex $line 0]] == "meleeiwt" } {
+ 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set meleeiwt true
+    } elseif { [string tolower [lindex $line 0]] == "huntermeleeonfollow" } {
+ 		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set huntermeleeonfollow true
     } elseif { [string tolower [lindex $line 0]] == "dontflashframe" } {
  		  	if { [llength $line] != 1 } { puts "ERROR: should be only one element on line $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set dontflashframe true
@@ -415,6 +424,9 @@ if { ! $nohotkeyoverwrite } {
 	<Key Enter>}
 if { $hideframes=="true" } {
 	puts $hK "\t<RemoveWinFrame>"
+	puts $hK "\t<TargetWin %2%>"
+	puts $hK "\t<WaitForInputIdle 2000>"
+	puts $hK "\t<SetFramelessWinSizeWithSimulatedMouse %5% %6% 0>"
 }
 	puts $hK "\t<TargetWin %2%>"
 	puts $hK "\t<WaitForInputIdle 2000>"
@@ -439,6 +451,9 @@ puts $hK {
 	<Key Enter>}
 if { $hideframes=="true" } {
 	puts $hK "\t<RemoveWinFrame>"
+	puts $hK "\t<TargetWin %2%>"
+	puts $hK "\t<WaitForInputIdle 2000>"
+	puts $hK "\t<SetFramelessWinSizeWithSimulatedMouse %5% %6% 0>"
 }
 	puts $hK {	<TargetWin %2%>
 	<WaitForInputIdle 2000>
@@ -500,6 +515,7 @@ if { $use2monitors } {
 	set raidhash(5) {{2560 1440 0 0} {1280 720 2560 720} {1280 720 0 1440} {1280 720 1280 1440} {1280 720 2560 1440}}
 	set raidhash(5) {{1680 720 0 0} {840 360 1680 360} {840 360 0 720} {840 360 840 720} {840 360 1680 720}}	
 	set raidhash(5) {{1920 1440 960 720 } {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720 }}
+	set raidhash(5) {{2560 1440 0 720} {1280 720 0 0} {1280 720 1280 0} {1280 720 2560 0} {1280 720 2560 720}}
 	set raidhash(10) {{1280 1020 0 960} {1280 1020 1280 960} {1280 1020 2560 960} {640 480 640 0} {640 480 0 0} {640 480 0 480} {640 480 1280 0} {640 480 640 480} {640 480 1280 480} {640 480 1920 480}}
 	set raidhash(20) {{640 480 0 0} {960 720 0 1440} {960 720 960 1440} {960 720 1920 1440} {640 480 640 0} {640 480 1280 0} {640 480 1920 0} {640 480 2560 0} {640 480 3200 0} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 2560 480} {640 480 3200 480} {640 480 0 960} {640 480 640 960} {640 480 1280 960} {640 480 1920 960 } {640 480 2560 960}} 
 	set raidhash(25) {{533 430 1548 0} {1548 1290 0 860} {533 430 1548 430} {533 430 1548 860} {533 430 1548 1290} {533 430 1548 1720} {533 430 2081 0} {533 430 2081 430} {533 430 2081 860} {533 430 2081 1290} {533 430 2081 1720} {533 430 2614 0} {533 430 2614 430} {533 430 2614 860} {533 430 2614 1290} {533 430 2614 1720} {533 430 3147 0} {533 430 3147 430} {533 430 3147 860} {533 430 3147 1290} {533 430 3147 1720} {533 430 482 0} {533 430 1015 0} {533 430 482 430} {533 430 1015 430}}
@@ -575,7 +591,8 @@ if { $use2monitors } {
 	set raidhash(2) {{960 540 0 540 } {960 540 0 0}}
 	set raidhash(3) {{960 540 0 540 } {960 540 0 0 } {960 540 960 0}}
 	set raidhash(4) {{960 540 0 540 } {960 540 0 0 } {960 540 960 0} {960 540 960 540}}
-			set raidhash(5) {{960 720 480 360} {480 360 0 360} {480 360 480 0} {480 360 960 0} {480 360 1440 360}}
+	set raidhash(5) {{960 720 480 360} {480 360 0 360} {480 360 480 0} {480 360 960 0} {480 360 1440 360}}
+	set raidhash(5) {{1280 720 0 360} {640 360 0 0} {640 360 640 0} {640 360 1280 0} {640 360 1280 360}}
 			set raidhash(10) {{640 510 0 480} {640 510 640 480} {640 510 1280 480} {320 240 320 0} {320 240 0 0} {320 240
 	 	0 240} {320 240 640 0} {320 240 320 240} {320 240 640 240} {320 240 960 240}}
 	  	set raidhash(20) {{320 240 320 0} {480 360 0 480} {680 480 360 480} {320 240 0 0} {320 240 640 0} {320 240 960 0} {320 240 1280 0} {320 240 1600 0} {320 240 0 240} {320 240 320 240} {320 240 640 240} {320 240 960 240} {320 240 960 480} {320 240 1600 240} {320 240 1280 240} {320 240 1280 480} {320 240  1600 480} {320 240 960 720} {320 240 1280 720} {320 240 1600 720}}
@@ -947,12 +964,12 @@ close $f
 // wow movement keys to move your side  toons.
 // Use the arrow keys for that. (see, they are there)
 //-----------------------------------------------------------
-	<MovementHotkey ScrollLockOn space, up, left, right,e,q>}
+	<MovementHotkey ScrollLockOn space, left, right,e,q>}
 	puts $hK $winlabels
 	puts $hK "\t<Key %Trigger%>"
 	puts $hK ""
 	puts $hK {//You can even make special movement keys for just some of your toons.}
-	puts $hK {//Hunter goes into ranged mode on down arrow, too}
+	puts $hK {//Hunter goes into ranged mode on down arrow, melee mode on uparrow too}
 	puts $hK {<Hotkey ScrollLockOn down>}
 	puts $hK $winlabels
 	puts $hK "\t<KeyDown Down>"
@@ -963,6 +980,17 @@ close $f
 	puts $hK {<HotkeyUp ScrollLockOn down>}
 	puts $hK $winlabels
 	puts $hK "\t<KeyUp Down>"
+	puts $hK ""
+	puts $hK {<Hotkey ScrollLockOn up>}
+	puts $hK $winlabels
+	puts $hK "\t<KeyDown Up>"
+	if {$hunterlabels!=""} { 
+		puts $hK "\t<Sendlabel ${hunterlabels}>"
+		puts $hK "\t<Key Shift 0>"
+	}
+	puts $hK {<HotkeyUp ScrollLockOn up>}
+	puts $hK $winlabels
+	puts $hK "\t<KeyUp Up>"
 	puts $hK ""
 	if {$hunterlabels!=""} { 
 		puts $hK {//Hunter backup,ranged mode}
@@ -1075,8 +1103,45 @@ puts $hK {//-------------------------------------------------------------
 		}
 	}
 	puts $hK ""
-	puts $hK {// Same magic for 2-6, F7}
-	puts $hK {<Hotkey ScrollLockOn 2-6,F7>}
+	puts $hK {// Same magic for 2,3,5,6}
+	puts $hK {// WITH A TWIST--MELEE INTERACT WITH TARGET!}
+	puts $hK {<Hotkey ScrollLockOn 2,3,5,6>}
+	set totallabels 0
+	for { set i 0 } { $i<[array size toons] } { incr i } {
+	  set toonname [string tolower [lindex $toons($i) 3]]
+	  set account [lindex $toons($i) 1]
+	  set raids [lrange $toons($i) 5 end]
+		set comps 1
+		foreach myraid $raids {
+			regexp {([a-z]|[A-Z])([0-9])?} $myraid match foo cpunum
+			if { [lsearch $comps $cpunum] == -1 } { lappend comps $cpunum } 
+		}
+	  set length [string length $account]
+		foreach mycomp $comps {
+	  	if { $length > 2 } {
+	    	set length [string length $account]
+	    	set acctnick "[string index $account 0][string index $account [expr $length-2]][string index $account [expr $length-1]]"
+	  	} else {
+	    	set acctnick ${account}
+	  	}
+	  	set acct_winname($account) ${acctnick}
+	  	puts $hK "\t<if MouseIsOverWindow ${toonname}_${mycomp}${acctnick}>"
+		puts $hK $winlabels
+		puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
+			incr totallabels
+		}
+	}
+	puts $hK "\t<endif>"
+	if {$meleeiwt && $meleelabels!=""} {
+	  puts $hK "\t<SendLabel ${meleelabels}>"
+	  puts $hK "\t<Key f>"
+	  puts $hK "\t<SendLabel ${meleelabels}>"
+	  puts $hK "\t<Key s>"
+        }
+	puts $hK $winlabels
+	puts $hK "\t<Key %Trigger%>"
+	puts $hK ""
+	puts $hK {<Hotkey ScrollLockOn 4,F7>}
 	puts $hK $winlabels
 	puts $hK "\t<Key %Trigger%>"
 	set totallabels 0
@@ -1152,7 +1217,11 @@ puts $hK {//-------------------------------------------------------------
 <Hotkey ScrollLockOn Alt 4>}
 	if {$hunterlabels!=""} {
 		puts $hK "\t<SendLabel ${hunterlabels}>"
-		puts $hK "\t<Key Shift 0>"
+		if { $huntermeleeonfollow } {
+		  puts $hK "\t<Key Shift 0>"
+	        }  else {
+		  puts $hK "\t<Key Shift 9>"
+	        }
 	}	
 	puts $hK "\t<ResetToggles>"
 	set totallabels 0
@@ -1217,7 +1286,10 @@ puts $hK {//-------------------------------------------------------------
 			incr totallabels
 		}
 	}
+	puts $hK {	<endif>}
 	puts $hK {	<toggle>}
+	puts $hK $winlabels
+	puts $hK {	<Key s>}
 	puts $hK $winlabels
 	puts $hK {	<Key f>}
 	puts $hK ""
