@@ -1,4 +1,4 @@
-set version 020120_classic
+set version 041620_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -49,16 +49,21 @@ set hunterlabels ""
 set meleelabels ""
 set healerlabels ""
 set manalabels ""
-array set kb_oem "0000040a oem5"
-array set kb_oem "00000409 oem3"
 array set kb_oem "00020409 oem3"
-array set kb_oem "00000407 oem5"
 array set kb_oem "00000406 oem5"
+array set kb_oem "0000080a oem5"
+array set kb_oem "00000407 oem5"
+array set kb_oem "00000409 oem3"
+array set kb_oem "0000040a oem5"
+array set kb_oem "0000040c oem7"
 array set kb_oem "00000410 oem5"
+array set kb_oem "00000414 oem5"
+array set kb_oem "0000041d oem5"
 array set kb_oem "00000809 oem7"
 array set kb_oem "00000813 oem7"
-array set kb_oem "0000041d oem5"
-array set kb_oem "00000414 oem5"
+array set kb_oem "00000816 oem5"
+array set kb_oem "00010407 oem5"
+array set kb_oem "0000041a oem3"
 set HKN 5mmb_HKN_classic.txt
 set SME "Interface\\Addons\\Furyswipes_5mmb\\Furyswipes_5mmb.lua"
 #set SME SM_Extend.lua
@@ -823,44 +828,11 @@ if { $use2monitors } {
 			puts $hK "<RestoreMousePos>"
 		}
 	}
-				file mkdir WTF
-				set f [open WTF\\config.wtf w]
-puts $f {SET agentUID "wow_classic"
-SET hwDetect "0"
-SET videoOptionsVersion "19"
-SET gxApi "D3D11"
-SET gxMaximize "0"
-SET graphicsQuality "5"
-SET RAIDgraphicsQuality "5"
-SET mouseSpeed "1"
-SET spellClutterRangeConstantRaid "10.000000"
-SET CACHE-WQST-QuestV2RecordCount "4549"
-SET CACHE-WQST-QuestV2HotfixCount "0"
-SET CACHE-WQST-QuestObjectiveRecordCount "5324"
-SET CACHE-WQST-QuestObjectiveHotfixCount "0"
-SET CACHE-WQST-QuestObjectiveXEffectRecordCount "0"
-SET CACHE-WQST-QuestObjectiveXEffectHotfixCount "0"
-SET CACHE-WGOB-GameObjectsRecordCount "10021"
-SET CACHE-WGOB-GameObjectsHotfixCount "0"
-SET expandUpgradePanel "0"
-SET RenderScale "1"
-SET gameTip "74"
-SET vsync "1"
-SET checkAddonVersion "0"
-SET lastAddonVersion "11302"
-SET ffxGlow "0"
-SET ffxDeath "0"
-SET ffxNether "0"
-SET chatClassColorOverride "0"
-SET uiScale "1"
-SET Sound_OutputDriverName "System Default"
-SET Sound_EnableMusic "0"
-SET gxWindowedResolution "1912x1413"
-SET engineSurvey "6"
-SET lastCharacterIndex "1"
-SET spellClutterRangeConstant "10.000000"
-SET useUiScale "1"}
-close $f
+				#file mkdir WTF
+				#set f [open WTF\\config.wtf w]
+#puts $f {SET agentUID "wow_classic"
+#SET useUiScale "1"}
+#close $f
 	set winlabels "\t<SendLabel"
 	for { set i 0 } { $i<$totallabels } { incr i } {
 	  if { $winlabels=="\t<SendLabel" } { set winlabels  "$winlabels w${i}" } else { set winlabels "${winlabels},w${i}" } 
@@ -1134,9 +1106,9 @@ puts $hK {//-------------------------------------------------------------
 	puts $hK "\t<endif>"
 	if {$meleeiwt && $meleelabels!=""} {
 	  puts $hK "\t<SendLabel ${meleelabels}>"
-	  puts $hK "\t<Key f>"
+	  puts $hK "\t<Key w>"
 	  puts $hK "\t<SendLabel ${meleelabels}>"
-	  puts $hK "\t<Key s>"
+	  puts $hK "\t<Key f>"
         }
 	puts $hK $winlabels
 	puts $hK "\t<Key %Trigger%>"
@@ -1288,8 +1260,6 @@ puts $hK {//-------------------------------------------------------------
 	}
 	puts $hK {	<endif>}
 	puts $hK {	<toggle>}
-	puts $hK $winlabels
-	puts $hK {	<Key s>}
 	puts $hK $winlabels
 	puts $hK {	<Key f>}
 	puts $hK ""
@@ -1778,7 +1748,3 @@ if { ! $nosmoverwrite } {
 	file copy -force tmp $SME
 	file delete tmp
 }
-puts "================================================================="
-puts "                           ATTENTION"
-puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-puts "I WILL NOW POP OPEN WOW.EXE. Please make any selection there and CLOSE IT."

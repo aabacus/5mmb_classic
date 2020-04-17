@@ -3,5 +3,4 @@
 :: If you just double click this program, it will look for toonlist.txt
 cd /d %~dp0
 tclkitsh-win32.upx.exe 5mmb_classic.tcl "%~1"
-WowClassic.exe
 pause

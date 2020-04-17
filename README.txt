@@ -4,6 +4,7 @@ Remove geforce experience!
 Set focus-follows-mouse (try winaero tweaker for this)
 Set Read_Toonlist.bat to run as Administrator!
 Set HotKeyNet.exe to run as Administrator!
+Remove write permissions from hotkeynet_log.txt!
 10 LANGUAGE SUPPORT: Your GSE macros may get translated, they may not. Check
 when you start leveling.
 
@@ -11,13 +12,16 @@ when you start leveling.
 2) Edit toonlist.txt...rename it if you like ... put in your info.
 =======NOTE: NO ALT-CHARS ALLOWED IN TOON NAMES Only a-z=============
 3) Drag and drop the toonlist onto Read_Toonlist.bat
-4) WoW will open one window. Select Language then close it. DON'T LOG IN.
+4) Make sure no errors show in the black window! Press key to close.
 5) Double click Hotkeynet.exe
 6) Click Load Script button--Load 5mmb_HKN_classic.txt
 7) scroll lock on
+NOTE: AT THIS POINT, YOU MAY WANT TO START CLASSIC WOW YOURSELF, AND HIT THE
+SYSTEM BUTTON IN THE MAIN WINDOW. CONFIGURE WINDOWED MODE (if you like) AND A
+REASONABLE RESOLUTION, THEN EXIT.
 8) ctrl-alt-m to login
 9) When you are in, close all popups. 
-10) ctrl-i TWICE to initialize all your wow buttons
+10) ctrl-i initialize all your wow buttons
 11) Hit 0 key twice in your main window to invite/switch to free-for-all loot
 (cancel raid warning dialog. LOL don't go into raid.)
 12) Interface Options--turn all action bars on.
