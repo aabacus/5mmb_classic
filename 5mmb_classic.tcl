@@ -1,4 +1,4 @@
-set version 041620_classic
+set version 043020_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -49,8 +49,86 @@ set hunterlabels ""
 set meleelabels ""
 set healerlabels ""
 set manalabels ""
+set altchars(À) {\195\128}
+set altchars(Á) {\195\129}
+set altchars(Â) {\195\130}
+set altchars(Ã) {\195\131}
+set altchars(Ä) {\195\132}
+set altchars(Å) {\195\133}
+set altchars(Æ) {\195\134}
+set altchars(Ç) {\195\135}
+set altchars(È) {\195\136}
+set altchars(É) {\195\137}
+set altchars(Ê) {\195\138}
+set altchars(Ë) {\195\139}
+set altchars(Ì) {\195\140}
+set altchars(Í) {\195\141}
+set altchars(Î) {\195\142}
+set altchars(Ï) {\195\143}
+set altchars(Ð) {\195\144}
+set altchars(Ñ) {\195\145}
+set altchars(Ò) {\195\146}
+set altchars(Ó) {\195\147}
+set altchars(Ô) {\195\148}
+set altchars(Õ) {\195\149}
+set altchars(Ö) {\195\150}
+set altchars(×) {\195\151}
+set altchars(Ø) {\195\152}
+set altchars(Ù) {\195\153}
+set altchars(Ú) {\195\154}
+set altchars(Û) {\195\155}
+set altchars(Ü) {\195\156}
+set altchars(Ý) {\195\157}
+set altchars(Þ) {\195\158}
+set altchars(ß) {\195\159}
+set altchars(à) {\195\160}
+set altchars(á) {\195\161}
+set altchars(â) {\195\162}
+set altchars(ã) {\195\163}
+set altchars(ä) {\195\164}
+set altchars(å) {\195\165}
+set altchars(æ) {\195\166}
+set altchars(ç) {\195\167}
+set altchars(è) {\195\168}
+set altchars(é) {\195\169}
+set altchars(ê) {\195\170}
+set altchars(ë) {\195\171}
+set altchars(ì) {\195\172}
+set altchars(í) {\195\173}
+set altchars(î) {\195\174}
+set altchars(ï) {\195\175}
+set altchars(ð) {\195\176}
+set altchars(ñ) {\195\177}
+set altchars(ò) {\195\178}
+set altchars(ó) {\195\179}
+set altchars(ô) {\195\180}
+set altchars(õ) {\195\181}
+set altchars(ö) {\195\182}
+set altchars(÷) {\195\183}
+set altchars(ø) {\195\184}
+set altchars(ù) {\195\185}
+set altchars(ú) {\195\186}
+set altchars(û) {\195\187}
+set altchars(ü) {\195\188}
+set altchars(ý) {\195\189}
+set altchars(þ) {\195\190}
+set altchars(ÿ) {\195\191}
+set aname "ßoßo"
+proc altname { name } {
+	upvar altchars altchars
+	set newname ""
+	foreach letter [split $name ""] {
+		if { [lsearch [array names altchars] $letter ] > -1  } {
+			set newname $newname$altchars($letter)
+		} else {
+			set newname $newname$letter
+		}
+	}
+	return $newname
+}
 array set kb_oem "00020409 oem3"
 array set kb_oem "00000406 oem5"
+array set kb_oem "00000809 oem8"
 array set kb_oem "0000080a oem5"
 array set kb_oem "00000407 oem5"
 array set kb_oem "00000409 oem3"
@@ -126,7 +204,7 @@ while { [gets $tL line] >= 0 } {
   if { [string index $line 0] != "#" } {
     if { [string tolower [lindex $line 0]] == "box" } {
       if { [llength $line] < 6 } { puts "ERROR: box takes 5 or 6 arguments in toonlist line $line" ; puts "hit any key to return" ; gets stdin char ; return }
-      if { $numtoons==5 } { puts "ERROR: Only 5 box commands per toonlist for now." ; return }
+      if { $numtoons==10 } { puts "ERROR: Only 10 box commands per toonlist for now." ; return }
       set bnet_account [lindex $line 1] 
       set passwd [lindex $line 2] 
       set license [lindex $line 3]
@@ -418,7 +496,8 @@ if { ! $nohotkeyoverwrite } {
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
 	puts $hK "$curdir/WowClassic.exe\" >"
-	puts $hK {	<RenameWoW %2%>
+	puts $hK { 	<Wait 1000>
+	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 	<TargetWin %2%>
@@ -445,7 +524,8 @@ puts $hK {
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
 	puts $hK "C:/hirezwow/WowClassic.exe\" >"
-	puts $hK {	<RenameWoW %2%>
+	puts $hK {	<Wait 1000>
+	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
 	<TargetWin %2%>
@@ -514,14 +594,12 @@ if { $use2monitors } {
 	set raidhash(40) {{480 360 0 0} {1440 1080 960 1080} {480 360 480 0} {480 360 960 0} {480 360 1440 0} {480 360 1920 0} {480 360 2400 0} {480 360 2880 0} {480 360 3360 0} {480 360 0 360} {480 360 480 360} {480 360 960 360} {480 360 1440 360} {480 360 1920 360} {480 360 2400 360} {480 360 2880 360} {480 360 3360 360} {480 360 0 720} {480 360 480 720} {480 360 960 720} {480 360 1440 720} {480 360 1920 720} {480 360 2400 720} {480 360 2880 720} {480 360 3360 720} {480 360 0 1080} {480 360 480 1080} {480 360 2400 1080} {480 360 2880 1080} {480 360 3360 1080} {480 360 0 1440} {480 360 480 1440} {480 360 2400 1440} {480 360 2880 1440} {480 360 3360 1440} {480 360 0 1800} {480 360 480 1800} {480 360 2400 1800} {480 360 2880 1800} {480 360 3360 1800}}
 } else { 
 	set raidhash(1) {{3840 2160 0 0 }}
-	set raidhash(2) {{1920 1080 0 0 } {1920 1080 0 1080}}
-	set raidhash(3) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0}}
-	set raidhash(4) {{1920 1080 0 1080 } {1920 1080 0 0 } {1920 1080 1920 0} {1920 1080 1920 1080}}
-	set raidhash(5) {{2560 1440 0 0} {1280 720 2560 720} {1280 720 0 1440} {1280 720 1280 1440} {1280 720 2560 1440}}
-	set raidhash(5) {{1680 720 0 0} {840 360 1680 360} {840 360 0 720} {840 360 840 720} {840 360 1680 720}}	
-	set raidhash(5) {{1920 1440 960 720 } {960 720 0 720} {960 720 960 0} {960 720 1920 0} {960 720 2880 720 }}
+	set raidhash(2) {{2560 1440 0 720} {1280 720 0 0} {1280 720 1280 0} {1280 720 2560 0} {1280 720 2560 720}}
+	set raidhash(3) {{2560 1440 0 720} {1280 720 0 0} {1280 720 1280 0} {1280 720 2560 0} {1280 720 2560 720}}
+	set raidhash(4) {{2560 1440 0 720} {1280 720 0 0} {1280 720 1280 0} {1280 720 2560 0} {1280 720 2560 720}}
 	set raidhash(5) {{2560 1440 0 720} {1280 720 0 0} {1280 720 1280 0} {1280 720 2560 0} {1280 720 2560 720}}
-	set raidhash(10) {{1280 1020 0 960} {1280 1020 1280 960} {1280 1020 2560 960} {640 480 640 0} {640 480 0 0} {640 480 0 480} {640 480 1280 0} {640 480 640 480} {640 480 1280 480} {640 480 1920 480}}
+	set raidhash(10) {{1280 1020 1280 960} {1280 1020 0 960} {1280 1020 2560 960} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 0 0} {640 480 640 0} {640 480 1280 0}}
+	set raidhash(10) {{1920 1080 0 1080} {960 540 0 540} {960 540 960 540} {960 540 0 0} {960 540 960 0} {1920 1080 1920 1080} { 960 540 1920 540} {960 540 2880 540} {960 540 1920 0} {960 540 2880 0}}
 	set raidhash(20) {{640 480 0 0} {960 720 0 1440} {960 720 960 1440} {960 720 1920 1440} {640 480 640 0} {640 480 1280 0} {640 480 1920 0} {640 480 2560 0} {640 480 3200 0} {640 480 0 480} {640 480 640 480} {640 480 1280 480} {640 480 1920 480} {640 480 2560 480} {640 480 3200 480} {640 480 0 960} {640 480 640 960} {640 480 1280 960} {640 480 1920 960 } {640 480 2560 960}} 
 	set raidhash(25) {{533 430 1548 0} {1548 1290 0 860} {533 430 1548 430} {533 430 1548 860} {533 430 1548 1290} {533 430 1548 1720} {533 430 2081 0} {533 430 2081 430} {533 430 2081 860} {533 430 2081 1290} {533 430 2081 1720} {533 430 2614 0} {533 430 2614 430} {533 430 2614 860} {533 430 2614 1290} {533 430 2614 1720} {533 430 3147 0} {533 430 3147 430} {533 430 3147 860} {533 430 3147 1290} {533 430 3147 1720} {533 430 482 0} {533 430 1015 0} {533 430 482 430} {533 430 1015 430}}
 	set raidhash(40) {{480 360 0 0} {1440 1080 960 1080} {480 360 480 0} {480 360 960 0} {480 360 1440 0} {480 360 1920 0} {480 360 2400 0} {480 360 2880 0} {480 360 3360 0} {480 360 0 360} {480 360 480 360} {480 360 960 360} {480 360 1440 360} {480 360 1920 360} {480 360 2400 360} {480 360 2880 360} {480 360 3360 360} {480 360 0 720} {480 360 480 720} {480 360 960 720} {480 360 1440 720} {480 360 1920 720} {480 360 2400 720} {480 360 2880 720} {480 360 3360 720} {480 360 0 1080} {480 360 480 1080} {480 360 2400 1080} {480 360 2880 1080} {480 360 3360 1080} {480 360 0 1440} {480 360 480 1440} {480 360 2400 1440} {480 360 2880 1440} {480 360 3360 1440} {480 360 0 1800} {480 360 480 1800} {480 360 2400 1800} {480 360 2880 1800} {480 360 3360 1800}}
@@ -738,10 +816,12 @@ if { $use2monitors } {
 			incr windex($myraid)
 		}
 	}
+	set pip_limit 0
 	foreach mainraid $mainraids {
 		puts $hK ""
 		set arrayname group${mainraid}
-		if { [array size $arrayname] == 2 } { 
+		if { [array size $arrayname] == 2 && $pip_limit==0 } { 
+			set pip_limit 1
 			set thistoon [lindex [array get $arrayname 0] 1]
 	  		set toonname [string tolower [lindex $thistoon 3]]
 	  		set myraid [lindex $thistoon 5]
@@ -795,12 +875,14 @@ if { $use2monitors } {
 		regexp {([a-z]|[A-Z])([0-9])?} $mainraid match raidletter cpunum
 		if { $raidletter ne "m" } { continue } 
 		for  { set x 0 } { $x<[array size $arrayname] } { incr x} {
+			if { $x > 4 } { break } 
 			puts $hK "<Hotkey ScrollLockOn [lindex $winswapkeys $x]>"
 			puts $hK "<SaveMousePos>"
 			foreach raid [array names windowcount] { 
 				set windex($raid) 0
 			}
 			for { set i 0 } { $i<[array size $arrayname] } { incr i } {
+				if { $i > 4 } { break } 
 				set thistoon [lindex [array get $arrayname $i] 1]
 	  			set toonname [string tolower [lindex $thistoon 3]]
 	  			set myraid [lindex $thistoon 5]
@@ -1072,6 +1154,7 @@ puts $hK {//-------------------------------------------------------------
 			puts $hK $winlabels
 			puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
 			incr totallabels
+			if { $totallabels==5 } { set totallabels 0} 
 		}
 	}
 	puts $hK ""
@@ -1221,6 +1304,7 @@ puts $hK {//-------------------------------------------------------------
 			puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
 			puts $hK "\t<endif>"
 			incr totallabels
+			if { $totallabels==5} {set totallabels 0}
 		}
 	}
 	puts $hK $winlabels
@@ -1291,6 +1375,7 @@ puts $hK {//-------------------------------------------------------------
 		puts $hK $winlabels
 		puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
 			incr totallabels
+			if { $totallabels==5} {set totallabels 0}
 		}
 	}
 	for { set i 0 } { $i<$totallabels } { incr i } {
@@ -1324,6 +1409,7 @@ puts $hK {//-------------------------------------------------------------
 		puts $hK $winlabels
 		puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
 			incr totallabels
+			if { $totallabels==5} {set totallabels 0}
 		}
 	}
 	puts $hK "\t<Endif>"
@@ -1427,6 +1513,7 @@ puts $hK {//-------------------------------------------------------------
 		puts $hK $winlabels
 		puts $hK "\t<Key ctrl f[expr 8+$totallabels]>"
 			incr totallabels
+			if { $totallabels==5} {set totallabels 0}
 		}
 	}
 	puts $hK {	<toggle>}
@@ -1510,7 +1597,7 @@ if { ! $nosmoverwrite } {
 	      if { ! $found_tank && [string tolower [lindex $toons($i) 4]] == "tank" } {
 	        set name [string totitle [ string tolower [lindex $toons($i) 3]]]
 		set found_tank true
-	        puts $sMN \"$name\"
+	        puts $sMN \"[altname $name]\"
 	      }
 	    }
 	    if { ! $found_tank } { puts $sMN \"\" }
@@ -1527,10 +1614,10 @@ if { ! $nosmoverwrite } {
 	      if { [ string tolower [lindex $toons($i) 4]] == "healer" } {
 	        set name [string totitle [ string tolower [lindex $toons($i) 3]]]
 	        if { $first=="false" } { 
-	          puts -nonewline $sMN \"$name\"
+	          puts -nonewline $sMN \"[altname $name]\"
 	          set first true
 	        } else {
-	          puts -nonewline $sMN ,\"$name\"
+	          puts -nonewline $sMN ,\"[altname $name]\"
 	        } 
 	      }
 	    }
@@ -1542,28 +1629,28 @@ if { ! $nosmoverwrite } {
 	    for { set i 0 } { $i<[array size toons] } { incr i } {
 	      set name [string totitle [ string tolower [lindex $toons($i) 3]]]
 	      if { $first=="false" } { 
-	        puts -nonewline $sMN \[$toonno\]=\"$name\"
+	        puts -nonewline $sMN \[$toonno\]=\"[altname $name]\"
 	        set first true
 	      } else {
-	        puts -nonewline $sMN ,\[$toonno\]=\"$name\"
+	        puts -nonewline $sMN ,\[$toonno\]=\"[altname $name]\"
 	      } 
 	      incr toonno
 	    }
 	    puts $sMN "\}"
 		} elseif { [regexp "^MB_RAID" $line ] && $raidname!="" } {
-	    puts $sMN "MB_RAID = \"MULTIBOX_$raidname\""
+	    puts $sMN "MB_RAID = \"MULTIBOX_[altname $raidname]\""
 		} elseif { [regexp "^MB_powerleveler" $line ] && $powerleveler!="" } {
 	    set powerleveler [string totitle [ string tolower $powerleveler]]
-	    puts $sMN "MB_powerleveler=\"$powerleveler\""
+	    puts $sMN "MB_powerleveler=\"[altname $powerleveler]\""
 		} elseif { [regexp "^MB_bomfollow" $line ] && $bombfollow!="" } {
 	    set bombfollow [string totitle [ string tolower $bombfollow]]
-	    puts $sMN "MB_bombfollow=\"$bombfollow\""
+	    puts $sMN "MB_bombfollow=\"[altname $bombfollow]\""
 		} elseif { [regexp "^MB_gazefollow" $line ] && $gazefollow!="" } {
 	    set gazefollow [string totitle [ string tolower $gazefollow]]
-	    puts $sMN "MB_gazefollow=\"$gazefollow\""
+	    puts $sMN "MB_gazefollow=\"[altname $gazefollow]\""
 		} elseif { [regexp "^MB_burningfollow" $line ] && $burningfollow!="" } {
 	    set burningfollow [string totitle [ string tolower $burningfollow]]
-	    puts $sMN "MB_burningfollow=\"$burningfollow\""
+	    puts $sMN "MB_burningfollow=\"[altname $burningfollow]\""
 	  } elseif { [regexp "^MB_dedicated_healers" $line ] } {
 	    puts -nonewline $sMN "MB_dedicated_healers=\{"
 	    set first true
@@ -1571,10 +1658,10 @@ if { ! $nosmoverwrite } {
 	      set tank [string totitle [ string tolower $tank]]
 	      set healer [string totitle [ string tolower $healer]]
 	      if { $first=="true" } { 
-	        puts -nonewline $sMN "$tank=\"$healer\""
+	        puts -nonewline $sMN "[altname $tank]=\"[altname $healer]\""
 	        set first false
 	      } else {
-	        puts -nonewline $sMN ",$tank=\"$healer\""
+	        puts -nonewline $sMN ",[altname $tank]=\"[altname $healer]\""
 	      } 
 	    }
 	    puts $sMN "\}"
@@ -1642,7 +1729,7 @@ if { ! $nosmoverwrite } {
 	    	puts $sMN "FsR_Stuff2Track=\{"
 				if { $goldto!="" } {
 	        set goldto [string totitle [ string tolower $goldto]]
-	    		puts $sMN "\t\[\"Gold\"\] = \{itemkind = \"special\", collector = \{\"$goldto\"\}\},"
+	    		puts $sMN "\t\[\"Gold\"\] = \{itemkind = \"special\", collector = \{\"[altname $goldto]\"\}\},"
 				} else {
 	    		puts $sMN "\t\[\"Gold\"\] = \{itemkind = \"special\", collector = \{\"\"\}\},"
 				}
@@ -1659,10 +1746,10 @@ if { ! $nosmoverwrite } {
 					foreach boetoon $boeto { 
 	          set boetoon [string totitle [ string tolower $boetoon]]
 					  if { $first } { 
-						  puts -nonewline $sMN \"$boetoon\"
+						  puts -nonewline $sMN \"[altname $boetoon]\"
 							set first false
 						} else {
-						  puts -nonewline $sMN ,\"$boetoon\"
+						  puts -nonewline $sMN ,\"[altname $boetoon]\"
 			      }
 					}
 					puts $sMN "\}\},"
@@ -1676,10 +1763,10 @@ if { ! $nosmoverwrite } {
 	            foreach coll $itemto($item) { 
 	              set coll [string totitle [ string tolower $coll]]
 								if { $first } {
-									puts -nonewline $sMN \"$coll\"
+									puts -nonewline $sMN \"[altname $coll]\"
 									set first false
 								} else {
-									puts -nonewline $sMN ,\"$coll\"
+									puts -nonewline $sMN ,\"[altname $coll]\"
 								}
 							}
 							puts $sMN "\}\},"
