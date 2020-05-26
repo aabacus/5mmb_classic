@@ -1,4 +1,4 @@
-set version 043020_classic
+set version 050220_classic
 lappend auto_path twapi
 package require twapi_input
 set kb [string tolower [twapi::get_keyboard_layout_name]]
@@ -14,6 +14,8 @@ array unset autodelete
 array unset levelingparty
 set winswapkeys "NumpadEnd NumpadDown NumpadPgDn NumpadLeft Clear"
 set dontsoulstone ""
+set extrawait1 1000
+set extrawait2 0
 set hideframes ""
 set meleeiwt false
 set huntermeleeonfollow false
@@ -244,6 +246,14 @@ while { [gets $tL line] >= 0 } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
 				set raidname [lindex $line 1]
+								    } elseif { [string tolower [lindex $line 0]] == "extrawait1" } {
+ 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+ 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set extrawait1 [lindex $line 1]
+    } elseif { [string tolower [lindex $line 0]] == "extrawait2" } {
+ 		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
+ 		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
+				set extrawait2 [lindex $line 1]
     } elseif { [string tolower [lindex $line 0]] == "oemkey" } {
  		  	if { [llength $line] != 2 } { puts "ERROR: incorrect number of elements line $line" ; puts "hit any key to return" ; gets stdin char ; return }
  		  	if { [llength [lindex $line 1]] > 1 } { puts "ERROR: arg must be one name $line" ; puts "hit any key to return" ; gets stdin char ; return }
@@ -496,12 +506,13 @@ if { ! $nohotkeyoverwrite } {
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
 	puts $hK "$curdir/WowClassic.exe\" >"
-	puts $hK { 	<Wait 1000>
-	<RenameWoW %2%>
+	puts $hK "	<Wait $extrawait1>"
+	puts $hK {	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<TargetWin %2%>
-	<SetForegroundWin>
+	<TargetWin %2%>}
+	puts $hK "	<Wait $extrawait2>"
+	puts $hK {	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
@@ -524,12 +535,13 @@ puts $hK {
 	<SendPC %1%>}
 	puts -nonewline $hK {	<Run "}
 	puts $hK "C:/hirezwow/WowClassic.exe\" >"
-	puts $hK {	<Wait 1000>
-	<RenameWoW %2%>
+	puts $hK "	<Wait $extrawait1>"
+	puts $hK {	<RenameWoW %2%>
 	<SetWinSize %5% %6%>
 	<SetWinPos %7% %8%>
-	<TargetWin %2%>
-	<SetForegroundWin>
+	<TargetWin %2%>}
+	puts $hK "	<Wait $extrawait2>"
+	puts $hK {	<SetForegroundWin>
 	<Text %3%>
 	<Key Tab>
 	<Text %4%>
